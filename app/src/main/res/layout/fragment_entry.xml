@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        tools:context=".authentication.presentation.EntryFragment">
+        tools:context=".authentication.presentation.view.EntryFragment">
 
     <ImageView
             android:id="@+id/fooder_logo"
@@ -43,16 +43,14 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
     <com.google.android.material.button.MaterialButton
-            android:id="@+id/sign_button"
+            android:id="@+id/sign_entry_button"
+            style="@style/MaterialButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_button_horizontal"
             android:layout_marginTop="@dimen/margin_vertical"
             android:text="@string/sign_with_mail_text"
             android:paddingVertical="@dimen/padding_button_vertical"
-            android:textAllCaps="false"
-            app:cornerRadius="@dimen/button_corner_radius"
-            android:backgroundTint="@color/secondary_color"
             app:layout_constraintTop_toBottomOf="@id/explain_sign_text_view"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
