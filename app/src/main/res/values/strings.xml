@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">kotlin-team</string>
+    <!-- entry fragment -->
+    <string name="hello_fooder_text">Добро пожаловать\nв Fooder</string>
+    <string name="explain_to_sign_text">Войдите, чтобы воспользоваться\nвсеми преимуществами Fooder.</string>
+    <string name="sign_with_mail_text">Войти с почты</string>
+
     <string name="onboarding_gretting">Привет!</string>
     <string name="onboarding_description_first">Не знаете, что
 хотите приготовить
