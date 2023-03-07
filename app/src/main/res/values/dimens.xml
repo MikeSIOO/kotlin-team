@@ -4,6 +4,9 @@
     <dimen name="text_onboarding_sub">20sp</dimen>
     <dimen name="oboarding_circle_stating_size">251dp</dimen>
 
+    <!--utils-->
+    <dimen name="zero_size">0dp</dimen>
+
     <!--padding-->
     <dimen name="padding_button_vertical">16dp</dimen>
 
