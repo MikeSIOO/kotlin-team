@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/fooder_logo"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="@dimen/margin_entry_top"
+            android:layout_marginTop="@dimen/margin_sign_in_top"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -24,7 +24,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_marginHorizontal="@dimen/window_box_margin"
             android:backgroundTint="@color/white"
-            android:layout_marginTop="@dimen/margin_vertical"
+            android:layout_marginTop="@dimen/margin_sign_up_top"
             app:layout_constraintBottom_toTopOf="@id/passwordLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
