@@ -9,14 +9,18 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.kotkin_team.MainActivity
 import com.example.kotkin_team.R
+import com.example.kotkin_team.authentication.presentation.viewmodel.FirebaseAuthViewModel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 
 
 class SignInFragment : Fragment(R.layout.fragment_sign_in) {
+
+    private val firebaseAuthViewModel by viewModels<FirebaseAuthViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +46,7 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
 
             //Если поля не пустые
             if (email.isNotEmpty() && pass.isNotEmpty()) {
-                (activity as MainActivity).getFirebaseAuthInstance()
+                firebaseAuthViewModel.getFirebaseAuthInstance()
                     //вход в приложение
                     .signInWithEmailAndPassword(email, pass).addOnCompleteListener {
                         if (it.isSuccessful) {
