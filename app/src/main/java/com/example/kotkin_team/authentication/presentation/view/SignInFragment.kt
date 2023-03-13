@@ -44,34 +44,10 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
             val email = view.findViewById<TextInputEditText>(R.id.email_text).text.toString()
             val pass = view.findViewById<TextInputEditText>(R.id.password_text).text.toString()
 
-            //Если поля не пустые
-            if (email.isNotEmpty() && pass.isNotEmpty()) {
-                firebaseAuthViewModel.getFirebaseAuthInstance()
-                    //вход в приложение
-                    .signInWithEmailAndPassword(email, pass).addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            Toast.makeText(
-                                signInButton.context,
-                                "${email} успешно вошел",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            TODO("Добавить навигацию на главный фрагмент")
-                        } else {
-                            Toast.makeText(
-                                signInButton.context,
-                                it.exception.toString(),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            Log.d("Firebase", it.exception.toString())
-                        }
-                    }
-            } else {
-                Toast.makeText(signInButton.context, WRONG_DATA, Toast.LENGTH_SHORT).show()
+            if (firebaseAuthViewModel.checkSignIn(signInButton.context, email, pass)) {
+                firebaseAuthViewModel.signInUser(signInButton.context, email, pass)
             }
         }
     }
 
-    companion object {
-        private const val WRONG_DATA = "Вы не ввели все данные"
-    }
 }
