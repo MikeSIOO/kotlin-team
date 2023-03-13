@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">kotkin-team</string>
+    <string name="onboarding_gretting">Привет!</string>
+    <string name="onboarding_description_first">Не знаете, что
+хотите приготовить
+на ужин сегодня?
+    </string>
+    <string name="onboarding_description_second">Не переживайте, мы вам поможем.</string>
+    <string name="onboarding_description_third">Давайте начнем</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="made_recipe_cook_text">Приготовить</string>
+    <string name="profile_name">Имя</string>
+    <string name="profile_second_name">Фамилия</string>
+    <string name="profile_diets">Диета</string>
+    <string name="profile_made_recipes">Уже приготовленные</string>
 </resources>
