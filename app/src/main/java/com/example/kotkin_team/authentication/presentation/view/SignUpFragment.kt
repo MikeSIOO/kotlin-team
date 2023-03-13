@@ -1,6 +1,8 @@
 package com.example.kotkin_team.authentication.presentation.view
 
+import android.content.Context
 import android.os.Bundle
+import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,38 +45,13 @@ class SignUpFragment : Fragment() {
             val confirmPass =
                 view.findViewById<TextInputEditText>(R.id.confirm_password_text).text.toString()
 
-            if (email.isNotEmpty() && pass.isNotEmpty() && confirmPass.isNotEmpty()) {
-                if (pass == confirmPass) {
-                    firebaseAuthViewModel.getFirebaseAuthInstance()
-                        .createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
-                            if (it.isSuccessful) {
-                                Toast.makeText(
-                                    signUpButton.context,
-                                    "${email} успешно добавлен в аккаунт",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
-                            } else {
-                                Toast.makeText(
-                                    signUpButton.context,
-                                    it.exception.toString(),
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
-                } else {
-                    Toast.makeText(signUpButton.context, WRONG_PASSWORD_REPEAT, Toast.LENGTH_SHORT)
-                        .show()
-                }
-            } else {
-                Toast.makeText(signUpButton.context, WRONG_DATA, Toast.LENGTH_SHORT)
-                    .show()
+            if (firebaseAuthViewModel.checkSignUp(signUpButton.context, email, pass, confirmPass)) {
+                firebaseAuthViewModel.signUpUser(signUpButton.context, email, pass)
+                findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
+
             }
         }
     }
 
-    companion object {
-        private const val WRONG_DATA = "Вы не ввели все данные"
-        private const val WRONG_PASSWORD_REPEAT = "Пароли не совпадают"
-    }
+
 }
