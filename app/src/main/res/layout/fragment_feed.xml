@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+            android:id="@+id/upper_part"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/button_container">
+
+        <FrameLayout
+                android:id="@+id/header"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:id="@+id/recipe_search"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#372428"
+                    android:text="@string/recipe_search" />
+
+            <ImageButton
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:gravity="center"
+                    android:src="@drawable/filters"
+                    android:background="@drawable/filter_button_border"
+                    android:layout_gravity="end|center_vertical" />
+
+        </FrameLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:clipChildren="false"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+            <com.yuyakaido.android.cardstackview.CardStackView
+                    android:id="@+id/card_stack_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:paddingHorizontal="20dp"
+                    tools:listitem="@layout/recipe_card" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/button_container"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true"
+            android:clipChildren="false">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/skip_button"
+                android:elevation="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/rewind_button"
+                android:src="@drawable/dislike_red"
+                app:backgroundTint="@android:color/white"
+                app:fabSize="auto"
+                app:tint="@color/button_red"
+                app:rippleColor="#22ED7563" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/rewind_button"
+                android:elevation="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/skip"
+                app:backgroundTint="@android:color/white"
+                app:fabSize="mini"
+                app:tint="@color/button_grey" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/like_button"
+                android:elevation="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/rewind_button"
+                android:src="@drawable/like_white"
+                app:backgroundTint="@color/accent_orange"
+                app:fabSize="auto"
+                app:tint="@android:color/white"
+                app:rippleColor="#9F8053" />
+
+    </RelativeLayout>
+
+    <ProgressBar
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            style="?android:attr/progressBarStyle"
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
