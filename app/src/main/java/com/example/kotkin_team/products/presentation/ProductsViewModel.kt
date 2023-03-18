@@ -2,8 +2,10 @@ package com.example.kotkin_team.products.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.kotkin_team.products.common.Statuses
-import com.example.kotkin_team.products.domain.use_cases.UseCases
+import com.example.kotkin_team.products.common.ProductsStatuses
+import com.example.kotkin_team.products.domain.events.ProductsEvents
+import com.example.kotkin_team.products.domain.state.ProductsState
+import com.example.kotkin_team.products.domain.use_cases.ProductsUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,37 +15,37 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductsViewModel @Inject constructor(
-    private val useCases: UseCases
+    private val productsUseCases: ProductsUseCases
 ) : ViewModel() {
-    private val _state = MutableStateFlow(State())
-    val state: StateFlow<State> = _state
+    private val _Products_state = MutableStateFlow(ProductsState())
+    val productsState: StateFlow<ProductsState> = _Products_state
 
-    fun onEvent(event: Events) {
+    fun onEvent(event: ProductsEvents) {
         when (event) {
-            is Events.LoadCategory -> {
+            is ProductsEvents.LoadCategory -> {
                 getCategory(event.page)
             }
         }
     }
 
     private fun getCategory(page: Int) {
-        useCases.getCategory(page).onEach { result ->
+        productsUseCases.productsGetCategory(page).onEach { result ->
             when (result) {
-                is Statuses.Success -> {
-                    _state.value = state.value.copy(
-                        category = result.data ?: emptyList(),
+                is ProductsStatuses.Success -> {
+                    _Products_state.value = productsState.value.copy(
+                        productsCategory = result.data ?: emptyList(),
                         isLoading = false,
                         error = ""
                     )
                 }
-                is Statuses.Error -> {
-                    _state.value = state.value.copy(
+                is ProductsStatuses.Error -> {
+                    _Products_state.value = productsState.value.copy(
                         isLoading = false,
                         error = result.message ?: "An unexpected error occurred"
                     )
                 }
-                is Statuses.Loading -> {
-                    _state.value = state.value.copy(
+                is ProductsStatuses.Loading -> {
+                    _Products_state.value = productsState.value.copy(
                         isLoading = true
                     )
                 }

@@ -1,16 +1,16 @@
 package com.example.kotkin_team.products.data.fake
 
 import com.example.kotkin_team.R
-import com.example.kotkin_team.products.data.model.CategoryDTO
-import com.example.kotkin_team.products.data.model.ResponseDTO
+import com.example.kotkin_team.products.data.model.ProductsCategoryDTO
+import com.example.kotkin_team.products.data.model.ProductsResponseDTO
 import kotlinx.coroutines.delay
 
 // фейковый сервис отправления запросов
-class Service {
-    suspend fun getFakeProducts(page: Int): ResponseDTO {
+class ProductsFakeService {
+    suspend fun getFakeProducts(page: Int): ProductsResponseDTO {
         delay(1000L)
         val fakeCategoryDTO = getFakeData(page)
-        return ResponseDTO(
+        return ProductsResponseDTO(
             status = "Success",
             count = fakeCategoryDTO.size,
             category = fakeCategoryDTO
@@ -20,31 +20,31 @@ class Service {
     companion object {
 //        private const val LIMIT_ON_PAGE = 3
 
-        fun getFakeData(page: Int): List<CategoryDTO> {
+        fun getFakeData(page: Int): List<ProductsCategoryDTO> {
             val fakeData = listOf(
-                CategoryDTO(
+                ProductsCategoryDTO(
                     0,
                     "Молоко, молочные продукты",
                     R.drawable.ic_launcher_background,
                 ),
-                CategoryDTO(
-                    0,
+                ProductsCategoryDTO(
+                    1,
                     "Мясо, птица",
                     R.drawable.ic_launcher_foreground,
                 ),
-                CategoryDTO(
-                    0,
+                ProductsCategoryDTO(
+                    2,
                     "Овощи и фрукты",
                     R.drawable.ic_launcher_background,
                 ),
-                CategoryDTO(
-                    0,
-                    "Мясо, птица",
+                ProductsCategoryDTO(
+                    3,
+                    "Рыба",
                     R.drawable.ic_launcher_foreground,
                 ),
-                CategoryDTO(
-                    0,
-                    "Овощи и фрукты",
+                ProductsCategoryDTO(
+                    4,
+                    "Выпечка",
                     R.drawable.ic_launcher_background,
                 ),
             )

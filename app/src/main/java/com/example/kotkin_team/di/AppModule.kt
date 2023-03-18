@@ -1,10 +1,10 @@
 package com.example.kotkin_team.di
 
-import com.example.kotkin_team.products.data.fake.Service
-import com.example.kotkin_team.products.data.repository.RepositoryImplementation
-import com.example.kotkin_team.products.domain.repository.Repository
-import com.example.kotkin_team.products.domain.use_cases.GetCategory
-import com.example.kotkin_team.products.domain.use_cases.UseCases
+import com.example.kotkin_team.products.data.fake.ProductsFakeService
+import com.example.kotkin_team.products.data.repository.ProductsRepositoryImplementation
+import com.example.kotkin_team.products.domain.repository.ProductsRepository
+import com.example.kotkin_team.products.domain.use_cases.ProductsGetCategory
+import com.example.kotkin_team.products.domain.use_cases.ProductsUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,21 +17,21 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideProfileRepository(api: Service): Repository {
-        return RepositoryImplementation(api)
+    fun provideRepository(api: ProductsFakeService): ProductsRepository {
+        return ProductsRepositoryImplementation(api)
     }
 
     @Provides
     @Singleton
-    fun provideProfileUseCases(repository: Repository): UseCases {
-        return  UseCases(
-            getCategory = GetCategory(repository)
+    fun provideUseCases(productsRepository: ProductsRepository): ProductsUseCases {
+        return  ProductsUseCases(
+            productsGetCategory = ProductsGetCategory(productsRepository)
         )
     }
 
     @Provides
     @Singleton
-    fun provideFakeApi(): Service {
-        return Service()
+    fun provideService(): ProductsFakeService {
+        return ProductsFakeService()
     }
 }
