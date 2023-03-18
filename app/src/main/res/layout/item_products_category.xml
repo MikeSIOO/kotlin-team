@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/item_products_category" >
 
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/card"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="1:1"
-            app:cardCornerRadius="10dp" >
+            android:layout_height="wrap_content">
 
         <ImageView
                 android:id="@+id/image"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="1:1"
+                android:gravity="center"
                 android:background="#eeeeee"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                tools:ignore="MissingConstraints" />
 
-    </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-            android:text="Молоко и яйца"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:id="@+id/textView" />
+            android:id="@+id/text_view" />
 
 </LinearLayout>
