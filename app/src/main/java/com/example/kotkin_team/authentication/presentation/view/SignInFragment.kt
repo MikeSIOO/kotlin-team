@@ -19,7 +19,8 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
     private val firebaseAuthViewModel by viewModels<FirebaseAuthViewModel>()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_sign_in, container, false)

@@ -4,7 +4,6 @@ import android.content.Context
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.example.kotkin_team.authentication.data.repository.FirebaseRepository
-import com.google.firebase.auth.FirebaseAuth
 
 class FirebaseAuthViewModel : ViewModel() {
 
@@ -33,7 +32,7 @@ class FirebaseAuthViewModel : ViewModel() {
             if (it.isSuccessful) {
                 getToast(
                     context,
-                    "${email} успешно зарегистрирован",
+                    "$email успешно зарегистрирован",
                 )
             } else {
                 getToast(
@@ -58,7 +57,7 @@ class FirebaseAuthViewModel : ViewModel() {
             if (it.isSuccessful) {
                 getToast(
                     context,
-                    "${email} успешно вошел",
+                    "$email успешно вошел",
                 )
             } else {
                 getToast(
