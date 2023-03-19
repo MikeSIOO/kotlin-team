@@ -24,7 +24,7 @@ class EntryFragment : Fragment(R.layout.fragment_entry) {
 
         val signButton = view.findViewById<MaterialButton>(R.id.sign_entry_button)
 
-        signButton.setOnClickListener{
+        signButton.setOnClickListener {
             findNavController().navigate(R.id.action_entryFragment_to_signInFragment)
         }
     }
