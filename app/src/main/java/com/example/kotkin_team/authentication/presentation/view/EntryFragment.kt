@@ -12,7 +12,8 @@ import com.google.android.material.button.MaterialButton
 class EntryFragment : Fragment(R.layout.fragment_entry) {
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_entry, container, false)
