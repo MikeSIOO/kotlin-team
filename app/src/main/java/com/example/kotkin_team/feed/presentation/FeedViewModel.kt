@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kotkin_team.feed.data.Recipe
 import com.example.kotkin_team.feed.domain.FeedLoadingState
+import com.example.kotkin_team.feed.domain.FeedRepositoryImpl
 import com.example.kotkin_team.feed.domain.GetFeedUseCase
 import kotlinx.coroutines.launch
 
@@ -17,7 +18,7 @@ class FeedViewModel : ViewModel() {
     private val _recipes = MutableLiveData<List<Recipe>>()
     val recipes: LiveData<List<Recipe>> = _recipes
 
-    private val getFeedUseCase = GetFeedUseCase()
+    private val getFeedUseCase = GetFeedUseCase(FeedRepositoryImpl())
 
     init {
         viewModelScope.launch {

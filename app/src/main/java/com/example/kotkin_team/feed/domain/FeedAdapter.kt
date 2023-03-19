@@ -9,7 +9,11 @@ import com.example.kotkin_team.feed.data.Recipe
 
 class FeedAdapter : ListAdapter<Recipe, FeedAdapter.ViewHolder>(FeedDiffCallback()) {
 
-    class ViewHolder(val binding: RecipeCardBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(private val binding: RecipeCardBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(recipe: Recipe) {
+            binding.recipe = recipe
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -19,6 +23,6 @@ class FeedAdapter : ListAdapter<Recipe, FeedAdapter.ViewHolder>(FeedDiffCallback
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val recipe = getItem(position)
-        holder.binding.recipe = recipe
+        holder.bind(recipe)
     }
 }
