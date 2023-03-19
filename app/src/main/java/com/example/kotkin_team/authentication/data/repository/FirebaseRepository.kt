@@ -14,6 +14,5 @@ class FirebaseRepository : FirebaseInstanceUseCase {
     override fun signIn(email: String, password: String): Task<AuthResult> {
         return FirebaseAuth.getInstance()
             .signInWithEmailAndPassword(email, password)
-
     }
 }

@@ -1,17 +1,13 @@
 package com.example.kotkin_team.authentication.presentation.view
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.kotkin_team.MainActivity
 import com.example.kotkin_team.R
 import com.example.kotkin_team.authentication.presentation.viewmodel.FirebaseAuthViewModel
 import com.google.android.material.button.MaterialButton
@@ -49,5 +45,4 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
             }
         }
     }
-
 }

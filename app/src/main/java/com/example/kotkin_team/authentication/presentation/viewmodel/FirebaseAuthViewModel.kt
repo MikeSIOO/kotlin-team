@@ -3,19 +3,12 @@ package com.example.kotkin_team.authentication.presentation.viewmodel
 import android.content.Context
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
-import com.example.kotkin_team.R
 import com.example.kotkin_team.authentication.data.repository.FirebaseRepository
-import com.example.kotkin_team.authentication.presentation.view.SignInFragment
-import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 
 class FirebaseAuthViewModel : ViewModel() {
 
     val firebaseRepository: FirebaseRepository = FirebaseRepository()
-
-    fun getFirebaseAuthInstance(): FirebaseAuth {
-        return FirebaseAuth.getInstance()
-    }
 
     fun checkSignUp(
         context: Context,
