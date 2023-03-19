@@ -13,7 +13,6 @@ import com.example.kotkin_team.authentication.presentation.viewmodel.FirebaseAut
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 
-
 class SignInFragment : Fragment(R.layout.fragment_sign_in) {
 
     private val firebaseAuthViewModel by viewModels<FirebaseAuthViewModel>()

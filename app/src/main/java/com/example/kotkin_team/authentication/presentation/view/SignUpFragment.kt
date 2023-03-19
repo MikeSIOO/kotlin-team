@@ -13,7 +13,6 @@ import com.example.kotkin_team.R
 import com.example.kotkin_team.authentication.presentation.viewmodel.FirebaseAuthViewModel
 import com.google.android.material.textfield.TextInputEditText
 
-
 class SignUpFragment : Fragment() {
 
     private val firebaseAuthViewModel by viewModels<FirebaseAuthViewModel>()
