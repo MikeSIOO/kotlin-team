@@ -2,9 +2,7 @@ package com.example.kotkin_team.feed.presentation
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
@@ -13,35 +11,26 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.example.kotkin_team.R
 import com.example.kotkin_team.databinding.FragmentFeedBinding
+import com.example.kotkin_team.feed.common.viewBinding
 import com.example.kotkin_team.feed.domain.FeedAdapter
 import com.example.kotkin_team.feed.domain.FeedLoadingState
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
-import com.yuyakaido.android.cardstackview.CardStackView
 import com.yuyakaido.android.cardstackview.Direction
 import com.yuyakaido.android.cardstackview.Duration
 import com.yuyakaido.android.cardstackview.RewindAnimationSetting
 import com.yuyakaido.android.cardstackview.StackFrom
 import com.yuyakaido.android.cardstackview.SwipeAnimationSetting
 import com.yuyakaido.android.cardstackview.SwipeableMethod
+import dagger.hilt.android.AndroidEntryPoint
 
-class FeedFragment : Fragment(), CardStackListener {
-    private lateinit var binding: FragmentFeedBinding
+@AndroidEntryPoint
+class FeedFragment : Fragment(R.layout.fragment_feed), CardStackListener {
+    private val binding by viewBinding(FragmentFeedBinding::bind)
     private val manager by lazy { CardStackLayoutManager(context, this) }
     private val myAdapter = FeedAdapter()
     private val viewModel by viewModels<FeedViewModel>()
-    private lateinit var cardStackView: CardStackView
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentFeedBinding.inflate(inflater)
-        cardStackView = binding.cardStackView
-
-        return binding.root
-    }
+    private val cardStackView get() = binding.cardStackView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

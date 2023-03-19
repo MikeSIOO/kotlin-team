@@ -6,19 +6,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kotkin_team.feed.data.Recipe
 import com.example.kotkin_team.feed.domain.FeedLoadingState
-import com.example.kotkin_team.feed.domain.FeedRepositoryImpl
 import com.example.kotkin_team.feed.domain.GetFeedUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class FeedViewModel : ViewModel() {
+@HiltViewModel
+class FeedViewModel @Inject constructor(
+    private val getFeedUseCase: GetFeedUseCase
+) : ViewModel() {
 
     private val _loadingState = MutableLiveData<FeedLoadingState>()
     val loadingState: LiveData<FeedLoadingState> = _loadingState
 
     private val _recipes = MutableLiveData<List<Recipe>>()
     val recipes: LiveData<List<Recipe>> = _recipes
-
-    private val getFeedUseCase = GetFeedUseCase(FeedRepositoryImpl())
 
     init {
         viewModelScope.launch {

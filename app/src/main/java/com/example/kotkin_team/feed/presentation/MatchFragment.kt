@@ -8,7 +8,9 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.example.kotkin_team.R
 import com.example.kotkin_team.databinding.FragmentMatchBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MatchFragment : Fragment() {
 
     private lateinit var binding: FragmentMatchBinding
