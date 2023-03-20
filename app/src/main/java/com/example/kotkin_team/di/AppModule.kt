@@ -4,6 +4,7 @@ import com.example.kotkin_team.products.data.fake.ProductsFakeService
 import com.example.kotkin_team.products.data.repository.ProductsRepositoryImplementation
 import com.example.kotkin_team.products.domain.repository.ProductsRepository
 import com.example.kotkin_team.products.domain.use_cases.ProductsGetCategory
+import com.example.kotkin_team.products.domain.use_cases.ProductsGetProduct
 import com.example.kotkin_team.products.domain.use_cases.ProductsUseCases
 import dagger.Module
 import dagger.Provides
@@ -17,15 +18,16 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRepository(api: ProductsFakeService): ProductsRepository {
-        return ProductsRepositoryImplementation(api)
+    fun provideRepository(service: ProductsFakeService): ProductsRepository {
+        return ProductsRepositoryImplementation(service)
     }
 
     @Provides
     @Singleton
     fun provideUseCases(productsRepository: ProductsRepository): ProductsUseCases {
-        return  ProductsUseCases(
-            productsGetCategory = ProductsGetCategory(productsRepository)
+        return ProductsUseCases(
+            productsGetCategory = ProductsGetCategory(productsRepository),
+            productsGetProduct = ProductsGetProduct(productsRepository)
         )
     }
 

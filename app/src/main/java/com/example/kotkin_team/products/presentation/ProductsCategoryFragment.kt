@@ -15,6 +15,7 @@ import com.example.kotkin_team.R
 import com.example.kotkin_team.products.domain.events.ProductsEvents
 import com.example.kotkin_team.products.domain.model.ProductsCategory
 import com.example.kotkin_team.products.presentation.category.ProductsCategoryAdapter
+import com.example.kotkin_team.products.presentation.product.ProductsProductAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -35,9 +36,10 @@ internal class ProductsCategoryFragment : Fragment() {
 
     private val viewModel: ProductsViewModel by viewModels()
 
-    private val productsCategoryAdapter = ProductsCategoryAdapter { productsCategory: ProductsCategory ->
-        Log.i("!@#", productsCategory.id.toString())
-    }
+    private val productsCategoryAdapter =
+        ProductsCategoryAdapter { productsCategory: ProductsCategory ->
+            Log.i("!@#", productsCategory.id.toString())
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,7 +60,7 @@ internal class ProductsCategoryFragment : Fragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.productsState.collectLatest {
+            viewModel.productsCategoryState.collectLatest {
                 when (it.isLoading) {
                     true -> {
                         Toast.makeText(context, "LOADING...", Toast.LENGTH_SHORT).show()

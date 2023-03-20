@@ -1,8 +1,8 @@
 package com.example.kotkin_team.products.data.model
 
 // Модель ответа от сервиса
-data class ProductsResponseDTO(
+data class ProductsProductResponseDTO(
     val status: String,
     val count: Int,
-    val category: List<ProductsCategoryDTO>
+    val product: List<ProductsProductDTO>
 )

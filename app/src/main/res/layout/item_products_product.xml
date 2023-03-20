@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/item_products_category">
+        android:id="@+id/item_products_product">
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/card"
