@@ -1,11 +1,11 @@
 package com.example.kotkin_team.di
 
-import com.example.kotkin_team.products.data.fake.ProductsFakeService
-import com.example.kotkin_team.products.data.repository.ProductsRepositoryImplementation
-import com.example.kotkin_team.products.domain.repository.ProductsRepository
-import com.example.kotkin_team.products.domain.use_cases.ProductsGetCategory
-import com.example.kotkin_team.products.domain.use_cases.ProductsGetProduct
-import com.example.kotkin_team.products.domain.use_cases.ProductsUseCases
+import com.example.kotkin_team.storage.data.fake.StorageFakeService
+import com.example.kotkin_team.storage.data.repository.StorageRepositoryImplementation
+import com.example.kotkin_team.storage.domain.repository.StorageRepository
+import com.example.kotkin_team.storage.domain.use_cases.StorageGetCategory
+import com.example.kotkin_team.storage.domain.use_cases.StorageGetProduct
+import com.example.kotkin_team.storage.domain.use_cases.StorageUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,22 +18,22 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRepository(service: ProductsFakeService): ProductsRepository {
-        return ProductsRepositoryImplementation(service)
+    fun provideRepository(service: StorageFakeService): StorageRepository {
+        return StorageRepositoryImplementation(service)
     }
 
     @Provides
     @Singleton
-    fun provideUseCases(productsRepository: ProductsRepository): ProductsUseCases {
-        return ProductsUseCases(
-            productsGetCategory = ProductsGetCategory(productsRepository),
-            productsGetProduct = ProductsGetProduct(productsRepository)
+    fun provideUseCases(storageRepository: StorageRepository): StorageUseCases {
+        return StorageUseCases(
+            storageGetCategory = StorageGetCategory(storageRepository),
+            storageGetProduct = StorageGetProduct(storageRepository)
         )
     }
 
     @Provides
     @Singleton
-    fun provideService(): ProductsFakeService {
-        return ProductsFakeService()
+    fun provideService(): StorageFakeService {
+        return StorageFakeService()
     }
 }
