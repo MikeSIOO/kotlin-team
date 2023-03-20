@@ -5,4 +5,5 @@ data class ProductsProduct(
     val id: Int,
     val name: String,
     val image: Int,
+    val parentId: Int,
 )

@@ -1,7 +1,6 @@
-package com.example.kotkin_team.products.presentation
+package com.example.kotkin_team.products.presentation.category
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,33 +11,30 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotkin_team.R
-import com.example.kotkin_team.products.domain.events.ProductsEvents
+import com.example.kotkin_team.products.domain.events.ProductsCategoryEvents
 import com.example.kotkin_team.products.domain.model.ProductsCategory
-import com.example.kotkin_team.products.presentation.category.ProductsCategoryAdapter
-import com.example.kotkin_team.products.presentation.product.ProductsProductAdapter
+import com.example.kotkin_team.products.presentation.product.ProductsProductFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-
-private const val ARG_PAGE = "page"
 
 @AndroidEntryPoint
 internal class ProductsCategoryFragment : Fragment() {
     companion object {
-        fun newInstance(page: Int) =
+        fun newInstance() =
             ProductsCategoryFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(ARG_PAGE, page)
+
                 }
             }
     }
 
-    private var page: Int = 1
-
-    private val viewModel: ProductsViewModel by viewModels()
+    private val viewModel: ProductsCategoryViewModel by viewModels()
 
     private val productsCategoryAdapter =
         ProductsCategoryAdapter { productsCategory: ProductsCategory ->
-            Log.i("!@#", productsCategory.id.toString())
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.container, ProductsProductFragment.newInstance(productsCategory.id))
+                .addToBackStack(null).commit()
         }
 
     override fun onCreateView(
@@ -51,7 +47,7 @@ internal class ProductsCategoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.onEvent(ProductsEvents.LoadCategory(page))
+        viewModel.onEvent(ProductsCategoryEvents.LoadCategory())
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.apply {

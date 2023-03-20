@@ -7,12 +7,14 @@ data class ProductsProductDTO(
     val id: Int,
     val name: String,
     val image: Int,
+    val parentId: Int,
 ) {
     fun toProduct(): ProductsProduct {
         return ProductsProduct(
             id = id,
             name = name,
-            image = image
+            image = image,
+            parentId = parentId
         )
     }
 }

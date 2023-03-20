@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 class ProductsGetCategory(
     private val productsRepository: ProductsRepository
 ) {
-    operator fun invoke(page: Int): Flow<ProductsStatuses<List<ProductsCategory>>> {
-        return productsRepository.getCategory(page)
+    operator fun invoke(): Flow<ProductsStatuses<List<ProductsCategory>>> {
+        return productsRepository.getCategory()
     }
 }

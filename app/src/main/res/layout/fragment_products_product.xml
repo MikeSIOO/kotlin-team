@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".products.presentation.ProductsCategoryFragment">
+        tools:context=".products.presentation.category.ProductsCategoryFragment">
 
     <androidx.constraintlayout.widget.Guideline
             android:orientation="vertical"
@@ -43,7 +43,7 @@
             app:layout_constraintStart_toStartOf="@id/guideline_left" />
 
     <TextView
-            android:text="Выберите продукты"
+            android:text="Категория"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAlignment="center"

@@ -9,9 +9,9 @@ import kotlinx.coroutines.delay
 
 // фейковый сервис отправления запросов
 class ProductsFakeService {
-    suspend fun getCategory(page: Int): ProductsCategoryResponseDTO {
+    suspend fun getCategory(): ProductsCategoryResponseDTO {
         delay(2000L)
-        val fakeCategoryDTO = getFakeCategory(page)
+        val fakeCategoryDTO = getFakeCategory()
         return ProductsCategoryResponseDTO(
             status = "Success",
             count = fakeCategoryDTO.size,
@@ -19,9 +19,9 @@ class ProductsFakeService {
         )
     }
 
-    suspend fun getProduct(page: Int): ProductsProductResponseDTO {
+    suspend fun getProduct(parentId: Int): ProductsProductResponseDTO {
         delay(2000L)
-        val fakeProductDTO = getFakeProduct(page)
+        val fakeProductDTO = getFakeProduct(parentId)
         return ProductsProductResponseDTO(
             status = "Success",
             count = fakeProductDTO.size,
@@ -30,9 +30,7 @@ class ProductsFakeService {
     }
 
     companion object {
-//        private const val LIMIT_ON_PAGE = 3
-
-        fun getFakeCategory(page: Int): List<ProductsCategoryDTO> {
+        fun getFakeCategory(): List<ProductsCategoryDTO> {
             val fakeData = listOf(
                 ProductsCategoryDTO(
                     0,
@@ -64,36 +62,40 @@ class ProductsFakeService {
             return fakeData
         }
 
-        fun getFakeProduct(page: Int): List<ProductsProductDTO> {
+        fun getFakeProduct(parentId: Int): List<ProductsProductDTO> {
             val fakeData = listOf(
                 ProductsProductDTO(
                     0,
-                    "Молоко, молочные продукты",
+                    "Молоко",
                     R.drawable.ic_launcher_background,
+                    0,
                 ),
                 ProductsProductDTO(
                     1,
-                    "Мясо, птица",
-                    R.drawable.ic_launcher_foreground,
-                ),
-                ProductsProductDTO(
-                    2,
-                    "Овощи и фрукты",
+                    "Яйца",
                     R.drawable.ic_launcher_background,
+                    0,
                 ),
                 ProductsProductDTO(
-                    3,
-                    "Рыба",
+                    0,
+                    "Мясо",
                     R.drawable.ic_launcher_foreground,
+                    1,
                 ),
                 ProductsProductDTO(
-                    4,
-                    "Выпечка",
-                    R.drawable.ic_launcher_background,
+                    1,
+                    "Птица",
+                    R.drawable.ic_launcher_foreground,
+                    1,
                 ),
             )
 
-            return fakeData
+            return when (parentId) {
+                0 -> fakeData.subList(0, 2)
+                1 -> fakeData.subList(2, 4)
+                else -> emptyList()
+            }
+
         }
     }
 }

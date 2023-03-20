@@ -1,9 +1,9 @@
-package com.example.kotkin_team.products.presentation
+package com.example.kotkin_team.products.presentation.category
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kotkin_team.products.common.ProductsStatuses
-import com.example.kotkin_team.products.domain.events.ProductsEvents
+import com.example.kotkin_team.products.domain.events.ProductsCategoryEvents
 import com.example.kotkin_team.products.domain.state.ProductsCategoryState
 import com.example.kotkin_team.products.domain.use_cases.ProductsUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,39 +14,38 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class ProductsViewModel @Inject constructor(
+class ProductsCategoryViewModel @Inject constructor(
     private val productsUseCases: ProductsUseCases
 ) : ViewModel() {
-    private val _productsState = MutableStateFlow(ProductsCategoryState())
-    val productsCategoryState: StateFlow<ProductsCategoryState> = _productsState
+    private val _productsCategoryState = MutableStateFlow(ProductsCategoryState())
+    val productsCategoryState: StateFlow<ProductsCategoryState> = _productsCategoryState
 
-    fun onEvent(event: ProductsEvents) {
+    fun onEvent(event: ProductsCategoryEvents) {
         when (event) {
-            is ProductsEvents.LoadCategory -> {
-                getCategory(event.page)
+            is ProductsCategoryEvents.LoadCategory -> {
+                getCategory()
             }
-            is ProductsEvents.LoadProduct -> TODO()
         }
     }
 
-    private fun getCategory(page: Int) {
-        productsUseCases.productsGetCategory(page).onEach { result ->
+    private fun getCategory() {
+        productsUseCases.productsGetCategory().onEach { result ->
             when (result) {
                 is ProductsStatuses.Success -> {
-                    _productsState.value = productsCategoryState.value.copy(
+                    _productsCategoryState.value = productsCategoryState.value.copy(
                         productsCategory = result.data ?: emptyList(),
                         isLoading = false,
                         error = ""
                     )
                 }
                 is ProductsStatuses.Error -> {
-                    _productsState.value = productsCategoryState.value.copy(
+                    _productsCategoryState.value = productsCategoryState.value.copy(
                         isLoading = false,
                         error = result.message ?: "An unexpected error occurred"
                     )
                 }
                 is ProductsStatuses.Loading -> {
-                    _productsState.value = productsCategoryState.value.copy(
+                    _productsCategoryState.value = productsCategoryState.value.copy(
                         isLoading = true
                     )
                 }

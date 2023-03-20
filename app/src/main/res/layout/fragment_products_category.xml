@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".products.presentation.ProductsCategoryFragment">
+        tools:context=".products.presentation.category.ProductsCategoryFragment">
 
     <androidx.constraintlayout.widget.Guideline
             android:orientation="vertical"

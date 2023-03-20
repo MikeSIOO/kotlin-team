@@ -6,7 +6,7 @@ import com.example.kotkin_team.products.domain.model.ProductsProduct
 import kotlinx.coroutines.flow.Flow
 
 interface ProductsRepository {
-    fun getCategory(page: Int): Flow<ProductsStatuses<List<ProductsCategory>>>
+    fun getCategory(): Flow<ProductsStatuses<List<ProductsCategory>>>
 
-    fun getProduct(page: Int): Flow<ProductsStatuses<List<ProductsProduct>>>
+    fun getProduct(parentId: Int): Flow<ProductsStatuses<List<ProductsProduct>>>
 }
