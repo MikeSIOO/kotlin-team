@@ -34,33 +34,27 @@
             app:layout_constraintGuide_end="24dp"
             android:id="@+id/guideline_bottom" />
 
-    <Button
-            android:text="B"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/back_button"
-            app:layout_constraintTop_toTopOf="@id/guideline_top"
-            app:layout_constraintStart_toStartOf="@id/guideline_left" />
-
     <TextView
             android:text="Выберите продукты"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:id="@+id/title"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintTop_toTopOf="@id/guideline_top"
-            app:layout_constraintStart_toEndOf="@id/back_button"
             app:layout_constraintEnd_toEndOf="@id/guideline_right" />
 
+    <!--    TODO вернуть поиск -->
     <SearchView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:iconifiedByDefault="false"
             android:queryHint="Найти продукт"
             android:id="@+id/search_bar"
-            app:layout_constraintTop_toBottomOf="@id/back_button"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
-            app:layout_constraintEnd_toEndOf="@id/guideline_right" />
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintTop_toBottomOf="@id/title" />
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"

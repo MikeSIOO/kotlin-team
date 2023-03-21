@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -33,7 +34,10 @@ internal class StorageCategoryFragment : Fragment() {
     private val storageCategoryAdapter =
         StorageCategoryAdapter { storageCategory: StorageCategory ->
             parentFragmentManager.beginTransaction()
-                .replace(R.id.container, StorageProductFragment.newInstance(storageCategory.id))
+                .replace(
+                    R.id.container,
+                    StorageProductFragment.newInstance(storageCategory.id, storageCategory.name)
+                )
                 .addToBackStack(null).commit()
         }
 
@@ -53,6 +57,10 @@ internal class StorageCategoryFragment : Fragment() {
         recyclerView.apply {
             layoutManager = GridLayoutManager(context, 3)
             adapter = storageCategoryAdapter
+        }
+        val searchButton = view.findViewById<Button>(R.id.search_button)
+        searchButton.setOnClickListener {
+//            TODO("Поиск рецептов")
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {

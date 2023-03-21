@@ -52,12 +52,14 @@
             app:layout_constraintStart_toEndOf="@id/back_button"
             app:layout_constraintEnd_toEndOf="@id/guideline_right" />
 
+    <!--    TODO вернуть поиск -->
     <SearchView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:iconifiedByDefault="false"
             android:queryHint="Найти продукт"
             android:id="@+id/search_bar"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/back_button"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintEnd_toEndOf="@id/guideline_right" />

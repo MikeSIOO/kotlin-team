@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -17,14 +19,16 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
 private const val ARG_PARENT_ID = "parentId"
+private const val ARG_PARENT_NAME = "parentName"
 
 @AndroidEntryPoint
 internal class StorageProductFragment : Fragment() {
     companion object {
-        fun newInstance(parentId: Int) =
+        fun newInstance(parentId: Int, parentName: String) =
             StorageProductFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_PARENT_ID, parentId)
+                    putString(ARG_PARENT_NAME, parentName)
                 }
             }
     }
@@ -47,13 +51,24 @@ internal class StorageProductFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val parentId = requireArguments().getInt(ARG_PARENT_ID)
+        val parentName = requireArguments().getString(ARG_PARENT_NAME)
 
         viewModel.onEvent(StorageProductEvents.LoadProduct(parentId))
 
+        val backButton = view.findViewById<Button>(R.id.back_button)
+        backButton.setOnClickListener {
+            this.parentFragmentManager.popBackStack()
+        }
+        val title = view.findViewById<TextView>(R.id.title)
+        title.text = parentName
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.apply {
             layoutManager = GridLayoutManager(context, 3)
             adapter = storageProductAdapter
+        }
+        val searchButton = view.findViewById<Button>(R.id.search_button)
+        searchButton.setOnClickListener {
+//            TODO("Поиск рецептов")
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
