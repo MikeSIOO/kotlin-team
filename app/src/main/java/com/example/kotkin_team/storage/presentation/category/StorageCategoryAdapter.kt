@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.kotkin_team.R
 import com.example.kotkin_team.storage.domain.model.StorageCategory
 
-class StorageCategoryAdapter(private val callback: (recipe: StorageCategory) -> Unit) :
+class StorageCategoryAdapter(private val callback: (storageCategory: StorageCategory) -> Unit) :
     ListAdapter<StorageCategory, StorageCategoryHolder>(StorageCategoryDiffItemCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StorageCategoryHolder {

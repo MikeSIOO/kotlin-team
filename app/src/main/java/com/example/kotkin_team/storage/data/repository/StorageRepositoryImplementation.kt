@@ -1,7 +1,9 @@
 package com.example.kotkin_team.storage.data.repository
 
 import com.example.kotkin_team.storage.common.StorageStatuses
-import com.example.kotkin_team.storage.data.fake.StorageFakeService
+import com.example.kotkin_team.storage.data.api.service.StorageFakeService
+import com.example.kotkin_team.storage.data.mapper.StorageCategoryMapper
+import com.example.kotkin_team.storage.data.mapper.StorageProductMapper
 import com.example.kotkin_team.storage.domain.model.StorageCategory
 import com.example.kotkin_team.storage.domain.model.StorageProduct
 import com.example.kotkin_team.storage.domain.repository.StorageRepository
@@ -14,13 +16,16 @@ import javax.inject.Singleton
 // репозиторий (запрос к сервису и преобразование ответа в модель приложения)
 @Singleton
 class StorageRepositoryImplementation @Inject constructor(
-    private val storageFakeService: StorageFakeService
+    private val storageFakeService: StorageFakeService,
+    private val storageCategoryMapper: StorageCategoryMapper,
+    private val storageProductMapper: StorageProductMapper,
 ) : StorageRepository {
     override fun getCategory(): Flow<StorageStatuses<List<StorageCategory>>> = flow {
         try {
             emit(StorageStatuses.Loading())
-            val recipes = storageFakeService.getCategory().category.map { it.toCategory() }
-            emit(StorageStatuses.Success(recipes))
+            val storageCategoryDto = storageFakeService.getCategory().category
+            val storageCategory = storageCategoryMapper.map(storageCategoryDto)
+            emit(StorageStatuses.Success(storageCategory))
         } catch (e: IOException) {
             emit(StorageStatuses.Error("Не обнаружено соединение с сервером. Проверьте интернет подключение"))
         }
@@ -29,8 +34,10 @@ class StorageRepositoryImplementation @Inject constructor(
     override fun getProduct(parentId: Int): Flow<StorageStatuses<List<StorageProduct>>> = flow {
         try {
             emit(StorageStatuses.Loading())
-            val recipes = storageFakeService.getProduct(parentId).product.map { it.toProduct() }
-            emit(StorageStatuses.Success(recipes))
+            val storageProductDto = storageFakeService.getProduct(parentId).product
+//            val storageProductDao = storageFakeService.getProduct(parentId).product
+            val storageProduct = storageProductMapper.map(storageProductDto)
+            emit(StorageStatuses.Success(storageProduct))
         } catch (e: IOException) {
             emit(StorageStatuses.Error("Не обнаружено соединение с сервером. Проверьте интернет подключение"))
         }

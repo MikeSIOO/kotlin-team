@@ -1,28 +1,28 @@
-package com.example.kotkin_team.storage.data.fake
+package com.example.kotkin_team.storage.data.api.service
 
 import com.example.kotkin_team.R
-import com.example.kotkin_team.storage.data.model.StorageCategoryDTO
-import com.example.kotkin_team.storage.data.model.StorageCategoryResponseDTO
-import com.example.kotkin_team.storage.data.model.StorageProductDTO
-import com.example.kotkin_team.storage.data.model.StorageProductResponseDTO
+import com.example.kotkin_team.storage.data.api.model.StorageCategoryDto
+import com.example.kotkin_team.storage.data.api.model.StorageCategoryResponseDto
+import com.example.kotkin_team.storage.data.api.model.StorageProductDto
+import com.example.kotkin_team.storage.data.api.model.StorageProductResponseDto
 import kotlinx.coroutines.delay
 
 // фейковый сервис отправления запросов
 class StorageFakeService {
-    suspend fun getCategory(): StorageCategoryResponseDTO {
+    suspend fun getCategory(): StorageCategoryResponseDto {
         delay(2000L)
         val fakeCategoryDTO = getFakeCategory()
-        return StorageCategoryResponseDTO(
+        return StorageCategoryResponseDto(
             status = "Success",
             count = fakeCategoryDTO.size,
             category = fakeCategoryDTO
         )
     }
 
-    suspend fun getProduct(parentId: Int): StorageProductResponseDTO {
+    suspend fun getProduct(parentId: Int): StorageProductResponseDto {
         delay(2000L)
         val fakeProductDTO = getFakeProduct(parentId)
-        return StorageProductResponseDTO(
+        return StorageProductResponseDto(
             status = "Success",
             count = fakeProductDTO.size,
             product = fakeProductDTO
@@ -30,30 +30,30 @@ class StorageFakeService {
     }
 
     companion object {
-        fun getFakeCategory(): List<StorageCategoryDTO> {
+        fun getFakeCategory(): List<StorageCategoryDto> {
 
             return listOf(
-                StorageCategoryDTO(
+                StorageCategoryDto(
                     0,
                     "Молоко, молочные продукты",
                     R.drawable.ic_launcher_background,
                 ),
-                StorageCategoryDTO(
+                StorageCategoryDto(
                     1,
                     "Мясо, птица",
                     R.drawable.ic_launcher_foreground,
                 ),
-                StorageCategoryDTO(
+                StorageCategoryDto(
                     2,
                     "Овощи и фрукты",
                     R.drawable.ic_launcher_background,
                 ),
-                StorageCategoryDTO(
+                StorageCategoryDto(
                     3,
                     "Рыба",
                     R.drawable.ic_launcher_foreground,
                 ),
-                StorageCategoryDTO(
+                StorageCategoryDto(
                     4,
                     "Выпечка",
                     R.drawable.ic_launcher_background,
@@ -61,28 +61,28 @@ class StorageFakeService {
             )
         }
 
-        fun getFakeProduct(parentId: Int): List<StorageProductDTO> {
+        fun getFakeProduct(parentId: Int): List<StorageProductDto> {
             val fakeData = listOf(
-                StorageProductDTO(
+                StorageProductDto(
                     0,
                     "Молоко",
                     R.drawable.ic_launcher_background,
                     0,
                 ),
-                StorageProductDTO(
+                StorageProductDto(
                     1,
                     "Яйца",
                     R.drawable.ic_launcher_background,
                     0,
                 ),
-                StorageProductDTO(
-                    0,
+                StorageProductDto(
+                    2,
                     "Мясо",
                     R.drawable.ic_launcher_foreground,
                     1,
                 ),
-                StorageProductDTO(
-                    1,
+                StorageProductDto(
+                    3,
                     "Птица",
                     R.drawable.ic_launcher_foreground,
                     1,
