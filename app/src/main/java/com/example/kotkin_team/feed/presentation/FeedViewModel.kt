@@ -22,6 +22,9 @@ class FeedViewModel @Inject constructor(
     private val _recipes = MutableLiveData<List<Recipe>>()
     val recipes: LiveData<List<Recipe>> = _recipes
 
+    private val _currentRecipe = MutableLiveData<Recipe?>()
+    val currentRecipe: LiveData<Recipe?> = _currentRecipe
+
     init {
         viewModelScope.launch {
             try {
@@ -33,5 +36,9 @@ class FeedViewModel @Inject constructor(
                 _recipes.value = emptyList()
             }
         }
+    }
+
+    fun setCurrentRecipe(recipe: Recipe?) {
+        _currentRecipe.value = recipe
     }
 }

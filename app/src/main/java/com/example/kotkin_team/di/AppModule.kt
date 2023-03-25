@@ -1,8 +1,8 @@
 package com.example.kotkin_team.di
 
-import com.example.kotkin_team.feed.domain.repository.FeedRepository
 import com.example.kotkin_team.feed.data.remote.FakeApi
 import com.example.kotkin_team.feed.data.FeedRepositoryImpl
+import com.example.kotkin_team.feed.domain.repository.FeedRepository
 import com.example.kotkin_team.feed.domain.GetFeedUseCase
 import dagger.Module
 import dagger.Provides

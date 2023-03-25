@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.viewbinding.ViewBinding
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
@@ -18,20 +17,26 @@ fun <T : ViewBinding> Fragment.viewBinding(
     private var binding: T? = null
 
     init {
-        viewLifecycleOwnerLiveData.observe(this@viewBinding, Observer { viewLifecycleOwner ->
-            viewLifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
+        viewLifecycleOwnerLiveData.observe(this@viewBinding)
+        { viewLifecycleOwner ->
+            viewLifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver
+            {
                 override fun onDestroy(owner: LifecycleOwner) {
                     (binding as? ViewDataBinding)?.unbind()
                     binding = null
                 }
-            })
-        })
-
-        lifecycle.addObserver(object : DefaultLifecycleObserver {
-            override fun onStart(owner: LifecycleOwner) {
-                view ?: error("You must either pass in the layout ID into ${this@viewBinding.javaClass.simpleName}'s constructor or inflate a view in onCreateView()")
             }
-        })
+            )
+        }
+
+        lifecycle.addObserver(
+            object : DefaultLifecycleObserver {
+            override fun onStart(owner: LifecycleOwner) {
+                view
+                    ?: error("You must either pass in the layout ID into ${this@viewBinding.javaClass.simpleName}'s constructor or inflate a view in onCreateView()")
+            }
+        }
+        )
     }
 
     override fun getValue(thisRef: Fragment, property: KProperty<*>): T {

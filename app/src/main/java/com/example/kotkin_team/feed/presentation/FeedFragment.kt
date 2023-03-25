@@ -7,7 +7,7 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.example.kotkin_team.R
 import com.example.kotkin_team.databinding.FragmentFeedBinding
@@ -29,7 +29,7 @@ class FeedFragment : Fragment(R.layout.fragment_feed), CardStackListener {
     private val binding by viewBinding(FragmentFeedBinding::bind)
     private val manager by lazy { CardStackLayoutManager(context, this) }
     private val myAdapter = FeedAdapter()
-    private val viewModel by viewModels<FeedViewModel>()
+    private val viewModel: FeedViewModel by activityViewModels()
     private val cardStackView get() = binding.cardStackView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -122,11 +122,12 @@ class FeedFragment : Fragment(R.layout.fragment_feed), CardStackListener {
     override fun onCardSwiped(direction: Direction?) {
         if (direction == Direction.Right) {
             val recipe = myAdapter.currentList[manager.topPosition - 1]
+            viewModel.setCurrentRecipe(recipe)
             activity?.supportFragmentManager?.let {
                 val transaction = it.beginTransaction()
                 val matchFragment = MatchFragment.newInstance(recipe.id)
                 transaction
-                    .replace(R.id.fragment_container, matchFragment)
+                    .replace(R.id.fragmentContainer, matchFragment)
                     .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                     .addToBackStack(null)
                     .commit()
