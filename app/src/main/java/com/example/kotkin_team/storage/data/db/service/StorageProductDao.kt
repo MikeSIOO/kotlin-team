@@ -8,18 +8,18 @@ import com.example.kotkin_team.storage.data.db.model.StorageProductEntity
 
 @Dao
 interface StorageProductDao {
-//    @Query("SELECT * FROM product WHERE id=:id")
-//    fun getById(id: Int): StorageProductEntity
+//    @Query("SELECT * FROM StorageProductEntity WHERE id=:id")
+//    suspend fun getById(id: Int): StorageProductEntity
+//
+//    @Query("SELECT * FROM StorageProductEntity WHERE name ILIKE %:name%")
+//    suspend fun getByName(name: String): List<StorageProductEntity>
 
-//    @Query("SELECT * FROM product WHERE name ILIKE %:name%")
-//    fun getByName(name: String): List<StorageProductEntity>
-
-    @Query("SELECT * FROM product WHERE parentId=:parentId")
-    fun getByParent(parentId: Int): List<StorageProductEntity>
+    @Query("SELECT * FROM StorageProductEntity WHERE parentId=:parentId")
+    suspend fun getByParent(parentId: Int): List<StorageProductEntity>
 
     @Insert
-    fun insert(storageProductEntity: StorageProductEntity)
+    suspend fun insert(storageProductEntity: StorageProductEntity)
 
     @Delete
-    fun delete(storageProductEntity: StorageProductEntity)
+    suspend fun delete(storageProductEntity: StorageProductEntity)
 }

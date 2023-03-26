@@ -2,7 +2,6 @@ package com.example.kotkin_team.storage.data.repository
 
 import com.example.kotkin_team.storage.common.StorageStatuses
 import com.example.kotkin_team.storage.data.api.service.StorageFakeService
-import com.example.kotkin_team.storage.data.db.model.StorageProductEntity
 import com.example.kotkin_team.storage.data.db.service.StorageProductDao
 import com.example.kotkin_team.storage.data.mapper.StorageCategoryMapper
 import com.example.kotkin_team.storage.data.mapper.StorageProductMapper
@@ -19,7 +18,7 @@ import javax.inject.Singleton
 @Singleton
 class StorageRepositoryImplementation @Inject constructor(
     private val storageApiService: StorageFakeService,
-//    private val storageProductDao: StorageProductDao,
+    private val storageProductDao: StorageProductDao,
     private val storageCategoryMapper: StorageCategoryMapper,
     private val storageProductMapper: StorageProductMapper,
 ) : StorageRepository {
@@ -38,9 +37,8 @@ class StorageRepositoryImplementation @Inject constructor(
         try {
             emit(StorageStatuses.Loading())
             val storageProductDto = storageApiService.getProduct(parentId).product
-//            val storageProductEntity = storageProductDao.getByParent(parentId)
-//            val storageProduct = storageProductMapper.map(storageProductDto, storageProductEntity)
-            val storageProduct = storageProductMapper.map(storageProductDto)
+            val storageProductEntity = storageProductDao.getByParent(parentId)
+            val storageProduct = storageProductMapper.map(storageProductDto, storageProductEntity)
             emit(StorageStatuses.Success(storageProduct))
         } catch (e: IOException) {
             emit(StorageStatuses.Error("Не обнаружено соединение с сервером. Проверьте интернет подключение"))
@@ -50,12 +48,12 @@ class StorageRepositoryImplementation @Inject constructor(
     override fun selectProduct(storageProduct: StorageProduct): Flow<StorageStatuses<StorageProduct>> =
         flow {
             try {
-//                val storageProductEntity = storageProductMapper.mapToEntity(storageProduct)
-//                if (storageProduct.selected) {
-//                    storageProductDao.delete(storageProductEntity)
-//                } else {
-//                    storageProductDao.insert(storageProductEntity)
-//                }
+                val storageProductEntity = storageProductMapper.mapToEntity(storageProduct)
+                if (storageProduct.selected) {
+                    storageProductDao.delete(storageProductEntity)
+                } else {
+                    storageProductDao.insert(storageProductEntity)
+                }
                 storageProduct.select()
             } catch (e: IOException) {
                 emit(StorageStatuses.Error("Не обнаружено соединение с сервером. Проверьте интернет подключение"))

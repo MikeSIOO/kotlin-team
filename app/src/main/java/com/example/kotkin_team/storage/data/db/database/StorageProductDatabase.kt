@@ -1,4 +1,4 @@
-package com.example.kotkin_team.storage.data.db
+package com.example.kotkin_team.storage.data.db.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

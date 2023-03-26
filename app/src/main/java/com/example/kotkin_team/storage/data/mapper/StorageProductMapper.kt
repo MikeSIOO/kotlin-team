@@ -7,7 +7,7 @@ import com.example.kotkin_team.storage.domain.model.StorageProduct
 class StorageProductMapper {
     fun map(
         storageProductDto: List<StorageProductDto>,
-//        storageProductEntity: List<StorageProductEntity>
+        storageProductEntity: List<StorageProductEntity>
     ): List<StorageProduct> {
         return storageProductDto.map {
             StorageProduct(
@@ -15,14 +15,13 @@ class StorageProductMapper {
                 name = it.name,
                 image = it.image,
                 parentId = it.parentId,
-                selected = false
-//                selected = storageProductEntity.contains(
-//                    StorageProductEntity(
-//                        it.id,
-//                        it.name,
-//                        it.parentId
-//                    )
-//                ),
+                selected = storageProductEntity.contains(
+                    StorageProductEntity(
+                        it.id,
+                        it.name,
+                        it.parentId
+                    )
+                ),
             )
         }
     }
