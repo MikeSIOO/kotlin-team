@@ -6,5 +6,9 @@ data class StorageProduct(
     val name: String,
     val image: Int,
     val parentId: Int,
-    val selected: Boolean
-)
+    var selected: Boolean
+) {
+    fun select() {
+        selected = !selected
+    }
+}

@@ -37,7 +37,7 @@ internal class StorageProductFragment : Fragment() {
 
     private val storageProductAdapter =
         StorageProductAdapter { storageProduct: StorageProduct ->
-
+            selectProduct(storageProduct)
         }
 
     override fun onCreateView(
@@ -68,7 +68,7 @@ internal class StorageProductFragment : Fragment() {
         }
         val searchButton = view.findViewById<Button>(R.id.search_button)
         searchButton.setOnClickListener {
-//            TODO("Поиск рецептов")
+//            TODO Поиск рецептов
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -87,5 +87,14 @@ internal class StorageProductFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun selectProduct(storageProduct: StorageProduct) {
+        viewModel.onEvent(StorageProductEvents.SelectProduct(storageProduct))
+        storageProductAdapter.notifyItemChanged(
+            storageProductAdapter.currentList.indexOf(
+                storageProduct
+            )
+        )
     }
 }

@@ -1,12 +1,14 @@
 package com.example.kotkin_team.di
 
 import com.example.kotkin_team.storage.data.api.service.StorageFakeService
+import com.example.kotkin_team.storage.data.db.service.StorageProductDao
 import com.example.kotkin_team.storage.data.mapper.StorageCategoryMapper
 import com.example.kotkin_team.storage.data.mapper.StorageProductMapper
 import com.example.kotkin_team.storage.data.repository.StorageRepositoryImplementation
 import com.example.kotkin_team.storage.domain.repository.StorageRepository
 import com.example.kotkin_team.storage.domain.use_cases.StorageGetCategory
 import com.example.kotkin_team.storage.domain.use_cases.StorageGetProduct
+import com.example.kotkin_team.storage.domain.use_cases.StorageSelectProduct
 import com.example.kotkin_team.storage.domain.use_cases.StorageUseCases
 import dagger.Module
 import dagger.Provides
@@ -21,11 +23,17 @@ object AppModule {
     @Provides
     @Singleton
     fun provideRepository(
-        service: StorageFakeService,
+        storageApiService: StorageFakeService,
+//        storageProductDao: StorageProductDao,
         storageCategoryMapper: StorageCategoryMapper,
         storageProductMapper: StorageProductMapper,
     ): StorageRepository {
-        return StorageRepositoryImplementation(service, storageCategoryMapper, storageProductMapper)
+        return StorageRepositoryImplementation(
+            storageApiService,
+//            storageProductDao,
+            storageCategoryMapper,
+            storageProductMapper
+        )
     }
 
     @Provides
@@ -33,15 +41,22 @@ object AppModule {
     fun provideUseCases(storageRepository: StorageRepository): StorageUseCases {
         return StorageUseCases(
             storageGetCategory = StorageGetCategory(storageRepository),
-            storageGetProduct = StorageGetProduct(storageRepository)
+            storageGetProduct = StorageGetProduct(storageRepository),
+            storageSelectProduct = StorageSelectProduct(storageRepository)
         )
     }
 
     @Provides
     @Singleton
-    fun provideService(): StorageFakeService {
+    fun provideApiService(): StorageFakeService {
         return StorageFakeService()
     }
+
+//    @Provides
+//    @Singleton
+//    fun provideDatabaseService(): StorageProductDao {
+//        return StorageProductDao()
+//    }
 
     @Provides
     @Singleton

@@ -1,16 +1,16 @@
-package com.example.kotkin_team.storage.data.db.model
+package com.example.kotkin_team.storage.data.db.service
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.kotkin_team.storage.data.db.StorageProductEntity
+import com.example.kotkin_team.storage.data.db.model.StorageProductEntity
 
 @Dao
 interface StorageProductDao {
 //    @Query("SELECT * FROM product WHERE id=:id")
 //    fun getById(id: Int): StorageProductEntity
-//
+
 //    @Query("SELECT * FROM product WHERE name ILIKE %:name%")
 //    fun getByName(name: String): List<StorageProductEntity>
 
@@ -18,7 +18,7 @@ interface StorageProductDao {
     fun getByParent(parentId: Int): List<StorageProductEntity>
 
     @Insert
-    fun insertAll(vararg storageProductEntity: StorageProductEntity)
+    fun insert(storageProductEntity: StorageProductEntity)
 
     @Delete
     fun delete(storageProductEntity: StorageProductEntity)

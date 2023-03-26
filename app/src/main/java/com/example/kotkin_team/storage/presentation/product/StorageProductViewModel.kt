@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kotkin_team.storage.common.StorageStatuses
 import com.example.kotkin_team.storage.domain.events.StorageProductEvents
+import com.example.kotkin_team.storage.domain.model.StorageProduct
 import com.example.kotkin_team.storage.domain.state.StorageProductState
 import com.example.kotkin_team.storage.domain.use_cases.StorageUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,6 +25,9 @@ class StorageProductViewModel @Inject constructor(
         when (event) {
             is StorageProductEvents.LoadProduct -> {
                 getProduct(event.parentId)
+            }
+            is StorageProductEvents.SelectProduct -> {
+                selectProduct(event.storageProduct)
             }
         }
     }
@@ -51,5 +55,9 @@ class StorageProductViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    private fun selectProduct(storageProduct: StorageProduct) {
+        storageUseCases.storageSelectProduct(storageProduct).launchIn(viewModelScope)
     }
 }

@@ -1,4 +1,4 @@
-package com.example.kotkin_team.storage.data.db
+package com.example.kotkin_team.storage.data.db.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
