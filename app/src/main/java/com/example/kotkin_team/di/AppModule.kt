@@ -7,7 +7,7 @@ import com.example.kotkin_team.storage.data.db.database.StorageProductDatabase
 import com.example.kotkin_team.storage.data.db.service.StorageProductDao
 import com.example.kotkin_team.storage.data.mapper.StorageCategoryMapper
 import com.example.kotkin_team.storage.data.mapper.StorageProductMapper
-import com.example.kotkin_team.storage.data.repository.StorageRepositoryImplementation
+import com.example.kotkin_team.storage.domain.repository.StorageRepositoryImplementation
 import com.example.kotkin_team.storage.domain.repository.StorageRepository
 import com.example.kotkin_team.storage.domain.use_cases.StorageGetCategory
 import com.example.kotkin_team.storage.domain.use_cases.StorageGetProduct

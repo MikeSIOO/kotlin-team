@@ -1,4 +1,4 @@
-package com.example.kotkin_team.storage.data.repository
+package com.example.kotkin_team.storage.domain.repository
 
 import com.example.kotkin_team.storage.common.StorageStatuses
 import com.example.kotkin_team.storage.data.api.service.StorageFakeService
@@ -7,7 +7,6 @@ import com.example.kotkin_team.storage.data.mapper.StorageCategoryMapper
 import com.example.kotkin_team.storage.data.mapper.StorageProductMapper
 import com.example.kotkin_team.storage.domain.model.StorageCategory
 import com.example.kotkin_team.storage.domain.model.StorageProduct
-import com.example.kotkin_team.storage.domain.repository.StorageRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.IOException
@@ -48,6 +47,7 @@ class StorageRepositoryImplementation @Inject constructor(
     override fun selectProduct(storageProduct: StorageProduct): Flow<StorageStatuses<StorageProduct>> =
         flow {
             try {
+                emit(StorageStatuses.Loading())
                 val storageProductEntity = storageProductMapper.mapToEntity(storageProduct)
                 if (storageProduct.selected) {
                     storageProductDao.delete(storageProductEntity)
@@ -55,6 +55,7 @@ class StorageRepositoryImplementation @Inject constructor(
                     storageProductDao.insert(storageProductEntity)
                 }
                 storageProduct.select()
+                emit(StorageStatuses.Success(storageProduct))
             } catch (e: IOException) {
                 emit(StorageStatuses.Error("Не обнаружено соединение с сервером. Проверьте интернет подключение"))
             }

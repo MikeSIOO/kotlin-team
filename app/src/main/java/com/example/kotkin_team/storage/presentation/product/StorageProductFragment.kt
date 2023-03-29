@@ -1,6 +1,7 @@
 package com.example.kotkin_team.storage.presentation.product
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,7 +38,7 @@ internal class StorageProductFragment : Fragment() {
 
     private val storageProductAdapter =
         StorageProductAdapter { storageProduct: StorageProduct ->
-            selectProduct(storageProduct)
+            viewModel.onEvent(StorageProductEvents.SelectProduct(storageProduct))
         }
 
     override fun onCreateView(
@@ -87,14 +88,26 @@ internal class StorageProductFragment : Fragment() {
                 }
             }
         }
-    }
 
-    private fun selectProduct(storageProduct: StorageProduct) {
-        viewModel.onEvent(StorageProductEvents.SelectProduct(storageProduct))
-        storageProductAdapter.notifyItemChanged(
-            storageProductAdapter.currentList.indexOf(
-                storageProduct
-            )
-        )
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.storageSelectProductState.collectLatest {
+                when (it.isLoading) {
+                    true -> {
+                        Toast.makeText(context, "LOADING SELECT", Toast.LENGTH_SHORT).show()
+                    }
+                    false -> {
+                        if (it.error.isBlank()) {
+                            storageProductAdapter.notifyItemChanged(
+                                storageProductAdapter.currentList.indexOf(
+                                    it.storageProduct
+                                )
+                            )
+                        } else {
+                            Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+        }
     }
 }
