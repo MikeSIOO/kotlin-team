@@ -10,21 +10,21 @@
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintGuide_begin="32dp"
+            app:layout_constraintGuide_begin="20dp"
             android:id="@+id/guideline_left" />
 
     <androidx.constraintlayout.widget.Guideline
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintGuide_end="32dp"
+            app:layout_constraintGuide_end="20dp"
             android:id="@+id/guideline_right" />
 
     <androidx.constraintlayout.widget.Guideline
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintGuide_begin="58dp"
+            app:layout_constraintGuide_begin="30dp"
             android:id="@+id/guideline_top" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -38,10 +38,25 @@
             android:text="Выберите продукты"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
             android:id="@+id/title"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/default_text"
+            android:layout_marginHorizontal="12dp"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
-            app:layout_constraintTop_toTopOf="@id/guideline_top"
+            app:layout_constraintTop_toBottomOf="@id/guideline_top"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right" />
+
+    <TextView
+            android:text="которые у вас есть"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/subtitle"
+            android:textSize="16sp"
+            android:textColor="@color/default_text"
+            android:layout_marginHorizontal="12dp"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/title"
             app:layout_constraintEnd_toEndOf="@id/guideline_right" />
 
     <!--    TODO вернуть поиск -->
@@ -51,27 +66,34 @@
             android:iconifiedByDefault="false"
             android:queryHint="Найти продукт"
             android:id="@+id/search_bar"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginVertical="20dp"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
-            app:layout_constraintTop_toBottomOf="@id/title" />
+            app:layout_constraintTop_toBottomOf="@id/subtitle" />
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="12dp"
+            android:paddingBottom="100dp"
             app:layout_constraintTop_toBottomOf="@id/search_bar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintVertical_bias="0.0" />
+            android:clipToPadding="false" />
 
     <Button
             android:text="Начать поиск блюд"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/search_button"
+            android:background="@drawable/shape_corner"
+            android:layout_marginHorizontal="12dp"
+            android:textStyle="bold"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
             app:layout_constraintBottom_toBottomOf="@id/guideline_bottom" />

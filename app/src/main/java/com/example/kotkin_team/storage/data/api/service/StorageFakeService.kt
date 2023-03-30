@@ -31,7 +31,6 @@ class StorageFakeService {
 
     companion object {
         fun getFakeCategory(): List<StorageCategoryDto> {
-
             return listOf(
                 StorageCategoryDto(
                     0,
@@ -56,6 +55,56 @@ class StorageFakeService {
                 StorageCategoryDto(
                     4,
                     "Выпечка",
+                    R.drawable.ic_launcher_background,
+                ),
+                StorageCategoryDto(
+                    5,
+                    "Молоко, молочные продукты2",
+                    R.drawable.ic_launcher_background,
+                ),
+                StorageCategoryDto(
+                    6,
+                    "Мясо, птица2",
+                    R.drawable.ic_launcher_foreground,
+                ),
+                StorageCategoryDto(
+                    7,
+                    "Овощи и фрукты2",
+                    R.drawable.ic_launcher_background,
+                ),
+                StorageCategoryDto(
+                    8,
+                    "Рыба2",
+                    R.drawable.ic_launcher_foreground,
+                ),
+                StorageCategoryDto(
+                    9,
+                    "Выпечка2",
+                    R.drawable.ic_launcher_background,
+                ),
+                StorageCategoryDto(
+                    10,
+                    "Молоко, молочные продукты3",
+                    R.drawable.ic_launcher_background,
+                ),
+                StorageCategoryDto(
+                    11,
+                    "Мясо, птица3",
+                    R.drawable.ic_launcher_foreground,
+                ),
+                StorageCategoryDto(
+                    12,
+                    "Овощи и фрукты3",
+                    R.drawable.ic_launcher_background,
+                ),
+                StorageCategoryDto(
+                    13,
+                    "Рыба3",
+                    R.drawable.ic_launcher_foreground,
+                ),
+                StorageCategoryDto(
+                    14,
+                    "Выпечка3",
                     R.drawable.ic_launcher_background,
                 ),
             )
