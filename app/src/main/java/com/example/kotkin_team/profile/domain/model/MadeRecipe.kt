@@ -1,7 +1,7 @@
 package com.example.kotkin_team.profile.domain.model
 
-data class Recipe(
+data class MadeRecipe(
     val id: Long,
-    val title: String,
+    var title: String,
     val image: String?
 )

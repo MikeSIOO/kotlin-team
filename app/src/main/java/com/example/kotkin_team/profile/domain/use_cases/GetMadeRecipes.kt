@@ -1,16 +1,16 @@
 package com.example.kotkin_team.profile.domain.use_cases
 
-import com.example.kotkin_team.profile.common.Resource
-import com.example.kotkin_team.profile.domain.model.Recipe
-import com.example.kotkin_team.profile.domain.model.Profile
+import androidx.paging.PagingData
+import com.example.kotkin_team.common.data.data_source.model.recipe.RecipeDto
 import com.example.kotkin_team.profile.domain.repository.ProfileRepository
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 
-class GetMadeRecipes(
+class GetMadeRecipes @Inject constructor(
     private val repository: ProfileRepository
 ) {
 
-    operator fun invoke(profile: Profile): Flow<Resource<List<Recipe>>> {
-        return repository.getMadeRecipes(profile)
+    operator fun invoke(id: Int): Flow<PagingData<RecipeDto>> {
+        return repository.getRecipes(id)
     }
 }

@@ -5,44 +5,40 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.Target
 import com.example.kotkin_team.R
-import com.example.kotkin_team.profile.domain.model.Profile
-import com.example.kotkin_team.profile.domain.model.Recipe
+import com.example.kotkin_team.common.view_binding.viewBinding
+import com.example.kotkin_team.databinding.FragmentProfileBinding
+import com.example.kotkin_team.profile.domain.model.MadeRecipe
 import com.example.kotkin_team.profile.presentation.made_recipes.RecipeListAdapter
+import com.example.kotkin_team.profile.presentation.made_recipes.load_state.MadeRecipesLoadStateAdapter
+import com.example.kotkin_team.profile.presentation.util.bindImage
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.collectLatest
-
-private const val ARG_PROFILE_ID = "profileId"
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
     companion object {
-        fun newInstance(profileId: Int) =
-            ProfileFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_PROFILE_ID, profileId)
-                }
-            }
+        fun newInstance() = ProfileFragment()
     }
 
-
-    private var profileId: Int = -1
+    private val binding by viewBinding(FragmentProfileBinding::bind)
     private val viewModel by viewModels<ProfileViewModel>()
-    private val recipeListAdapter = RecipeListAdapter { recipe: Recipe ->  }
-
+    private val recipeListAdapter = RecipeListAdapter { madeRecipe: MadeRecipe -> goToRecipeFragment(madeRecipe) }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_profile, container, false)
@@ -51,55 +47,79 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.onEvent(ProfileFragmentEvents.LoadProfile(profileId))
-        val profile = viewModel.stateProfile.value.profile
-        if (profile != null) {
-            viewModel.onEvent(ProfileFragmentEvents.LoadMadeRecipes(profile))
+        binding.btnRetry.setOnClickListener {
+            viewModel.onEvent(ProfileFragmentEvents.LoadProfile)
         }
 
-        val profileAvatarImageView = view.findViewById<ImageView>(R.id.avatar_image_view)
-        bindImage(profile, profileAvatarImageView)
-        val profileNameTextField = view.findViewById<TextView>(R.id.profile_name_text_view)
-        profileNameTextField.text = profile?.name
-        val profileSecondNameTextField = view.findViewById<TextView>(R.id.profile_second_name_text_view)
-        profileSecondNameTextField.text = profile?.secondName
-        val settingsButton = view.findViewById<ImageView>(R.id.profile_settings_button)
-        settingsButton.setOnClickListener {
-            TODO()
+        binding.profileLogOutButton.setOnClickListener {
+            Toast.makeText(context, "Can't log out yet)", Toast.LENGTH_SHORT).show()
         }
 
-        val madeRecipesRecyclerView = view.findViewById<RecyclerView>(R.id.made_recipes_recycler_view)
-        madeRecipesRecyclerView.apply {
-            layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-            adapter = recipeListAdapter
-        }
+        setupMadeRecipesRecyclerView()
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                viewModel.stateMadeRecipes.collectLatest {
-                    when(it.isLoading) {
-                        true -> {
+            viewModel.stateProfile.collectLatest { profileState ->
+                when (profileState.isLoading) {
+                    true -> {
+                        binding.mainProgressBar.visibility = View.VISIBLE
+                    }
+                    false -> {
+                        binding.mainProgressBar.visibility = View.GONE
+                        binding.btnRetry.visibility = View.GONE
+                        binding.profileInformationConstraintLayout.visibility = View.VISIBLE
+                        binding.madeRecipesConstraintLayout.visibility = View.VISIBLE
 
-                        }
-                        false -> {
-                            if (it.error.isBlank()) {
-                                recipeListAdapter.submitList(it.madeRecipes)
-                            } else {
-                                Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
+                        if (profileState.error.isBlank()) {
+                            val profile = viewModel.stateProfile.value.profile
+
+                            profile?.let {
+                                binding.profileNameTextView.text = profile.name
+                                binding.profileSecondNameTextView.text = profile.secondName
+                                bindImage(view, profile.image, binding.avatarImageView)
+
+                                viewModel.onEvent(ProfileFragmentEvents.LoadMadeRecipes)
+                                viewModel.madeRecipes.buffer().collectLatest { pagingData ->
+                                    withContext(Dispatchers.IO) {
+                                        recipeListAdapter.submitData(pagingData)
+                                    }
+                                }
                             }
+                        } else {
+                            binding.btnRetry.visibility = View.VISIBLE
+                            Toast.makeText(context, profileState.error, Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
+            }
         }
     }
 
-    private fun bindImage(profile: Profile?, avatarImage: ImageView) {
-        val url = profile?.image ?: "https://sun9-9.userapi.com/impf/wpKh_I1m4InpdEDsX31RH4Fh2eLb3j-Bo9iA4A/4VibiWNxgdg.jpg?size=604x453&quality=96&sign=b9428274e0de3250c73c22b04d9f9173&c_uniq_tag=LRvg-JVGoUInZ0oqC--Fg1GaVjy84CrtSmJ_NrV8n7M&type=album"
-        view?.let {
-            Glide.with(it)
-                .load(url)
-                .override(Target.SIZE_ORIGINAL)
-                .into(avatarImage)
-            avatarImage.setBackgroundColor(0xFF00FF00.toInt())
+    private fun setupMadeRecipesRecyclerView() {
+        val loadStateAdapter = MadeRecipesLoadStateAdapter()
+        binding.madeRecipesRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            adapter = recipeListAdapter.apply {
+                stateRestorationPolicy =
+                    RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+            }.withLoadStateFooter(footer = loadStateAdapter)
         }
+        recipeListAdapter.addLoadStateListener { loadState ->
+            val isListEmpty = loadState.refresh is LoadState.NotLoading && recipeListAdapter.itemCount == 0
+            binding.madeRecipesRecyclerView.isVisible = !isListEmpty
+            val errorState = when {
+                loadState.append is LoadState.Error -> loadState.append as LoadState.Error
+                loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
+                loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
+                else -> null
+            }
+            errorState?.let {
+                Toast.makeText(context, it.error.message, Toast.LENGTH_SHORT).show()
+                recipeListAdapter.retry()
+            }
+        }
+    }
+    private fun goToRecipeFragment(madeRecipe: MadeRecipe) {
+        Toast.makeText(context, "You have selected ${madeRecipe.title}", Toast.LENGTH_SHORT).show()
+        viewModel.onEvent(ProfileFragmentEvents.LoadRecipe(madeRecipe))
     }
 }

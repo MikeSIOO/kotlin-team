@@ -2,18 +2,23 @@ package com.example.kotkin_team.profile.presentation.made_recipes
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
-import com.example.kotkin_team.R
-import com.example.kotkin_team.profile.domain.model.Recipe
+import androidx.paging.PagingDataAdapter
+import com.example.kotkin_team.databinding.RecipeItemSmallBinding
+import com.example.kotkin_team.profile.domain.model.MadeRecipe
 
-class RecipeListAdapter(private val callback: (recipe: Recipe) -> Unit) : ListAdapter<Recipe, RecipeViewHolder>(RecipeDiffItemCallback) {
+class RecipeListAdapter(private val callback: (madeRecipe: MadeRecipe) -> Unit) : PagingDataAdapter<MadeRecipe, RecipeViewHolder>(RecipeDiffItemCallback) {
 
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
-        getItem(position).let { holder.bind(it, callback) }
+        getItem(position).let { holder.bind(it!!, callback) }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.recipe_item_small, parent, false)
-        return RecipeViewHolder(view)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val dataBinding = RecipeItemSmallBinding.inflate(
+            layoutInflater,
+            parent,
+            false
+        )
+        return RecipeViewHolder(dataBinding)
     }
 }
