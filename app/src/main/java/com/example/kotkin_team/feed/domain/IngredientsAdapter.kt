@@ -13,7 +13,7 @@ class IngredientsAdapter: RecyclerView.Adapter<IngredientsAdapter.IngredientsVie
         }
     }
 
-    var ingredients: List<Ingredient> = listOf()
+    private var ingredients: List<Ingredient> = listOf()
     fun setData(data: List<Ingredient>) {
         ingredients = data
     }

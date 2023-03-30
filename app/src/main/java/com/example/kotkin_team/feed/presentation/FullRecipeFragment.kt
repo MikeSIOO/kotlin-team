@@ -1,7 +1,6 @@
 package com.example.kotkin_team.feed.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -31,14 +30,16 @@ class FullRecipeFragment: Fragment(R.layout.fragment_full_recipe) {
         val ingredientsAdapter = IngredientsAdapter()
         val moreInfoButton = binding.moreInfoButton
 
-        viewModel.currentRecipe.observe(
+        viewModel.feedState.observe(
             viewLifecycleOwner
         ) {
-            binding.recipe = it
-            if (it != null) {
-                stepsAdapter.setData(it.steps)
-                ingredientsAdapter.setData(it.ingredients)
+            binding.recipe = it.currentRecipe
+            if (it.currentRecipe != null) {
+                stepsAdapter.setData(it.currentRecipe.steps)
+                ingredientsAdapter.setData(it.currentRecipe.ingredients)
             }
+
+            expandTextView(it.isMoreInfoButtonClicked, expandableTextView, moreInfoButton)
 
         }
 
@@ -49,9 +50,10 @@ class FullRecipeFragment: Fragment(R.layout.fragment_full_recipe) {
         ingredientsRecycler.adapter = ingredientsAdapter
 
         moreInfoButton.setOnClickListener {
-            expandTextView(isMoreInfoButtonClicked, expandableTextView, moreInfoButton)
+            viewModel.setFlag()
+//            expandTextView(isMoreInfoButtonClicked, expandableTextView, moreInfoButton)
             isMoreInfoButtonClicked = !isMoreInfoButtonClicked
-            Log.d("test", "current ingredients: ${ingredientsAdapter.ingredients}")
+//            Log.d("test", "current ingredients: ${ingredientsAdapter.ingredients}")
         }
 
         binding.finishButton.setOnClickListener {
@@ -67,7 +69,7 @@ class FullRecipeFragment: Fragment(R.layout.fragment_full_recipe) {
     }
 
     private fun expandTextView(flag: Boolean, tv: TextView, bt: TextView) {
-        if (flag) {
+        if (!flag) {
             tv.maxLines = 2
             bt.text = "Подробнее"
         }

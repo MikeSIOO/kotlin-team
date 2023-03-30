@@ -7,12 +7,11 @@ import com.example.kotkin_team.databinding.RecipeStepItemBinding
 import com.example.kotkin_team.feed.data.Step
 
 class StepsAdapter : RecyclerView.Adapter<StepsAdapter.StepsViewHolder>() {
-    class StepsViewHolder(var binding: RecipeStepItemBinding) :
+    class StepsViewHolder(private val binding: RecipeStepItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(step: Step) {
             binding.step = step
         }
-
     }
 
     var steps: List<Step> = listOf()

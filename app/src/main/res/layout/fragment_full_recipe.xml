@@ -167,7 +167,7 @@
                                 android:id="@+id/dish_info"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Ризотто – это традиционное итальянское блюдо, распространенное на северо-западе Италии. Хотя определенного рецепта ризотто не существует (продукты могут быть любыми, в нашем случае – белые грибы), основное...Опачки, продолжние описания"
+                                android:text="Ризотто – это традиционное итальянское блюдо, распространенное на северо-западе Италии. Хотя определенного рецепта ризотто не существует (продукты могут быть любыми, в нашем случае – белые грибы), основное... Продолжние описания"
                                 android:textSize="14sp"
                                 android:maxLines="4"
                                 android:lineSpacingMultiplier="1.1"
@@ -191,6 +191,7 @@
                                 android:layout_marginHorizontal="30dp" />
 
                         <LinearLayout
+                                android:id="@+id/ingredients_wrapper"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
@@ -206,15 +207,20 @@
                                     android:textStyle="bold"
                                     android:textColor="@color/main_text" />
 
+                            <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
                             <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/ingredients_recycler"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:layout_marginTop="10dp"
                                     android:overScrollMode="never"
                                     android:scrollbars="none"
                                     android:nestedScrollingEnabled="false"
                                     tools:listitem="@layout/ingredient_item" />
+                            </RelativeLayout>
 
                         </LinearLayout>
 

@@ -1,7 +1,6 @@
 package com.example.kotkin_team.feed.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
@@ -36,17 +35,13 @@ class FeedFragment : Fragment(R.layout.fragment_feed), CardStackListener {
         super.onViewCreated(view, savedInstanceState)
         val progressBar = binding.progressBar
 
-        viewModel.recipes.observe(
+        viewModel.feedState.observe(
             viewLifecycleOwner
         ) { result ->
-            myAdapter.submitList(result)
-        }
-        viewModel.loadingState.observe(
-            viewLifecycleOwner
-        ) {
-            if (it == FeedLoadingState.LOADING) {
+            myAdapter.submitList(result.recipeList)
+            if (result.loadingState == FeedLoadingState.LOADING) {
                 progressBar.visibility = View.VISIBLE
-            } else if (it == FeedLoadingState.LOADED) {
+            } else if (result.loadingState == FeedLoadingState.LOADED) {
                 progressBar.visibility = View.GONE
             }
         }
@@ -97,11 +92,11 @@ class FeedFragment : Fragment(R.layout.fragment_feed), CardStackListener {
 
     private fun setupCardStackView() {
         manager.setStackFrom(StackFrom.None)
-        manager.setVisibleCount(3)
-        manager.setTranslationInterval(98.0f)
-        manager.setScaleInterval(0.95f)
-        manager.setSwipeThreshold(0.3f)
-        manager.setMaxDegree(20.0f)
+        manager.setVisibleCount(VISIBLE_COUNT)
+        manager.setTranslationInterval(TRANSLATION_INTERVAL)
+        manager.setScaleInterval(SCALE_INTERVAL)
+        manager.setSwipeThreshold(SWIPE_THRESHOLD)
+        manager.setMaxDegree(MAX_DEGREE)
         manager.setDirections(Direction.HORIZONTAL)
         manager.setCanScrollHorizontal(true)
         manager.setCanScrollVertical(false)
@@ -114,9 +109,7 @@ class FeedFragment : Fragment(R.layout.fragment_feed), CardStackListener {
     }
 
     override fun onCardDragging(direction: Direction?, ratio: Float) {
-        if (direction != null) {
-            Log.d("CardStackView", "onCardDragging: d = ${direction.name}, r = $ratio")
-        }
+
     }
 
     override fun onCardSwiped(direction: Direction?) {
@@ -136,18 +129,26 @@ class FeedFragment : Fragment(R.layout.fragment_feed), CardStackListener {
     }
 
     override fun onCardRewound() {
-        Log.d("CardStackView", "onCardRewound: ${manager.topPosition}")
+
     }
 
     override fun onCardCanceled() {
-        Log.d("CardStackView", "onCardCanceled: ${manager.topPosition}")
+
     }
 
     override fun onCardAppeared(view: View?, position: Int) {
-        Log.d("CardStackView", "onCardAppeared: ($position) text")
+
     }
 
     override fun onCardDisappeared(view: View?, position: Int) {
-        Log.d("CardStackView", "onCardDisappeared: ($position) text")
+
+    }
+
+    companion object {
+        const val VISIBLE_COUNT = 3
+        const val TRANSLATION_INTERVAL = 98.0f
+        const val SCALE_INTERVAL = 0.95f
+        const val SWIPE_THRESHOLD = 0.3f
+        const val MAX_DEGREE = 20.0f
     }
 }

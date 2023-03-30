@@ -16,29 +16,32 @@ class FeedViewModel @Inject constructor(
     private val getFeedUseCase: GetFeedUseCase
 ) : ViewModel() {
 
-    private val _loadingState = MutableLiveData<FeedLoadingState>()
-    val loadingState: LiveData<FeedLoadingState> = _loadingState
-
-    private val _recipes = MutableLiveData<List<Recipe>>()
-    val recipes: LiveData<List<Recipe>> = _recipes
-
-    private val _currentRecipe = MutableLiveData<Recipe?>()
-    val currentRecipe: LiveData<Recipe?> = _currentRecipe
+    private val _feedState = MutableLiveData<FeedState>()
+    val feedState: LiveData<FeedState> = _feedState
 
     init {
+        _feedState.value = FeedState()
         viewModelScope.launch {
             try {
-                _loadingState.value = FeedLoadingState.LOADING
-                _recipes.value = getFeedUseCase.getRecipes()
-                _loadingState.value = FeedLoadingState.LOADED
+                _feedState.value = feedState.value?.copy(loadingState = FeedLoadingState.LOADING)
+                _feedState.value = feedState.value?.copy(recipeList = getFeedUseCase.getRecipes())
+                _feedState.value = feedState.value?.copy(loadingState = FeedLoadingState.LOADED)
             } catch (e: Exception) {
-                _loadingState.value = FeedLoadingState.error(e.message)
-                _recipes.value = emptyList()
+                _feedState.value = feedState.value?.copy(loadingState = FeedLoadingState.error(e.message), recipeList = emptyList() )
             }
         }
     }
 
     fun setCurrentRecipe(recipe: Recipe?) {
-        _currentRecipe.value = recipe
+        _feedState.value = feedState.value?.copy(currentRecipe = recipe)
+    }
+
+    fun setFlag() {
+        _feedState.value = feedState.value?.copy(isMoreInfoButtonClicked = !feedState.value?.isMoreInfoButtonClicked!!)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        setCurrentRecipe(null)
     }
 }

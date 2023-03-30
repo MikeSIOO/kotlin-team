@@ -34,26 +34,23 @@ class MatchFragment : Fragment(R.layout.fragment_match) {
         val backButton = binding.backToFeedButton
         val startButton = binding.startButton
         backButton.setOnClickListener {
-            activity?.supportFragmentManager?.let {
-                val transaction = it.beginTransaction()
-                transaction
-                    .replace(R.id.fragmentContainer, FeedFragment())
-                    .addToBackStack(null)
-                    .commit()
-            }
+            openNewFragment(FeedFragment())
         }
 
         startButton.setOnClickListener {
-            activity?.supportFragmentManager?.let {
-                val transaction = it.beginTransaction()
-                transaction
-                    .replace(R.id.fragmentContainer, FullRecipeFragment())
-                    .addToBackStack(null)
-                    .commit()
-            }
+            openNewFragment(FullRecipeFragment())
         }
     }
 
+    private fun openNewFragment(fragment: Fragment) {
+        activity?.supportFragmentManager?.let {
+            val transaction = it.beginTransaction()
+            transaction
+                .replace(R.id.fragmentContainer, fragment)
+                .addToBackStack(null)
+                .commit()
+        }
+    }
     companion object {
         private const val RECIPE_ID = "recipe_id"
 
