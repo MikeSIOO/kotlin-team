@@ -1,4 +1,4 @@
-package com.example.kotkin_team.common.data.data_source.remote
+package com.example.kotkin_team.common.data.data_source
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
@@ -7,7 +7,7 @@ import kotlinx.coroutines.tasks.await
 
 class FirestorePagingSource<T : Any>(
     private val query: Query,
-    private val mapper: (DocumentSnapshot) -> T
+    private val mapper: suspend (DocumentSnapshot) -> T
 ) : PagingSource<QuerySnapshot, T>() {
 
     override fun getRefreshKey(state: PagingState<QuerySnapshot, T>): QuerySnapshot? {

@@ -13,12 +13,4 @@ data class RecipeDto(
     val servings: Int? = null,
     val ingredients: List<DocumentReference>? = null,
     val instructions: Map<String, String>? = null
-) {
-    fun toMadeRecipe(): MadeRecipe {
-        return MadeRecipe(
-            id = id ?: -1,
-            title = title ?: "111",
-            image = image
-        )
-    }
-}
+)
