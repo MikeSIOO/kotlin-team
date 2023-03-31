@@ -1,5 +1,7 @@
 package com.example.kotkin_team.storage.presentation.product
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kotkin_team.storage.common.StorageStatuses
@@ -21,6 +23,9 @@ class StorageProductViewModel @Inject constructor(
     private val storageGetProductUseCase: StorageGetProductUseCase,
     private val storageSelectProductUseCase: StorageSelectProductUseCase
 ) : ViewModel() {
+    private val _parentId = MutableLiveData(-1)
+    val parentId: LiveData<Int> = _parentId
+
     private val _storageProductState = MutableStateFlow(StorageProductState())
     val storageProductState: StateFlow<StorageProductState> = _storageProductState
 
@@ -29,8 +34,11 @@ class StorageProductViewModel @Inject constructor(
 
     fun onEvent(event: StorageProductEvents) {
         when (event) {
+            is StorageProductEvents.InitProduct -> {
+                _parentId.value = event.parentId
+            }
             is StorageProductEvents.LoadProduct -> {
-                getProduct(event.parentId)
+                getProduct()
             }
             is StorageProductEvents.SelectProduct -> {
                 selectProduct(event.storageProduct)
@@ -38,8 +46,8 @@ class StorageProductViewModel @Inject constructor(
         }
     }
 
-    private fun getProduct(parentId: Int) {
-        storageGetProductUseCase(parentId).onEach { result ->
+    private fun getProduct() {
+        storageGetProductUseCase(parentId.value!!).onEach { result ->
             _storageProductState.value = when (result) {
                 is StorageStatuses.Success -> {
                     storageProductState.value.copy(

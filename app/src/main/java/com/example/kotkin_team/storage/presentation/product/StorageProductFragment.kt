@@ -54,7 +54,7 @@ internal class StorageProductFragment : Fragment() {
         val parentId = requireArguments().getInt(ARG_PARENT_ID)
         val parentName = requireArguments().getString(ARG_PARENT_NAME)
 
-        viewModel.onEvent(StorageProductEvents.LoadProduct(parentId))
+        viewModel.onEvent(StorageProductEvents.InitProduct(parentId))
 
         binding.backButton.setOnClickListener {
             this.parentFragmentManager.popBackStack()
@@ -102,6 +102,12 @@ internal class StorageProductFragment : Fragment() {
                         )
                     }
                 }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.storageSelectProductState.collectLatest {
+                viewModel.onEvent(StorageProductEvents.LoadProduct)
             }
         }
     }
