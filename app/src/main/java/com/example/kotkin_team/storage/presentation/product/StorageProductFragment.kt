@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 private const val ARG_PARENT_ID = "parentId"
 private const val ARG_PARENT_NAME = "parentName"
+private const val COLUMN_COUNT = 3
 
 @AndroidEntryPoint
 internal class StorageProductFragment : Fragment() {
@@ -65,7 +66,7 @@ internal class StorageProductFragment : Fragment() {
         }
         binding.title.text = parentName
         binding.recyclerView.apply {
-            layoutManager = GridLayoutManager(context, 3)
+            layoutManager = GridLayoutManager(context, COLUMN_COUNT)
             adapter = storageProductAdapter
         }
         binding.searchButton.setOnClickListener {

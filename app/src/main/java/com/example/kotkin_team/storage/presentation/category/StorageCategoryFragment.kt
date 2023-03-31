@@ -17,6 +17,7 @@ import com.example.kotkin_team.storage.presentation.product.StorageProductFragme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
+private const val COLUMN_COUNT = 3
 @AndroidEntryPoint
 internal class StorageCategoryFragment : Fragment() {
     companion object {
@@ -52,7 +53,7 @@ internal class StorageCategoryFragment : Fragment() {
         }
 
         binding.recyclerView.apply {
-            layoutManager = GridLayoutManager(context, 3)
+            layoutManager = GridLayoutManager(context, COLUMN_COUNT)
             adapter = storageCategoryAdapter
         }
 
