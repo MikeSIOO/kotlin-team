@@ -10,7 +10,7 @@ import kotlinx.coroutines.delay
 // фейковый сервис отправления запросов
 class StorageFakeService {
     suspend fun getCategory(): StorageCategoryResponseDto {
-        delay(2000L)
+        delay(1000L)
         val fakeCategoryDTO = getFakeCategory()
         return StorageCategoryResponseDto(
             status = "Success",
@@ -20,7 +20,7 @@ class StorageFakeService {
     }
 
     suspend fun getProduct(parentId: Int): StorageProductResponseDto {
-        delay(2000L)
+        delay(1000L)
         val fakeProductDTO = getFakeProduct(parentId)
         return StorageProductResponseDto(
             status = "Success",

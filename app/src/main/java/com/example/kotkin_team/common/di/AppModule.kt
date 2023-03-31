@@ -1,4 +1,4 @@
-package com.example.kotkin_team.di
+package com.example.kotkin_team.common.di
 
 import android.content.Context
 import androidx.room.Room

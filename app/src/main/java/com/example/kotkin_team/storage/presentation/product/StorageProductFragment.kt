@@ -14,6 +14,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotkin_team.R
+import com.example.kotkin_team.common.view_binding.viewBinding
+import com.example.kotkin_team.databinding.FragmentStorageCategoryBinding
+import com.example.kotkin_team.databinding.FragmentStorageProductBinding
 import com.example.kotkin_team.storage.domain.events.StorageProductEvents
 import com.example.kotkin_team.storage.domain.model.StorageProduct
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,6 +37,7 @@ internal class StorageProductFragment : Fragment() {
             }
     }
 
+    private val binding by viewBinding(FragmentStorageProductBinding::bind)
     private val viewModel: StorageProductViewModel by viewModels()
 
     private val storageProductAdapter =
@@ -56,20 +60,17 @@ internal class StorageProductFragment : Fragment() {
 
         viewModel.onEvent(StorageProductEvents.LoadProduct(parentId))
 
-        val backButton = view.findViewById<CardView>(R.id.back_button)
-        backButton.setOnClickListener {
+        binding.backButton.setOnClickListener {
             this.parentFragmentManager.popBackStack()
         }
-        val title = view.findViewById<TextView>(R.id.title)
-        title.text = parentName
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
-        recyclerView.apply {
+        binding.title.text = parentName
+        binding.recyclerView.apply {
             layoutManager = GridLayoutManager(context, 3)
             adapter = storageProductAdapter
         }
-        val searchButton = view.findViewById<Button>(R.id.search_button)
-        searchButton.setOnClickListener {
-//            TODO Поиск рецептов
+        binding.searchButton.setOnClickListener {
+            // TODO Поиск рецептов
+            Toast.makeText(context, "SEARCH", Toast.LENGTH_SHORT).show()
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
