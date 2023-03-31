@@ -38,22 +38,22 @@ class StorageProductViewModel @Inject constructor(
 
     private fun getProduct(parentId: Int) {
         storageUseCases.storageGetProduct(parentId).onEach { result ->
-            when (result) {
+            _storageProductState.value = when (result) {
                 is StorageStatuses.Success -> {
-                    _storageProductState.value = storageProductState.value.copy(
+                    storageProductState.value.copy(
                         storageProduct = result.data ?: emptyList(),
                         isLoading = false,
                         error = ""
                     )
                 }
                 is StorageStatuses.Error -> {
-                    _storageProductState.value = storageProductState.value.copy(
+                    storageProductState.value.copy(
                         isLoading = false,
                         error = result.message ?: "An unexpected error occurred"
                     )
                 }
                 is StorageStatuses.Loading -> {
-                    _storageProductState.value = storageProductState.value.copy(
+                    storageProductState.value.copy(
                         isLoading = true
                     )
                 }
@@ -63,22 +63,22 @@ class StorageProductViewModel @Inject constructor(
 
     private fun selectProduct(storageProduct: StorageProduct) {
         storageUseCases.storageSelectProduct(storageProduct).onEach { result ->
-            when (result) {
+            _storageSelectProductState.value = when (result) {
                 is StorageStatuses.Success -> {
-                    _storageSelectProductState.value = storageSelectProductState.value.copy(
+                    storageSelectProductState.value.copy(
                         storageProduct = result.data,
                         isLoading = false,
                         error = ""
                     )
                 }
                 is StorageStatuses.Error -> {
-                    _storageSelectProductState.value = storageSelectProductState.value.copy(
+                    storageSelectProductState.value.copy(
                         isLoading = false,
                         error = result.message ?: "An unexpected error occurred"
                     )
                 }
                 is StorageStatuses.Loading -> {
-                    _storageSelectProductState.value = storageSelectProductState.value.copy(
+                    storageSelectProductState.value.copy(
                         isLoading = true
                     )
                 }

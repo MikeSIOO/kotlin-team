@@ -12,7 +12,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotkin_team.R
-import com.example.kotkin_team.storage.domain.events.StorageCategoryEvents
 import com.example.kotkin_team.storage.domain.model.StorageCategory
 import com.example.kotkin_team.storage.presentation.product.StorageProductFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,12 +20,7 @@ import kotlinx.coroutines.flow.collectLatest
 @AndroidEntryPoint
 internal class StorageCategoryFragment : Fragment() {
     companion object {
-        fun newInstance() =
-            StorageCategoryFragment().apply {
-                arguments = Bundle().apply {
-
-                }
-            }
+        fun newInstance() = StorageCategoryFragment().apply { arguments = Bundle().apply {} }
     }
 
     private val viewModel: StorageCategoryViewModel by viewModels()
@@ -51,8 +45,6 @@ internal class StorageCategoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.onEvent(StorageCategoryEvents.LoadCategory)
-
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.apply {
             layoutManager = GridLayoutManager(context, 3)
@@ -60,21 +52,20 @@ internal class StorageCategoryFragment : Fragment() {
         }
         val searchButton = view.findViewById<Button>(R.id.search_button)
         searchButton.setOnClickListener {
-//            TODO("Поиск рецептов")
+//            TODO Поиск рецептов
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.storageCategoryState.collectLatest {
-                when (it.isLoading) {
-                    true -> {
+                when {
+                    it.isLoading -> {
                         Toast.makeText(context, "LOADING...", Toast.LENGTH_SHORT).show()
                     }
-                    false -> {
-                        if (it.error.isBlank()) {
-                            storageCategoryAdapter.submitList(it.storageCategory)
-                        } else {
-                            Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
-                        }
+                    it.error.isNotBlank() -> {
+                        Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        storageCategoryAdapter.submitList(it.storageCategory)
                     }
                 }
             }

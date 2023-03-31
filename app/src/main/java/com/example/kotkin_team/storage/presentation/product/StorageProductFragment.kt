@@ -74,16 +74,15 @@ internal class StorageProductFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.storageProductState.collectLatest {
-                when (it.isLoading) {
-                    true -> {
+                when {
+                    it.isLoading -> {
                         Toast.makeText(context, "LOADING...", Toast.LENGTH_SHORT).show()
                     }
-                    false -> {
-                        if (it.error.isBlank()) {
-                            storageProductAdapter.submitList(it.storageProduct)
-                        } else {
-                            Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
-                        }
+                    it.error.isNotBlank() -> {
+                        Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        storageProductAdapter.submitList(it.storageProduct)
                     }
                 }
             }
@@ -91,20 +90,19 @@ internal class StorageProductFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.storageSelectProductState.collectLatest {
-                when (it.isLoading) {
-                    true -> {
+                when {
+                    it.isLoading -> {
                         Toast.makeText(context, "LOADING SELECT", Toast.LENGTH_SHORT).show()
                     }
-                    false -> {
-                        if (it.error.isBlank()) {
-                            storageProductAdapter.notifyItemChanged(
-                                storageProductAdapter.currentList.indexOf(
-                                    it.storageProduct
-                                )
+                    it.error.isNotBlank() -> {
+                        Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        storageProductAdapter.notifyItemChanged(
+                            storageProductAdapter.currentList.indexOf(
+                                it.storageProduct
                             )
-                        } else {
-                            Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
-                        }
+                        )
                     }
                 }
             }
