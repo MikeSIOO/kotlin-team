@@ -3,8 +3,9 @@ package com.example.kotkin_team.storage.data.mapper
 import com.example.kotkin_team.storage.data.api.model.StorageProductDto
 import com.example.kotkin_team.storage.data.db.model.StorageProductEntity
 import com.example.kotkin_team.storage.domain.model.StorageProduct
+import javax.inject.Inject
 
-class StorageProductMapper {
+class StorageProductMapper @Inject constructor() {
     fun map(
         storageProductDto: List<StorageProductDto>,
         storageProductEntity: List<StorageProductEntity>

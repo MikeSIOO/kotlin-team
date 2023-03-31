@@ -70,18 +70,6 @@ object AppModule {
             "StorageProduct"
         ).build()
     }
-
-    @Provides
-    @Singleton
-    fun provideCategoryMapper(): StorageCategoryMapper {
-        return StorageCategoryMapper()
-    }
-
-    @Provides
-    @Singleton
-    fun provideProductMapper(): StorageProductMapper {
-        return StorageProductMapper()
-    }
 //    @Provides
 //    @Singleton
 //    fun provideProfileRepository(api: FakeApi): ProfileRepository {
