@@ -5,10 +5,10 @@ import com.example.kotkin_team.storage.domain.model.StorageProduct
 import com.example.kotkin_team.storage.domain.repository.StorageRepository
 import kotlinx.coroutines.flow.Flow
 
-class StorageGetProduct(
+class StorageSelectProductUseCase(
     private val storageRepository: StorageRepository
 ) {
-    operator fun invoke(parentId: Int): Flow<StorageStatuses<List<StorageProduct>>> {
-        return storageRepository.getProduct(parentId)
+    operator fun invoke(storageProduct: StorageProduct): Flow<StorageStatuses<StorageProduct>> {
+        return storageRepository.selectProduct(storageProduct)
     }
 }

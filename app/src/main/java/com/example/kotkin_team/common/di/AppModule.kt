@@ -9,10 +9,9 @@ import com.example.kotkin_team.storage.data.mapper.StorageCategoryMapper
 import com.example.kotkin_team.storage.data.mapper.StorageProductMapper
 import com.example.kotkin_team.storage.domain.repository.StorageRepositoryImplementation
 import com.example.kotkin_team.storage.domain.repository.StorageRepository
-import com.example.kotkin_team.storage.domain.use_cases.StorageGetCategory
-import com.example.kotkin_team.storage.domain.use_cases.StorageGetProduct
-import com.example.kotkin_team.storage.domain.use_cases.StorageSelectProduct
-import com.example.kotkin_team.storage.domain.use_cases.StorageUseCases
+import com.example.kotkin_team.storage.domain.use_cases.StorageGetCategoryUseCase
+import com.example.kotkin_team.storage.domain.use_cases.StorageGetProductUseCase
+import com.example.kotkin_team.storage.domain.use_cases.StorageSelectProductUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,12 +40,20 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideUseCases(storageRepository: StorageRepository): StorageUseCases {
-        return StorageUseCases(
-            storageGetCategory = StorageGetCategory(storageRepository),
-            storageGetProduct = StorageGetProduct(storageRepository),
-            storageSelectProduct = StorageSelectProduct(storageRepository)
-        )
+    fun provideStorageGetCategoryUseCase(storageRepository: StorageRepository): StorageGetCategoryUseCase {
+        return StorageGetCategoryUseCase(storageRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideStorageGetProductUseCase(storageRepository: StorageRepository): StorageGetProductUseCase {
+        return StorageGetProductUseCase(storageRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideStorageSelectProductUseCase(storageRepository: StorageRepository): StorageSelectProductUseCase {
+        return StorageSelectProductUseCase(storageRepository)
     }
 
     @Provides

@@ -7,7 +7,8 @@ import com.example.kotkin_team.storage.domain.events.StorageProductEvents
 import com.example.kotkin_team.storage.domain.model.StorageProduct
 import com.example.kotkin_team.storage.domain.state.StorageProductState
 import com.example.kotkin_team.storage.domain.state.StorageSelectProductState
-import com.example.kotkin_team.storage.domain.use_cases.StorageUseCases
+import com.example.kotkin_team.storage.domain.use_cases.StorageGetProductUseCase
+import com.example.kotkin_team.storage.domain.use_cases.StorageSelectProductUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StorageProductViewModel @Inject constructor(
-    private val storageUseCases: StorageUseCases
+    private val storageGetProductUseCase: StorageGetProductUseCase,
+    private val storageSelectProductUseCase: StorageSelectProductUseCase
 ) : ViewModel() {
     private val _storageProductState = MutableStateFlow(StorageProductState())
     val storageProductState: StateFlow<StorageProductState> = _storageProductState
@@ -37,7 +39,7 @@ class StorageProductViewModel @Inject constructor(
     }
 
     private fun getProduct(parentId: Int) {
-        storageUseCases.storageGetProduct(parentId).onEach { result ->
+        storageGetProductUseCase(parentId).onEach { result ->
             _storageProductState.value = when (result) {
                 is StorageStatuses.Success -> {
                     storageProductState.value.copy(
@@ -62,7 +64,7 @@ class StorageProductViewModel @Inject constructor(
     }
 
     private fun selectProduct(storageProduct: StorageProduct) {
-        storageUseCases.storageSelectProduct(storageProduct).onEach { result ->
+        storageSelectProductUseCase(storageProduct).onEach { result ->
             _storageSelectProductState.value = when (result) {
                 is StorageStatuses.Success -> {
                     storageSelectProductState.value.copy(

@@ -1,14 +1,14 @@
 package com.example.kotkin_team.storage.domain.use_cases
 
 import com.example.kotkin_team.storage.common.StorageStatuses
-import com.example.kotkin_team.storage.domain.model.StorageCategory
+import com.example.kotkin_team.storage.domain.model.StorageProduct
 import com.example.kotkin_team.storage.domain.repository.StorageRepository
 import kotlinx.coroutines.flow.Flow
 
-class StorageGetCategory(
+class StorageGetProductUseCase(
     private val storageRepository: StorageRepository
 ) {
-    operator fun invoke(): Flow<StorageStatuses<List<StorageCategory>>> {
-        return storageRepository.getCategory()
+    operator fun invoke(parentId: Int): Flow<StorageStatuses<List<StorageProduct>>> {
+        return storageRepository.getProduct(parentId)
     }
 }

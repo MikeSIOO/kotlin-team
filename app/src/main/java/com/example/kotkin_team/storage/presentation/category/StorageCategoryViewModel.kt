@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kotkin_team.storage.common.StorageStatuses
 import com.example.kotkin_team.storage.domain.state.StorageCategoryState
-import com.example.kotkin_team.storage.domain.use_cases.StorageUseCases
+import com.example.kotkin_team.storage.domain.use_cases.StorageGetCategoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StorageCategoryViewModel @Inject constructor(
-    private val storageUseCases: StorageUseCases
+    private val storageGetCategoryUseCase: StorageGetCategoryUseCase
 ) : ViewModel() {
     private val _storageCategoryState = MutableStateFlow(StorageCategoryState())
     val storageCategoryState: StateFlow<StorageCategoryState> = _storageCategoryState
@@ -24,7 +24,7 @@ class StorageCategoryViewModel @Inject constructor(
     }
 
     private fun getCategory() {
-        storageUseCases.storageGetCategory().onEach { result ->
+        storageGetCategoryUseCase().onEach { result ->
             _storageCategoryState.value = when (result) {
                 is StorageStatuses.Success -> {
                     storageCategoryState.value.copy(
