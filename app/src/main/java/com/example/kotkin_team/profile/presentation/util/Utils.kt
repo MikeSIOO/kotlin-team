@@ -11,6 +11,6 @@ fun bindImage(parentView: View, imageUrl: String, imageView: ImageView) {
             .load(imageUrl)
             .override(Target.SIZE_ORIGINAL)
             .into(imageView)
-        imageView.setBackgroundColor(0xFF00FF00.toInt())
+        imageView.setBackgroundColor(0xD0D0D000.toInt())
     }
 }
