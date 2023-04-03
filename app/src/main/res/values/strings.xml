@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">kotkin-team</string>
+    <string name="onboarding_gretting">Привет!</string>
+    <string name="onboarding_description_first">Не знаете, что
+хотите приготовить
+на ужин сегодня?
+    </string>
+    <string name="onboarding_description_second">Не переживайте, мы вам поможем.</string>
+    <string name="onboarding_description_third">Давайте начнем</string>
+    <string name="made_recipe_cook_text">Приготовить</string>
+    <string name="profile_name">Имя</string>
+    <string name="profile_second_name">Фамилия</string>
+    <string name="profile_diets">Диета</string>
+    <string name="profile_made_recipes">Уже приготовленные</string>
+    <string name="image_template">https://konfettikzn.ru/media/zoo/images/noimage_9b4871911ca170dd929230ee19503b92.png</string>
+    <string name="error_no_internet_connection">Не обнаружено соединение с сервером. Проверьте интернет подключение</string>
+    <string name="retry_button_text">Повторить</string>
 </resources>
