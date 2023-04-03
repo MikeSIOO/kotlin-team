@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.example.kotkin_team.R
+import com.example.kotkin_team.common.view_binding.viewBinding
 import com.example.kotkin_team.databinding.FragmentFeedBinding
-import com.example.kotkin_team.feed.common.viewBinding
 import com.example.kotkin_team.feed.domain.FeedAdapter
 import com.example.kotkin_team.feed.domain.FeedLoadingState
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager

@@ -3,8 +3,11 @@ package com.example.kotkin_team.feed.data.remote
 import com.example.kotkin_team.feed.data.Ingredient
 import com.example.kotkin_team.feed.data.Recipe
 import com.example.kotkin_team.feed.data.Step
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class FakeApi {
+@Singleton
+class FakeApi @Inject constructor() {
     fun createFakeRecipes(): List<Recipe> {
         val recipes = mutableListOf<Recipe>()
         val ingredients: List<Ingredient> = listOf(

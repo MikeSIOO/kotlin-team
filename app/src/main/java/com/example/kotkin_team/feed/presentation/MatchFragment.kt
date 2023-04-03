@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.example.kotkin_team.R
+import com.example.kotkin_team.common.view_binding.viewBinding
 import com.example.kotkin_team.databinding.FragmentMatchBinding
-import com.example.kotkin_team.feed.common.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
