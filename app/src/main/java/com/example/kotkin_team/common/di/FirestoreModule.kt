@@ -14,11 +14,4 @@ object FirestoreModule {
     fun provideFirestore(): FirebaseFirestore {
         return FirebaseFirestore.getInstance()
     }
-
-//    @Provides
-//    fun provideFirestoreRepository(
-//        firestore: FirebaseFirestore
-//    ): FirestoreRepository {
-//        return FirestoreRepository(firestore)
-//    }
 }

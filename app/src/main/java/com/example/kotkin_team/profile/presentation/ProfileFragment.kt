@@ -34,8 +34,8 @@ class ProfileFragment : Fragment() {
 
     private val binding by viewBinding(FragmentProfileBinding::bind)
     private val viewModel by viewModels<ProfileViewModel>()
-    private val recipeListAdapter = RecipeListAdapter {
-            madeRecipe: MadeRecipe -> goToRecipeFragment(madeRecipe)
+    private val recipeListAdapter = RecipeListAdapter { madeRecipe: MadeRecipe ->
+        goToRecipeFragment(madeRecipe)
     }
 
     override fun onCreateView(
@@ -106,7 +106,8 @@ class ProfileFragment : Fragment() {
             }.withLoadStateFooter(footer = loadStateAdapter)
         }
         recipeListAdapter.addLoadStateListener { loadState ->
-            val isListEmpty = loadState.refresh is LoadState.NotLoading && recipeListAdapter.itemCount == 0
+            val isListEmpty = loadState.refresh is LoadState.NotLoading &&
+                recipeListAdapter.itemCount == 0
             binding.madeRecipesRecyclerView.isVisible = !isListEmpty
             val errorState = when {
                 loadState.append is LoadState.Error -> loadState.append as LoadState.Error

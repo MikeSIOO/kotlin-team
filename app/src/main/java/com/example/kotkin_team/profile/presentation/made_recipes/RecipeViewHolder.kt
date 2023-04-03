@@ -19,7 +19,11 @@ class RecipeViewHolder(
         )
         dataBinding.root.setOnClickListener {
             callback(madeRecipe)
-            Toast.makeText(dataBinding.root.context, "You have selected ${madeRecipe.title}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                dataBinding.root.context,
+                "You have selected ${madeRecipe.title}",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 }
