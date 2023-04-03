@@ -21,20 +21,28 @@ fun <T : ViewBinding> Fragment.viewBinding(
         viewLifecycleOwnerLiveData.observe(
             this@viewBinding,
             Observer { viewLifecycleOwner ->
-                viewLifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
-                    override fun onDestroy(owner: LifecycleOwner) {
-                        (binding as? ViewDataBinding)?.unbind()
-                        binding = null
+                viewLifecycleOwner.lifecycle.addObserver(
+                    object : DefaultLifecycleObserver {
+                        override fun onDestroy(owner: LifecycleOwner) {
+                            (binding as? ViewDataBinding)?.unbind()
+                            binding = null
+                        }
                     }
-                })
+                )
             }
         )
 
-        lifecycle.addObserver(object : DefaultLifecycleObserver {
-            override fun onStart(owner: LifecycleOwner) {
-                view ?: error("You must either pass in the layout ID into ${this@viewBinding.javaClass.simpleName}'s constructor or inflate a view in onCreateView()")
+        lifecycle.addObserver(
+            object : DefaultLifecycleObserver {
+                override fun onStart(owner: LifecycleOwner) {
+                    view ?: error(
+                        "You must either pass in the layout ID " +
+                                "into ${this@viewBinding.javaClass.simpleName}'s constructor " +
+                                "or inflate a view in onCreateView()"
+                    )
+                }
             }
-        })
+        )
     }
 
     override fun getValue(thisRef: Fragment, property: KProperty<*>): T {
@@ -43,10 +51,12 @@ fun <T : ViewBinding> Fragment.viewBinding(
         val viewLifecycleOwner = try {
             thisRef.viewLifecycleOwner
         } catch (e: IllegalStateException) {
-            error("Should not attempt to get bindings when Fragment views haven't been created yet. The fragment has not called onCreateView() at this point.")
+            error("Should not attempt to get bindings when Fragment views haven't been created yet. " +
+                    "The fragment has not called onCreateView() at this point.")
         }
         if (!viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.INITIALIZED)) {
-            error("Should not attempt to get bindings when Fragment views are destroyed. The fragment has already called onDestroyView() at this point.")
+            error("Should not attempt to get bindings when Fragment views are destroyed. " +
+                    "The fragment has already called onDestroyView() at this point.")
         }
 
         return viewBindingFactory(thisRef.requireView()).also { viewBinding ->

@@ -11,7 +11,10 @@ class MadeRecipesLoadStateAdapter : LoadStateAdapter<MadeRecipesLoadStateViewHol
     override fun onBindViewHolder(holder: MadeRecipesLoadStateViewHolder, loadState: LoadState) =
         holder.bind(loadState)
 
-    override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): MadeRecipesLoadStateViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        loadState: LoadState
+    ): MadeRecipesLoadStateViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val dataBinding = LoadStateItemBinding.inflate(
             layoutInflater,

@@ -1,12 +1,12 @@
 package com.example.kotkin_team.profile.presentation
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
@@ -34,7 +34,9 @@ class ProfileFragment : Fragment() {
 
     private val binding by viewBinding(FragmentProfileBinding::bind)
     private val viewModel by viewModels<ProfileViewModel>()
-    private val recipeListAdapter = RecipeListAdapter { madeRecipe: MadeRecipe -> goToRecipeFragment(madeRecipe) }
+    private val recipeListAdapter = RecipeListAdapter {
+            madeRecipe: MadeRecipe -> goToRecipeFragment(madeRecipe)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

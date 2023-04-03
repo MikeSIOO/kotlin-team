@@ -2,7 +2,9 @@ package com.example.kotkin_team.common.data.data_source
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.google.firebase.firestore.*
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.tasks.await
 
 class FirestorePagingSource<T : Any>(

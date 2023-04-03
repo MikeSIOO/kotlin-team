@@ -3,14 +3,18 @@ package com.example.kotkin_team.common.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.example.kotkin_team.common.data.data_source.model.recipe.*
-import com.example.kotkin_team.profile.common.Constants
 import com.example.kotkin_team.common.data.data_source.FirestorePagingSource
+import com.example.kotkin_team.common.data.data_source.model.recipe.CuisineDto
+import com.example.kotkin_team.common.data.data_source.model.recipe.DietDto
+import com.example.kotkin_team.common.data.data_source.model.recipe.IngredientDto
+import com.example.kotkin_team.common.data.data_source.model.recipe.RecipeDto
+import com.example.kotkin_team.common.data.data_source.model.recipe.RecipeOo
+import com.example.kotkin_team.profile.common.Constants
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.tasks.await
 
 @Singleton
 class FirestoreRepository @Inject constructor(
@@ -42,11 +46,11 @@ class FirestoreRepository @Inject constructor(
                 }
             },
             servings = this.servings,
-            ingredients= if (this.ingredients == null) {
+            ingredients = if (this.ingredients == null) {
                 emptyList()
             } else {
                 buildList<IngredientDto?> {
-                    for(ingredientRef in this@toRecipeOo.ingredients) {
+                    for (ingredientRef in this@toRecipeOo.ingredients) {
                         add(ingredientRef.get().await().toObject(IngredientDto::class.java))
                     }
                 }

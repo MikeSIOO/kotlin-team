@@ -1,7 +1,7 @@
 package com.example.kotkin_team
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.kotkin_team.databinding.ActivityMainBinding
 import com.example.kotkin_team.profile.presentation.ProfileFragment
 import dagger.hilt.android.AndroidEntryPoint

@@ -1,6 +1,5 @@
 package com.example.kotkin_team.common.data.data_source.model.recipe
 
-import com.example.kotkin_team.profile.domain.model.MadeRecipe
 import com.google.firebase.firestore.DocumentReference
 
 data class RecipeDto(

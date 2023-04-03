@@ -6,7 +6,9 @@ import androidx.paging.PagingDataAdapter
 import com.example.kotkin_team.databinding.RecipeItemSmallBinding
 import com.example.kotkin_team.profile.domain.model.MadeRecipe
 
-class RecipeListAdapter(private val callback: (madeRecipe: MadeRecipe) -> Unit) : PagingDataAdapter<MadeRecipe, RecipeViewHolder>(RecipeDiffItemCallback) {
+class RecipeListAdapter(
+    private val callback: (madeRecipe: MadeRecipe) -> Unit
+) : PagingDataAdapter<MadeRecipe, RecipeViewHolder>(RecipeDiffItemCallback) {
 
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
         getItem(position).let { holder.bind(it!!, callback) }

@@ -2,17 +2,21 @@ package com.example.kotkin_team.profile.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.example.kotkin_team.common.data.repository.FirestoreRepository
+import androidx.paging.PagingData
 import com.example.kotkin_team.profile.common.Resource
 import com.example.kotkin_team.profile.domain.model.MadeRecipe
 import com.example.kotkin_team.profile.domain.model.Profile
 import com.example.kotkin_team.profile.domain.use_cases.ProfileUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.StateFlow
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
