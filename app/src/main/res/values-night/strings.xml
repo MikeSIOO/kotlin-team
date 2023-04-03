@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_gretting">Привет!</string>
+    <string name="onboarding_description_first">Не знаете, что хотите приготовить на ужин сегодня?</string>
+    <string name="onboarding_description_third">Давайте начнем</string>
+</resources>
