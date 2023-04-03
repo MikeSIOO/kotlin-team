@@ -1,10 +1,10 @@
 package com.example.kotkin_team.profile.data.repository
 
 import android.app.Application
+import com.example.kotkin_team.R
 import com.example.kotkin_team.profile.common.Resource
 import com.example.kotkin_team.profile.domain.model.Profile
 import com.example.kotkin_team.profile.domain.repository.ProfileRepository
-import com.example.kotkin_team.R
 import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
