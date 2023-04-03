@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+                name="recipe"
+                type="com.example.kotkin_team.feed.data.Recipe" />
+    </data>
+
+    <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusableInTouchMode="true"
+            android:background="@color/white">
+
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="340dp"
+                app:srcCompat="@drawable/rec5"
+                android:id="@+id/imageView"
+                android:scaleType="centerCrop" />
+
+        <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="300dp">
+
+
+                <androidx.cardview.widget.CardView
+                        android:id="@+id/card"
+                        app:cardCornerRadius="30dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    <LinearLayout
+                            android:id="@+id/layout_in_card"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/header"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginHorizontal="30dp">
+
+                            <TextView
+                                    android:id="@+id/title"
+                                    android:layout_width="214dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="@{recipe.title}"
+                                    android:textSize="24sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/text_secondary"
+                                    android:letterSpacing="0.02"
+                                    android:layout_marginTop="30dp"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    tools:text="Ризотто с белыми грибами" />
+
+                            <LinearLayout
+                                    android:id="@+id/time_wrapper"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="30dp"
+                                    android:background="@drawable/support_view_border"
+                                    android:backgroundTint="@color/orange_700"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="@id/title"
+                                    android:padding="6dp"
+                                    android:orientation="horizontal">
+
+                                <ImageView
+                                        android:layout_width="14dp"
+                                        android:layout_height="14dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:src="@drawable/clock" />
+
+                                <TextView
+                                        android:id="@+id/time"
+                                        android:layout_width="wrap_content"
+                                        android:maxWidth="54dp"
+                                        android:layout_height="wrap_content"
+                                        android:text="@{@string/time(recipe.time)}"
+                                        android:textColor="@color/text_primary"
+                                        android:textSize="14sp"
+                                        android:maxLines="1"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginStart="6dp"
+                                        tools:text="35 мин" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                    android:id="@+id/difficulty_pl"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:layout_constraintTop_toBottomOf="@+id/title"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    android:layout_marginTop="4dp"
+                                    android:text="@string/difficulty_pl"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/text_secondary" />
+
+                            <TextView
+                                    android:id="@+id/difficulty"
+                                    android:layout_width="220dp"
+                                    android:layout_height="wrap_content"
+                                    app:layout_constraintTop_toTopOf="@+id/difficulty_pl"
+                                    app:layout_constraintStart_toEndOf="@+id/difficulty_pl"
+                                    android:text="@{recipe.difficulty}"
+                                    android:textSize="14sp"
+                                    android:textStyle="normal"
+                                    android:textColor="@color/text_secondary"
+                                    android:layout_marginStart="2dp"
+                                    tools:text="средняя" />
+
+                            <TextView
+                                    android:id="@+id/cuisine_pl"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:layout_constraintTop_toBottomOf="@+id/difficulty_pl"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    android:layout_marginTop="4dp"
+                                    android:text="@string/cuisine_pl"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/text_secondary" />
+
+                            <TextView
+                                    android:id="@+id/cuisine"
+                                    android:layout_width="220dp"
+                                    android:layout_height="wrap_content"
+                                    app:layout_constraintTop_toTopOf="@+id/cuisine_pl"
+                                    app:layout_constraintStart_toEndOf="@+id/cuisine_pl"
+                                    android:text="@{recipe.cuisine}"
+                                    android:textSize="14sp"
+                                    android:textStyle="normal"
+                                    android:textColor="@color/text_secondary"
+                                    android:layout_marginStart="2dp"
+                                    tools:text="итальянская" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/about_this_dish"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_secondary"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginHorizontal="30dp" />
+
+                        <TextView
+                                android:id="@+id/dish_info"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Ризотто – это традиционное итальянское блюдо, распространенное на северо-западе Италии. Хотя определенного рецепта ризотто не существует (продукты могут быть любыми, в нашем случае – белые грибы), основное... Продолжние описания"
+                                android:textSize="14sp"
+                                android:maxLines="4"
+                                android:lineSpacingMultiplier="1.1"
+                                android:paddingBottom="4dp"
+                                android:ellipsize="end"
+                                android:textStyle="normal"
+                                android:textColor="@color/text_secondary"
+                                android:layout_marginTop="6dp"
+                                android:layout_marginHorizontal="30dp" />
+
+                        <TextView
+                                android:id="@+id/more_info_button"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="10dp"
+                                android:paddingStart="0dp"
+                                android:text="@string/more_info"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_button"
+                                android:layout_marginHorizontal="30dp" />
+
+                        <LinearLayout
+                                android:id="@+id/ingredients_wrapper"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:background="@drawable/ingredients_background"
+                                android:backgroundTint="@color/orange_700"
+                                android:padding="30dp">
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/ingredients"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/text_secondary" />
+
+                            <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/ingredients_recycler"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="10dp"
+                                    android:overScrollMode="never"
+                                    android:scrollbars="none"
+                                    android:nestedScrollingEnabled="false"
+                                    tools:listitem="@layout/ingredient_item" />
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+                        <TextView
+                                android:id="@+id/recipe_pl"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/recipe_pl"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_secondary"
+                                android:layout_marginHorizontal="30dp"
+                                android:layout_marginTop="34dp" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/steps_recycler"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="14dp"
+                                android:layout_marginHorizontal="30dp"
+                                android:overScrollMode="never"
+                                android:scrollbars="none"
+                                android:nestedScrollingEnabled="false"
+                                tools:listitem="@layout/recipe_step_item" />
+
+                        <com.google.android.material.button.MaterialButton
+                                android:id="@+id/finish_button"
+                                style="@style/Widget.Material3.Button.TextButton"
+                                android:layout_width="290dp"
+                                android:text="@string/finish_cooking"
+                                android:textColor="@color/white"
+                                android:textSize="16sp"
+                                android:layout_height="56dp"
+                                android:backgroundTint="@color/text_primary"
+                                android:layout_marginVertical="10dp"
+                                android:layout_gravity="center_horizontal" />
+
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+</layout>
