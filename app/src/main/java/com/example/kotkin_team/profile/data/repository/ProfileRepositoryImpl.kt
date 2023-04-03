@@ -9,7 +9,6 @@ import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
@@ -22,7 +21,6 @@ class ProfileRepositoryImpl @Inject constructor(
     override fun getProfile(id: Int): Flow<Resource<Profile>> = flow {
         try {
             emit(Resource.Loading<Profile>())
-            delay(500L)
             val profile = withContext(Dispatchers.IO) {
                 Profile(
                     id = id,
