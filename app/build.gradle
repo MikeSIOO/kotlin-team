@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.kotkin_team'
+    namespace 'com.example.kotlinTeam'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.kotkin_team"
+        applicationId "com.example.kotlinTeam"
         minSdk 24
         targetSdk 33
         versionCode 1
