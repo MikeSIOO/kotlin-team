@@ -106,10 +106,8 @@ internal class StorageProductFragment : Fragment() {
             }
         }
 
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.storageSelectProductState.collectLatest {
-                viewModel.onEvent(StorageProductEvents.LoadProduct)
-            }
+        viewModel.parentId.observe(viewLifecycleOwner) {
+            viewModel.onEvent(StorageProductEvents.LoadProduct)
         }
     }
 }
