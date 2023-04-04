@@ -107,7 +107,7 @@ class ProfileFragment : Fragment() {
         }
         recipeListAdapter.addLoadStateListener { loadState ->
             val isListEmpty = loadState.refresh is LoadState.NotLoading &&
-                recipeListAdapter.itemCount == 0
+                    recipeListAdapter.itemCount == 0
             binding.madeRecipesRecyclerView.isVisible = !isListEmpty
             val errorState = when {
                 loadState.append is LoadState.Error -> loadState.append as LoadState.Error
@@ -121,6 +121,7 @@ class ProfileFragment : Fragment() {
             }
         }
     }
+
     private fun goToRecipeFragment(madeRecipe: MadeRecipe) {
         Toast.makeText(context, "You have selected ${madeRecipe.title}", Toast.LENGTH_SHORT).show()
         viewModel.onEvent(ProfileFragmentEvents.LoadRecipe(madeRecipe))

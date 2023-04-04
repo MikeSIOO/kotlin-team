@@ -1,6 +1,5 @@
 package com.example.kotkin_team.storage.data.api.service
 
-import com.example.kotkin_team.R
 import com.example.kotkin_team.storage.data.api.model.StorageCategoryDto
 import com.example.kotkin_team.storage.data.api.model.StorageCategoryResponseDto
 import com.example.kotkin_team.storage.data.api.model.StorageProductDto

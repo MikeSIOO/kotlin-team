@@ -211,15 +211,15 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content">
 
-                            <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/ingredients_recycler"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="10dp"
-                                    android:overScrollMode="never"
-                                    android:scrollbars="none"
-                                    android:nestedScrollingEnabled="false"
-                                    tools:listitem="@layout/ingredient_item" />
+                                <androidx.recyclerview.widget.RecyclerView
+                                        android:id="@+id/ingredients_recycler"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginTop="10dp"
+                                        android:overScrollMode="never"
+                                        android:scrollbars="none"
+                                        android:nestedScrollingEnabled="false"
+                                        tools:listitem="@layout/ingredient_item" />
                             </RelativeLayout>
 
                         </LinearLayout>

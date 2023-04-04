@@ -18,6 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
 private const val COLUMN_COUNT = 3
+
 @AndroidEntryPoint
 internal class StorageCategoryFragment : Fragment() {
     companion object {
