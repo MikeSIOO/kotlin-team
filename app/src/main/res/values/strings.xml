@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">kotkin-team</string>
+    <string name="app_name">kotlin-team</string>
     <string name="onboarding_gretting">Привет!</string>
     <string name="onboarding_description_first">Не знаете, что
 хотите приготовить

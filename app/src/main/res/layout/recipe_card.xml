@@ -2,98 +2,100 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
+
     <data>
-        <variable name="recipe" type="com.example.kotkin_team.feed.data.Recipe"/>
+
+        <variable
+                name="recipe"
+                type="com.example.kotlinTeam.feed.data.Recipe" />
     </data>
-<androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?attr/selectableItemBackground"
-        android:foreground="?attr/selectableItemBackground"
-        app:cardUseCompatPadding="true"
-        app:cardPreventCornerOverlap="false"
-        app:cardCornerRadius="8dp"
-        app:cardBackgroundColor="@android:color/white"
-        >
 
-    <ImageView
-            android:id="@+id/recipe_img"
-            android:src="@drawable/rec5"
+    <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            tools:src="@drawable/rec5"/>
-
-    <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:padding="16dp"
-            android:background="@drawable/gradation_black">
-
-        <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
-                android:textSize="26sp"
-                android:text="@{recipe.title}"
-                android:letterSpacing="0.02"
-                tools:text="Ризотто с белыми грибамииии"/>
-
-        <TextView
-                android:id="@+id/time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{@string/time_to_cook(recipe.time)}"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
-                tools:text="Время приготовления: 35 мин"/>
-
-    </LinearLayout>
-
-    <FrameLayout
-            android:id="@+id/left_overlay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/overlay_black">
+            android:background="?attr/selectableItemBackground"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardUseCompatPadding="true"
+            app:cardPreventCornerOverlap="false"
+            app:cardCornerRadius="8dp"
+            app:cardBackgroundColor="@android:color/white">
 
         <ImageView
-                android:layout_width="wrap_content"
+                android:id="@+id/recipe_img"
+                android:src="@drawable/rec5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/rec5" />
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/dislike"
-                android:layout_marginTop="3dp"
-                android:layout_gravity="center"/>
+                android:layout_gravity="bottom"
+                android:padding="16dp"
+                android:background="@drawable/gradation_black">
 
-    </FrameLayout>
+            <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:textSize="26sp"
+                    android:text="@{recipe.title}"
+                    android:letterSpacing="0.02"
+                    tools:text="Ризотто с белыми грибамииии" />
 
-    <FrameLayout
-            android:id="@+id/right_overlay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/overlay_black">
+            <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/time_to_cook(recipe.time)}"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    tools:text="Время приготовления: 35 мин" />
 
-        <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/like"
-                android:layout_gravity="center"/>
+        </LinearLayout>
 
-    </FrameLayout>
+        <FrameLayout
+                android:id="@+id/left_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/overlay_black">
 
-    <FrameLayout
-            android:id="@+id/top_overlay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-    </FrameLayout>
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/dislike"
+                    android:layout_marginTop="3dp"
+                    android:layout_gravity="center" />
 
-    <FrameLayout
-            android:id="@+id/bottom_overlay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-    </FrameLayout>
+        </FrameLayout>
 
-</androidx.cardview.widget.CardView>
+        <FrameLayout
+                android:id="@+id/right_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/overlay_black">
+
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/like"
+                    android:layout_gravity="center" />
+
+        </FrameLayout>
+
+        <FrameLayout
+                android:id="@+id/top_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></FrameLayout>
+
+        <FrameLayout
+                android:id="@+id/bottom_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></FrameLayout>
+
+    </androidx.cardview.widget.CardView>
 </layout>

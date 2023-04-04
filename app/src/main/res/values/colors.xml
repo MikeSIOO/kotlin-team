@@ -8,6 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="accent">#FF8C45</color>
+    <color name="default_text">#372428</color>
+
     <color name="text_primary">#FFFF8C45</color>
     <color name="text_secondary">#FF372428</color>
     <color name="orange_700">#45FF8C45</color>

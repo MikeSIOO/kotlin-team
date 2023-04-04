@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/ingredient_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:layout_marginHorizontal="4dp"
-            android:layout_marginBottom="10dp"
-            android:textSize="16sp"
-            android:textStyle="normal"
-            android:textColor="@color/text_secondary"
-            android:drawablePadding="10dp"
-            tools:text="белые грибы свежие - 400 г"
-            app:drawableStartCompat="@drawable/baseline_circle_24" />
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/ingredient_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_marginHorizontal="4dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:textColor="@color/text_secondary"
+        android:drawablePadding="10dp"
+        tools:text="белые грибы свежие - 400 г"
+        app:drawableStartCompat="@drawable/baseline_circle_24" />
 

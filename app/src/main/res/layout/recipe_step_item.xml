@@ -7,7 +7,7 @@
 
         <variable
                 name="step"
-                type="com.example.kotkin_team.feed.data.Step" />
+                type="com.example.kotlinTeam.feed.data.Step" />
     </data>
 
     <LinearLayout
@@ -44,8 +44,7 @@
                 android:textColor="@color/text_secondary"
                 android:layout_gravity="top"
                 android:paddingBottom="6dp"
-                tools:text="Мелко порубить лук шалот и чеснок. Белые грибы почистить, тонко нарезать, обжарить в оливковом масле на сковороде с двумя зубчиками рубленого чеснока и луком. Отложить в сторону несколько кусочков белых грибов для украшения блюда."
-            />
+                tools:text="Мелко порубить лук шалот и чеснок. Белые грибы почистить, тонко нарезать, обжарить в оливковом масле на сковороде с двумя зубчиками рубленого чеснока и луком. Отложить в сторону несколько кусочков белых грибов для украшения блюда." />
 
     </LinearLayout>
 </layout>
