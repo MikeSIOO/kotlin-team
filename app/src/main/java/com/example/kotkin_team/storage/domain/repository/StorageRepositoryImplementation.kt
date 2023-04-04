@@ -2,6 +2,7 @@ package com.example.kotkin_team.storage.domain.repository
 
 import com.example.kotkin_team.storage.common.StorageStatuses
 import com.example.kotkin_team.storage.data.api.service.StorageFakeService
+import com.example.kotkin_team.storage.data.db.model.StorageProductEntity
 import com.example.kotkin_team.storage.data.db.service.StorageProductDao
 import com.example.kotkin_team.storage.data.mapper.StorageCategoryMapper
 import com.example.kotkin_team.storage.data.mapper.StorageProductMapper
@@ -36,6 +37,7 @@ class StorageRepositoryImplementation @Inject constructor(
         try {
             emit(StorageStatuses.Loading())
             val storageProductDto = storageApiService.getProduct(parentId).product
+//            val storageProductEntity = emptyList<StorageProductEntity>()
             val storageProductEntity = storageProductDao.getByParent(parentId)
             val storageProduct = storageProductMapper.map(storageProductDto, storageProductEntity)
             emit(StorageStatuses.Success(storageProduct))

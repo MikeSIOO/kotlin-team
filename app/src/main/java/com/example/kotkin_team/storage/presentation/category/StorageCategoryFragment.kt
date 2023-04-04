@@ -31,7 +31,7 @@ internal class StorageCategoryFragment : Fragment() {
         StorageCategoryAdapter { storageCategory: StorageCategory ->
             parentFragmentManager.beginTransaction()
                 .replace(
-                    R.id.container,
+                    R.id.fragmentContainer,
                     StorageProductFragment.newInstance(storageCategory.id, storageCategory.name)
                 )
                 .addToBackStack(null).commit()

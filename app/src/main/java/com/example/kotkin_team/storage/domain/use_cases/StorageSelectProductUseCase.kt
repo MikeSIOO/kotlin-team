@@ -4,8 +4,9 @@ import com.example.kotkin_team.storage.common.StorageStatuses
 import com.example.kotkin_team.storage.domain.model.StorageProduct
 import com.example.kotkin_team.storage.domain.repository.StorageRepository
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class StorageSelectProductUseCase(
+class StorageSelectProductUseCase @Inject constructor(
     private val storageRepository: StorageRepository
 ) {
     operator fun invoke(storageProduct: StorageProduct): Flow<StorageStatuses<StorageProduct>> {

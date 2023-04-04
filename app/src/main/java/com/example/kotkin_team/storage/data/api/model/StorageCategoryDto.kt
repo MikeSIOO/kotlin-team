@@ -4,5 +4,5 @@ package com.example.kotkin_team.storage.data.api.model
 data class StorageCategoryDto(
     val id: Int,
     val name: String,
-    val image: Int,
+    val image: String,
 )

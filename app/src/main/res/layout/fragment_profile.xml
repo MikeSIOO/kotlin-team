@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".profile.presentation.ProfileFragment"
+        android:paddingHorizontal="32dp"
+        android:paddingVertical="60dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/profile_information_constraint_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone">
+
+        <androidx.cardview.widget.CardView
+                android:id="@+id/avatar_card_view"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:cardCornerRadius="32dp">
+
+            <ImageView
+                    android:id="@+id/avatar_image_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+                android:id="@+id/profile_name_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_name"
+                app:layout_constraintStart_toEndOf="@id/avatar_card_view"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/profile_second_name_text_view"
+                app:layout_constraintVertical_chainStyle="packed"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/generalsans_semibold"
+                android:textSize="16sp"
+                android:textColor="@color/text_secondary" />
+
+        <TextView
+                android:id="@+id/profile_second_name_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_second_name"
+                app:layout_constraintStart_toEndOf="@id/avatar_card_view"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/profile_name_text_view"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/generalsans_semibold"
+                android:textSize="16sp"
+                android:textColor="@color/text_secondary" />
+
+        <androidx.cardview.widget.CardView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:cardCornerRadius="15dp"
+                android:layout_marginEnd="2dp"
+                android:elevation="2dp">
+
+            <ImageView
+                    android:id="@+id/profile_log_out_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/log_out_icon"/>
+        </androidx.cardview.widget.CardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/made_recipes_constraint_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_information_constraint_layout"
+            android:layout_marginTop="40dp"
+            android:visibility="gone">
+
+        <TextView
+                android:id="@+id/made_recipes_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_made_recipes"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:fontFamily="@font/generalsans_semibold"
+                android:textSize="20sp"
+                android:textColor="@color/text_secondary" />
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/made_recipes_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/made_recipes_text_view"
+                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="gone"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+            android:id="@+id/main_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+            android:id="@+id/btn_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/retry_button_text"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

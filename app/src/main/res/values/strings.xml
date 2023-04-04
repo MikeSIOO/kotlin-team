@@ -1,3 +1,34 @@
 <resources>
     <string name="app_name">kotkin-team</string>
+    <string name="onboarding_gretting">Привет!</string>
+    <string name="onboarding_description_first">Не знаете, что
+хотите приготовить
+на ужин сегодня?
+    </string>
+    <string name="onboarding_description_second">Не переживайте, мы вам поможем.</string>
+    <string name="onboarding_description_third">Давайте начнем</string>
+    <string name="made_recipe_cook_text">Приготовить</string>
+    <string name="profile_name">Имя</string>
+    <string name="profile_second_name">Фамилия</string>
+    <string name="profile_diets">Диета</string>
+    <string name="profile_made_recipes">Уже приготовленные</string>
+    <string name="image_template">https://konfettikzn.ru/media/zoo/images/noimage_9b4871911ca170dd929230ee19503b92.png</string>
+    <string name="error_no_internet_connection">Не обнаружено соединение с сервером. Проверьте интернет подключение</string>
+    <string name="retry_button_text">Повторить</string>
+    <string name="time_to_cook">Время приготовления: %1$s мин</string>
+    <string name="start_cooking">Приготовить блюдо</string>
+    <string name="lets_cook">Давайте попробуем приготовить выбранное вами блюдо.</string>
+    <string name="back_to_feed">Продолжить поиск</string>
+    <string name="match_text">Это мэтч, Ира!</string>
+    <string name="recipe_search">Поиск рецептов</string>
+    <string name="time">%1$s мин</string>
+    <string name="difficulty_pl">Сложность:</string>
+    <string name="cuisine_pl">Кухня:</string>
+    <string name="more_info">Подробнее</string>
+    <string name="about_this_dish">О блюде</string>
+    <string name="ingredients">Игредиенты</string>
+    <string name="ingredient_item">%1$s %2$s</string>
+    <string name="recipe_pl">Способ приготовления</string>
+    <string name="step_pl">Шаг %1$s</string>
+    <string name="finish_cooking">Завершить</string>
 </resources>

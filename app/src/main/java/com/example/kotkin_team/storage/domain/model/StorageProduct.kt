@@ -4,7 +4,7 @@ package com.example.kotkin_team.storage.domain.model
 data class StorageProduct(
     val id: Int,
     val name: String,
-    val image: Int,
+    val image: String,
     val parentId: Int,
     var selected: Boolean
 ) {

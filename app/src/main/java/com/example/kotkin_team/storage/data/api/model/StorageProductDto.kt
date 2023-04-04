@@ -4,6 +4,6 @@ package com.example.kotkin_team.storage.data.api.model
 data class StorageProductDto(
     val id: Int,
     val name: String,
-    val image: Int,
+    val image: String,
     val parentId: Int,
 )
