@@ -1,7 +1,7 @@
 package com.example.kotlinTeam.profile.domain.model
 
 data class Profile(
-    val id: Int,
+    val id: String,
     val name: String,
     val secondName: String?,
     val image: String,

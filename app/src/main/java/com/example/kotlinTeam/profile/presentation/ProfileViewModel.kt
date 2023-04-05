@@ -23,7 +23,7 @@ class ProfileViewModel @Inject constructor(
     private val profileUseCases: ProfileUseCases
 ) : ViewModel() {
 
-    private val profileId = 1
+    private val profileId = "1"
 
     private val _stateProfile = MutableStateFlow(ProfileState())
     val stateProfile: StateFlow<ProfileState> = _stateProfile
@@ -48,13 +48,13 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private fun getProfile(id: Int) {
+    private fun getProfile(id: String) {
         profileUseCases.getProfile(id).onEach { result ->
             when (result) {
                 is Resource.Success -> {
                     _stateProfile.value = stateProfile.value.copy(
                         profile = result.data ?: Profile(
-                            id = -1,
+                            id = "-1",
                             name = "not found",
                             secondName = null,
                             image = ""

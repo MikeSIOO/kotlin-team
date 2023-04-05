@@ -30,28 +30,32 @@ class FirestoreRepository @Inject constructor(
             cuisines = if (this.cuisines == null) {
                 emptyList()
             } else {
-                buildList<CuisineDto?> {
+                buildList<CuisineDto> {
                     for (cuisineRef in this@toRecipeOo.cuisines) {
-                        add(cuisineRef.get().await().toObject(CuisineDto::class.java))
+                        val cuisine = cuisineRef.get().await().toObject(CuisineDto::class.java)
+                        add(cuisine ?: continue)
                     }
                 }
             },
             diets = if (this.diets == null) {
                 emptyList()
             } else {
-                buildList<DietDto?> {
+                buildList<DietDto> {
                     for (dietRef in this@toRecipeOo.diets) {
-                        add(dietRef.get().await().toObject(DietDto::class.java))
+                        val diet = dietRef.get().await().toObject(DietDto::class.java)
+                        add(diet ?: continue)
                     }
                 }
             },
             servings = this.servings,
-            ingredients = if (this.ingredients == null) {
-                emptyList()
+            ingredientsMap = if (this.ingredientsMap == null) {
+                emptyMap()
             } else {
-                buildList<IngredientDto?> {
-                    for (ingredientRef in this@toRecipeOo.ingredients) {
-                        add(ingredientRef.get().await().toObject(IngredientDto::class.java))
+                buildMap<String, IngredientDto> {
+                    for ((amount, ingredientRef) in this@toRecipeOo.ingredientsMap) {
+                        val ingredient = ingredientRef.get().await()
+                            .toObject(IngredientDto::class.java)
+                        put(amount, ingredient ?: continue)
                     }
                 }
             },
@@ -59,7 +63,7 @@ class FirestoreRepository @Inject constructor(
         )
     }
 
-    fun getRecipes(id: Int): Flow<PagingData<RecipeOo>> {
+    fun getRecipes(id: String): Flow<PagingData<RecipeOo>> {
         val recipeCollectionRef = firestore.collection(Constants.RECIPES_COLLECTION)
         val query = recipeCollectionRef.orderBy(Constants.TITLE_PROPERTY)
 
