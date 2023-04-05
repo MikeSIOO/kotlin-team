@@ -21,8 +21,8 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
 //                    TODO Раскоментить строку с нужным фрагментом !
 //                .replace(R.id.fragmentContainer, ProfileFragment.newInstance())
-                .replace(R.id.fragmentContainer, StorageCategoryFragment.newInstance())
-//                .replace(R.id.fragmentContainer, FeedFragment())
+//                .replace(R.id.fragmentContainer, StorageCategoryFragment.newInstance())
+                .replace(R.id.fragmentContainer, FeedFragment())
                 .commitNow()
         }
     }
