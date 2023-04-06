@@ -15,8 +15,8 @@ data class RecipeOo(
 ) {
     fun toMadeRecipe(): MadeRecipe {
         return MadeRecipe(
-            id = id ?: "no id",
-            title = title ?: "no title",
+            id = id!!,
+            title = title!!,
             image = image
         )
     }

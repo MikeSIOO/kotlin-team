@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.filter
 import androidx.paging.map
 import com.example.kotlinTeam.profile.common.Resource
 import com.example.kotlinTeam.profile.domain.model.MadeRecipe
@@ -79,6 +80,6 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun getRecipes() = profileUseCases.getMadeRecipes(profileId).map { pagingData ->
-        pagingData.map { it.toMadeRecipe() }
+        pagingData.filter { !(it.id.isNullOrBlank() || it.title.isNullOrBlank()) }.map { it.toMadeRecipe() }//.filter { !(it.id.isNullOrBlank() || it.title.isNullOrBlank()) }
     }.cachedIn(viewModelScope)
 }
