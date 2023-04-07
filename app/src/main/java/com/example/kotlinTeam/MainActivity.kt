@@ -3,10 +3,10 @@ package com.example.kotlinTeam
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kotlinTeam.databinding.ActivityMainBinding
-import com.example.kotlinTeam.feed.presentation.FeedFragment
-import com.example.kotlinTeam.onBoarding.presentation.OnBoardingFragment
 import com.example.kotlinTeam.profile.presentation.ProfileFragment
+import com.example.kotlinTeam.onBoarding.presentation.OnBoardingFragment
 import com.example.kotlinTeam.storage.presentation.category.StorageCategoryFragment
+import com.example.kotlinTeam.feed.presentation.FeedFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

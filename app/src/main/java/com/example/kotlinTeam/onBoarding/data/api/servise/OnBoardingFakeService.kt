@@ -1,5 +1,6 @@
 package com.example.kotlinTeam.onBoarding.data.api.servise
 
+import com.example.kotlinTeam.R
 import com.example.kotlinTeam.onBoarding.data.api.model.OnBoardingPageDto
 import com.example.kotlinTeam.onBoarding.data.api.model.OnBoardingResponseDto
 import kotlinx.coroutines.delay
@@ -23,65 +24,163 @@ class OnBoardingFakeService @Inject constructor() {
             return listOf(
                 OnBoardingPageDto(
                     0,
-                    "Привет!",
-                    Pair(10, 10),
-                    "Empty text",
-                    Pair(10, 10),
-                    false,
-                    Pair(10, 10),
-                    10,
+                    OnBoardingPageDto.Title(
+                        "Привет!",
+                        30,
+                        400,
+                        30,
+                        40F,
+                        false,
+                    ),
                     null,
+                    OnBoardingPageDto.Shape(
+                        -56,
+                        416,
+                        124,
+                        "#00ff00"
+                    ),
                     null
                 ),
                 OnBoardingPageDto(
                     1,
-                    "Привет!",
-                    Pair(30, 30),
-                    "Не знаете, что хотите приготовить на ужин сегодня?",
-                    Pair(30, 30),
-                    false,
-                    Pair(30, 30),
-                    30,
-                    null,
+                    OnBoardingPageDto.Title(
+                        "Привет!",
+                        30,
+                        360,
+                        30,
+                        40F,
+                        false,
+                    ),
+                    OnBoardingPageDto.Text(
+                        "Не знаете, что хотите приготовить на ужин сегодня?",
+                        30,
+                        410,
+                        130,
+                        20F,
+                        null,
+                        false
+                    ),
+                    OnBoardingPageDto.Shape(
+                        52,
+                        416,
+                        232,
+                        "#00ff00"
+                    ),
                     null
                 ),
                 OnBoardingPageDto(
                     2,
-                    "Привет!",
-                    Pair(50, 50),
-                    "Не переживайте, мы вам поможем.",
-                    Pair(50, 50),
-                    false,
-                    Pair(50, 50),
-                    50,
-                    null,
+                    OnBoardingPageDto.Title(
+                        "Привет!",
+                        30,
+                        360,
+                        30,
+                        40F,
+                        false,
+                    ),
+                    OnBoardingPageDto.Text(
+                        "Не переживайте, мы вам поможем.",
+                        30,
+                        410,
+                        130,
+                        20F,
+                        null,
+                        false,
+                    ),
+                    OnBoardingPageDto.Shape(
+                        190,
+                        460,
+                        320,
+                        "#00ff00"
+                    ),
                     null
                 ),
                 OnBoardingPageDto(
                     3,
-                    "Привет!",
-                    Pair(70, 70),
-                    "Не переживайте, мы вам поможем.\nДавайте начнем",
-                    Pair(70, 70),
-                    false,
-                    Pair(70, 70),
-                    70,
-                    null,
+                    OnBoardingPageDto.Title(
+                        "Привет!",
+                        30,
+                        360,
+                        30,
+                        40F,
+                        false,
+                    ),
+                    OnBoardingPageDto.Text(
+                        "Не переживайте, мы вам поможем.\nДавайте начнем",
+                        30,
+                        410,
+                        130,
+                        20F,
+                        null,
+                        false,
+                    ),
+                    OnBoardingPageDto.Shape(
+                        308,
+                        468,
+                        488,
+                        "#00ff00"
+                    ),
                     null
                 ),
                 OnBoardingPageDto(
                     4,
-                    "Отлично!",
-                    Pair(90, 90),
-                    "Давайте выберем продукты, которые есть у вас в холодильнике. Это нужно, чтобы мы подсказали акутальный для вас рецепт.",
-                    Pair(90, 90),
-                    true,
-                    null,
-                    null,
-                    "TODO image",
-                    Pair(90, 90),
+                    OnBoardingPageDto.Title(
+                        "Привет!",
+                        30,
+                        360,
+                        30,
+                        40F,
+                        false,
+                    ),
+                    OnBoardingPageDto.Text(
+                        "Не переживайте, мы вам поможем.\nДавайте начнем ->",
+                        30,
+                        410,
+                        130,
+                        20F,
+                        null,
+                        false,
+                    ),
+                    OnBoardingPageDto.Shape(
+                        200,
+                        300,
+                        400,
+                        "#00ff00"
+                    ),
+                    null
                 ),
-                // TODO image
+                OnBoardingPageDto(
+                    5,
+                    OnBoardingPageDto.Title(
+                        "Отлично!",
+                        80,
+                        180,
+                        80,
+                        40F,
+                        true
+                    ),
+                    OnBoardingPageDto.Text(
+                        "Давайте выберем продукты, которые есть у вас в холодильнике. Это нужно, чтобы мы подсказали акутальный для вас рецепт.",
+                        40,
+                        240,
+                        40,
+                        14F,
+                        "#FFF5ED",
+                        true,
+                    ),
+                    OnBoardingPageDto.Shape(
+                        0,
+                        0,
+                        0,
+                        "#00ff00"
+                    ),
+                    OnBoardingPageDto.Image(
+                        R.drawable.ic_launcher_background.toString(),
+                        50,
+                        350,
+                        50,
+                    )
+                ),
             )
         }
     }
