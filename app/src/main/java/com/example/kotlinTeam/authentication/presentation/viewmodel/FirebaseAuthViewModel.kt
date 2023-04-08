@@ -1,13 +1,13 @@
-package com.example.kotkin_team.authentication.presentation.viewmodel
+package com.example.kotlinTeam.authentication.presentation.viewmodel
 
 import android.content.Context
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
-import com.example.kotkin_team.authentication.data.repository.FirebaseRepository
+import com.example.kotlinTeam.authentication.data.repository.FirebaseRepository
 
 class FirebaseAuthViewModel : ViewModel() {
 
-    val firebaseRepository: FirebaseRepository = FirebaseRepository()
+    private val firebaseRepository: FirebaseRepository = FirebaseRepository()
 
     fun checkSignUp(
         context: Context,
@@ -17,6 +17,7 @@ class FirebaseAuthViewModel : ViewModel() {
     ): Boolean {
         if (email.isNotEmpty() && pasword.isNotEmpty() && confirmedPassword.isNotEmpty()) {
             if (pasword == confirmedPassword) {
+                signUpUser(context, email, pasword)
                 return true
             } else {
                 getToast(context, WRONG_PASSWORD_REPEAT)
@@ -43,13 +44,12 @@ class FirebaseAuthViewModel : ViewModel() {
         }
     }
 
-    fun checkSignIn(context: Context, email: String, pasword: String): Boolean {
+    fun checkSignIn(context: Context, email: String, pasword: String) {
         if (email.isNotEmpty() && pasword.isNotEmpty()) {
-            return true
+            signInUser(context, email, pasword)
         } else {
             Toast.makeText(context, WRONG_DATA, Toast.LENGTH_SHORT).show()
         }
-        return false
     }
 
     fun signInUser(context: Context, email: String, pasword: String) {
