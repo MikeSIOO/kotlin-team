@@ -7,5 +7,18 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="accent">#FF8C45</color>
+    <color name="default_text">#372428</color>
+
+    <color name="text_primary">#FFFF8C45</color>
+    <color name="text_secondary">#FF372428</color>
+    <color name="orange_700">#45FF8C45</color>
+    <color name="orange_200">#FFFFF5ED</color>
+
+    <color name="button_red">#E94057</color>
+    <color name="button_grey">#707070</color>
+    <color name="text_button">#E45E4B</color>
+    <color name="shadow">#0D000000</color>
     <color name="secondary_color">#FF8C45</color>
 </resources>
