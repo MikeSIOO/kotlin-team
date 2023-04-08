@@ -1,4 +1,4 @@
-package com.example.kotkin_team
+package com.example.kotlinTeam
 
 import org.junit.Test
 

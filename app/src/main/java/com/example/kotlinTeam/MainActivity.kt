@@ -1,4 +1,4 @@
-package com.example.kotkin_team
+package com.example.kotlinTeam
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

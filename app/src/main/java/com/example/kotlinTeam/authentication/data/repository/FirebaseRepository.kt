@@ -1,6 +1,6 @@
-package com.example.kotkin_team.authentication.data.repository
+package com.example.kotlinTeam.authentication.data.repository
 
-import com.example.kotkin_team.authentication.domain.FirebaseInstanceUseCase
+import com.example.kotlinTeam.authentication.domain.FirebaseInstanceUseCase
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth

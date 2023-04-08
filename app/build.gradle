@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace 'com.example.kotkin_team'
+    namespace 'com.example.kotlinTeam'
     compileSdk 33
 
     defaultConfig {
@@ -32,6 +32,11 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        viewBinding true
+        dataBinding true
     }
 }
 

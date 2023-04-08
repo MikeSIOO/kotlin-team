@@ -1,4 +1,4 @@
-package com.example.kotkin_team
+package com.example.kotlinTeam
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
