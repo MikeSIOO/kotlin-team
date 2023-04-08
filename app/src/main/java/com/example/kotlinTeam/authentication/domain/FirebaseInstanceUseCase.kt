@@ -1,4 +1,4 @@
-package com.example.kotkin_team.authentication.domain
+package com.example.kotlinTeam.authentication.domain
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
