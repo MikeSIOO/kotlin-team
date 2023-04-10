@@ -63,15 +63,16 @@ internal class OnBoardingFragment : Fragment() {
             }
         }
 
-        viewModel.index.observe(viewLifecycleOwner) {
-            if (viewModel.index.value!! >= viewModel.onBoardingState.value.onBoardingPage.size) {
+        viewModel.pageState.observe(viewLifecycleOwner) {
+            val page = viewModel.pageState.value
+
+            if (page == null) {
                 // TODO перейти к продуктам
                 Toast.makeText(context, "TODO Переход к продуктам", Toast.LENGTH_SHORT).show()
-            } else if (viewModel.index.value!! != -1) {
-                val page = viewModel.onBoardingState.value.onBoardingPage[viewModel.index.value!!]
-
+            } else {
                 title.text = page.title.text
                 title.textSize = page.title.size
+
                 title.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                     setMargins(
                         page.title.marginStart.dp,
@@ -131,3 +132,4 @@ internal class OnBoardingFragment : Fragment() {
         }
     }
 }
+

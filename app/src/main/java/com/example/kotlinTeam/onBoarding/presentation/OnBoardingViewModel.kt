@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kotlinTeam.onBoarding.common.OnBoardingStatuses
 import com.example.kotlinTeam.onBoarding.domain.events.OnBoardingEvents
+import com.example.kotlinTeam.onBoarding.domain.model.OnBoardingPage
 import com.example.kotlinTeam.onBoarding.domain.state.OnBoardingState
 import com.example.kotlinTeam.onBoarding.domain.useCases.GetOnBoardingUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,8 +23,9 @@ class OnBoardingViewModel @Inject constructor(
     private val _onBoardingState = MutableStateFlow(OnBoardingState())
     val onBoardingState: StateFlow<OnBoardingState> = _onBoardingState
 
-    private val _index = MutableLiveData(-1)
-    val index: LiveData<Int> = _index
+    private var pageNumber = 0
+    private val _pageState = MutableLiveData<OnBoardingPage?>()
+    val pageState: LiveData<OnBoardingPage?> = _pageState
 
     init {
         getOnBoarding()
@@ -64,6 +66,10 @@ class OnBoardingViewModel @Inject constructor(
     }
 
     private fun nextPage() {
-        _index.value = index.value!! + 1
+        if (pageNumber >= _onBoardingState.value.onBoardingPage.size) {
+            _pageState.value = null
+        } else {
+            _pageState.value = _onBoardingState.value.onBoardingPage[pageNumber++]
+        }
     }
 }
