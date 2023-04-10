@@ -1,6 +1,5 @@
 package com.example.kotlinTeam.onBoarding.presentation
 
-import android.content.res.Resources
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
@@ -17,12 +16,9 @@ import com.example.kotlinTeam.R
 import com.example.kotlinTeam.common.viewBinding.viewBinding
 import com.example.kotlinTeam.databinding.FragmentOnboardingBinding
 import com.example.kotlinTeam.onBoarding.domain.events.OnBoardingEvents
+import com.example.kotlinTeam.common.presentation.dp
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-
-// перевод из пикселей в dp
-private val Int.dp: Int
-    get() = (this * Resources.getSystem().displayMetrics.density).toInt()
 
 @AndroidEntryPoint
 internal class OnBoardingFragment : Fragment() {
