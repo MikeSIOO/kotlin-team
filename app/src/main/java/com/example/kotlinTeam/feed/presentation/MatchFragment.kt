@@ -1,57 +1,50 @@
 package com.example.kotlinTeam.feed.presentation
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.kotlinTeam.R
 import com.example.kotlinTeam.common.viewBinding.viewBinding
 import com.example.kotlinTeam.databinding.FragmentMatchBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MatchFragment : Fragment(R.layout.fragment_match) {
 
     private val binding by viewBinding(FragmentMatchBinding::bind)
-    private var recipeId: Int? = null
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        arguments?.let {
-            recipeId = it.getInt(RECIPE_ID)
-        }
-
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
+    private val viewModel: FeedViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setUpFragmentContainer(ZERO_MARGIN, View.GONE)
         setUpView()
+        COMMON_MARGIN = requireActivity().findViewById<BottomNavigationView>(R.id.nav_view).layoutParams.height
         super.onViewCreated(view, savedInstanceState)
         val backButton = binding.backToFeedButton
         val startButton = binding.startButton
+
         backButton.setOnClickListener {
-            openNewFragment(FeedFragment())
+            viewModel.setCurrentRecipe(null)
+            navigateToFragment(R.id.action_matchFragment_to_feedFragment)
+
         }
 
         startButton.setOnClickListener {
-            openNewFragment(FullRecipeFragment())
+            navigateToFragment(R.id.action_matchFragment_to_fullRecipeFragment)
         }
     }
 
-    private fun openNewFragment(fragment: Fragment) {
-        activity?.supportFragmentManager?.let {
-            val transaction = it.beginTransaction()
-            transaction
-                .replace(R.id.fragmentContainer, fragment)
-                .addToBackStack(null)
-                .commit()
-        }
+    override fun onDestroyView() {
+        setUpFragmentContainer(COMMON_MARGIN, View.VISIBLE)
+        super.onDestroyView()
+    }
+
+    private fun navigateToFragment(fragmentId: Int) {
+        findNavController().navigate(fragmentId)
     }
 
     private fun setUpView() {
@@ -97,6 +90,13 @@ class MatchFragment : Fragment(R.layout.fragment_match) {
         }
     }
 
+    private fun setUpFragmentContainer(bottomMargin: Int, visibility: Int) {
+        val bottomNavView =  requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+        bottomNavView.visibility = visibility
+        val fragmentParams = requireActivity().findViewById<View>(R.id.nav_host_fragment).layoutParams as (MarginLayoutParams)
+        fragmentParams.bottomMargin = bottomMargin
+    }
+
     companion object {
         private const val RECIPE_ID = "recipe_id"
         private var HEIGHT_COEFFICIENT = 3.0
@@ -108,6 +108,7 @@ class MatchFragment : Fragment(R.layout.fragment_match) {
         private const val SMALL_TEXT = 20F
         private const val SMALL_BUTTON_TEXT = 12F
         private const val ZERO_MARGIN = 0
+        private var COMMON_MARGIN = 60
         private const val USER_CARD_HEIGHT_COEFFICIENT = 50
         private const val DISH_CARD_HEIGHT_COEFFICIENT = 30
         private const val CARD_WIDTH_COEFFICIENT = 44

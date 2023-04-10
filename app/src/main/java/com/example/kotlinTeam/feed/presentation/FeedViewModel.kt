@@ -39,10 +39,17 @@ class FeedViewModel @Inject constructor(
         _feedState.value = feedState.value?.copy(currentRecipe = recipe)
     }
 
-    fun setFlag() {
+    fun changeFlag() {
         _feedState.value =
             feedState.value?.copy(
                 isMoreInfoButtonClicked = !feedState.value?.isMoreInfoButtonClicked!!
+            )
+    }
+
+    fun resetFlag() {
+        _feedState.value =
+            feedState.value?.copy(
+                isMoreInfoButtonClicked = false
             )
     }
 
