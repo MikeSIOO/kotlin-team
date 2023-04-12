@@ -18,4 +18,8 @@ class MainActivity : AppCompatActivity() {
         val navView = findViewById<BottomNavigationView>(R.id.nav_view)
         navView.setupWithNavController(navController)
     }
+
+    fun setBottomNavigationVisibility(visibility: Int){
+        findViewById<BottomNavigationView>(R.id.nav_view).visibility = visibility
+    }
 }

@@ -3,14 +3,13 @@ package com.example.kotlinTeam.feed.presentation
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.example.kotlinTeam.MainActivity
 import com.example.kotlinTeam.R
 import com.example.kotlinTeam.common.viewBinding.viewBinding
 import com.example.kotlinTeam.databinding.FragmentMatchBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,9 +19,8 @@ class MatchFragment : Fragment(R.layout.fragment_match) {
     private val viewModel: FeedViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setUpFragmentContainer(ZERO_MARGIN, View.GONE)
+        (activity as MainActivity).setBottomNavigationVisibility(View.GONE)
         setUpView()
-        COMMON_MARGIN = requireActivity().findViewById<BottomNavigationView>(R.id.nav_view).layoutParams.height
         super.onViewCreated(view, savedInstanceState)
         val backButton = binding.backToFeedButton
         val startButton = binding.startButton
@@ -39,7 +37,7 @@ class MatchFragment : Fragment(R.layout.fragment_match) {
     }
 
     override fun onDestroyView() {
-        setUpFragmentContainer(COMMON_MARGIN, View.VISIBLE)
+        (activity as MainActivity).setBottomNavigationVisibility(View.VISIBLE)
         super.onDestroyView()
     }
 
@@ -90,15 +88,7 @@ class MatchFragment : Fragment(R.layout.fragment_match) {
         }
     }
 
-    private fun setUpFragmentContainer(bottomMargin: Int, visibility: Int) {
-        val bottomNavView =  requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
-        bottomNavView.visibility = visibility
-        val fragmentParams = requireActivity().findViewById<View>(R.id.nav_host_fragment).layoutParams as (MarginLayoutParams)
-        fragmentParams.bottomMargin = bottomMargin
-    }
-
     companion object {
-        private const val RECIPE_ID = "recipe_id"
         private var HEIGHT_COEFFICIENT = 3.0
         private const val HEIGHT_COEFFICIENT_SMALL = 3.5
         private const val WIDTH_COEFFICIENT = 1.3636
@@ -108,15 +98,9 @@ class MatchFragment : Fragment(R.layout.fragment_match) {
         private const val SMALL_TEXT = 20F
         private const val SMALL_BUTTON_TEXT = 12F
         private const val ZERO_MARGIN = 0
-        private var COMMON_MARGIN = 60
         private const val USER_CARD_HEIGHT_COEFFICIENT = 50
         private const val DISH_CARD_HEIGHT_COEFFICIENT = 30
         private const val CARD_WIDTH_COEFFICIENT = 44
-
-        fun newInstance(recipeId: Int) = MatchFragment().apply {
-            arguments = bundleOf(
-                RECIPE_ID to recipeId,
-            )
-        }
     }
+
 }
