@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/nav_graph"
+        app:startDestination="@+id/actionStorageCategory">
+
+    <navigation
+            android:id="@+id/actionStorageCategory"
+            android:label="NavStorageCategory"
+            app:startDestination="@+id/storageCategoryFragment">
+        <fragment
+                android:id="@+id/storageCategoryFragment"
+                android:name="com.example.kotlinTeam.storage.presentation.category.StorageCategoryFragment"
+                android:label="StorageCategory"
+                tools:layout="@layout/fragment_storage_category">
+            <action
+                    android:id="@+id/action_storageCategoryFragment_to_storageProductFragment"
+                    app:destination="@id/storageProductFragment" />
+        </fragment>
+
+        <fragment
+                android:id="@+id/storageProductFragment"
+                android:name="com.example.kotlinTeam.storage.presentation.product.StorageProductFragment"
+                android:label="StorageProduct"
+                tools:layout="@layout/fragment_storage_product">
+            <argument
+                    android:name="parentId"
+                    app:argType="integer"
+                    android:defaultValue="0" />
+            <argument
+                    android:name="parentName"
+                    app:argType="string"
+                    android:defaultValue="" />
+            <action
+                    android:id="@+id/action_storageProductFragment_to_storageCategoryFragment"
+                    app:destination="@id/storageCategoryFragment" />
+        </fragment>
+    </navigation>
+
+    <navigation
+            android:id="@+id/actionFeed"
+            android:label="NavFeed"
+            app:startDestination="@+id/feedFragment">
+        <fragment
+                android:id="@+id/feedFragment"
+                android:name="com.example.kotlinTeam.feed.presentation.FeedFragment"
+                android:label="FeedFragment"
+                tools:layout="@layout/fragment_feed">
+            <action
+                    android:id="@+id/action_feedFragment_to_matchFragment"
+                    app:destination="@id/matchFragment" />
+        </fragment>
+
+        <fragment
+                android:id="@+id/matchFragment"
+                android:name="com.example.kotlinTeam.feed.presentation.MatchFragment"
+                android:label="MatchFragment"
+                tools:layout="@layout/fragment_match">
+            <action
+                    android:id="@+id/action_matchFragment_to_feedFragment"
+                    app:destination="@id/feedFragment" />
+            <action
+                    android:id="@+id/action_matchFragment_to_fullRecipeFragment"
+                    app:destination="@id/fullRecipeFragment" />
+        </fragment>
+
+        <fragment
+                android:id="@+id/fullRecipeFragment"
+                android:name="com.example.kotlinTeam.feed.presentation.FullRecipeFragment"
+                android:label="FullRecipeFragment"
+                tools:layout="@layout/fragment_full_recipe">
+            <action
+                    android:id="@+id/action_fullRecipeFragment_to_feedFragment"
+                    app:destination="@id/feedFragment" />
+        </fragment>
+    </navigation>
+
+    <navigation
+            android:id="@+id/actionProfile"
+            android:label="NavProfile"
+            app:startDestination="@+id/profileFragment">
+        <fragment
+                android:id="@+id/profileFragment"
+                android:name="com.example.kotlinTeam.profile.presentation.ProfileFragment"
+                android:label="Profile"
+                tools:layout="@layout/fragment_profile" />
+    </navigation>
+
+</navigation>

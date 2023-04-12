@@ -31,4 +31,5 @@
     <string name="recipe_pl">Способ приготовления</string>
     <string name="step_pl">Шаг %1$s</string>
     <string name="finish_cooking">Завершить</string>
+    <string name="hide">Свернуть</string>
 </resources>

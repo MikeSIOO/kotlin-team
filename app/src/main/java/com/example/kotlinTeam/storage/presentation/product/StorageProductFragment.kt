@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.kotlinTeam.R
 import com.example.kotlinTeam.common.viewBinding.viewBinding
@@ -23,15 +24,6 @@ private const val COLUMN_COUNT = 3
 
 @AndroidEntryPoint
 internal class StorageProductFragment : Fragment() {
-    companion object {
-        fun newInstance(parentId: Int, parentName: String) =
-            StorageProductFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_PARENT_ID, parentId)
-                    putString(ARG_PARENT_NAME, parentName)
-                }
-            }
-    }
 
     private val binding by viewBinding(FragmentStorageProductBinding::bind)
     private val viewModel: StorageProductViewModel by viewModels()
@@ -58,16 +50,12 @@ internal class StorageProductFragment : Fragment() {
         viewModel.onEvent(StorageProductEvents.InitProduct(parentId))
 
         binding.backButton.setOnClickListener {
-            this.parentFragmentManager.popBackStack()
+            findNavController().navigate(R.id.action_storageProductFragment_to_storageCategoryFragment)
         }
         binding.title.text = parentName
         binding.recyclerView.apply {
             layoutManager = GridLayoutManager(context, COLUMN_COUNT)
             adapter = storageProductAdapter
-        }
-        binding.searchButton.setOnClickListener {
-            // TODO Поиск рецептов
-            Toast.makeText(context, "SEARCH", Toast.LENGTH_SHORT).show()
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {

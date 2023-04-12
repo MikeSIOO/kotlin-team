@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kotlinTeam.R
 import com.example.kotlinTeam.common.viewBinding.viewBinding
@@ -21,11 +22,7 @@ class FullRecipeFragment : Fragment(R.layout.fragment_full_recipe) {
     private val stepsRecycler get() = binding.stepsRecycler
     private val expandableTextView get() = binding.dishInfo
 
-    private var isMoreInfoButtonClicked = false
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         val stepsAdapter = StepsAdapter()
         val ingredientsAdapter = IngredientsAdapter()
         val moreInfoButton = binding.moreInfoButton
@@ -49,31 +46,24 @@ class FullRecipeFragment : Fragment(R.layout.fragment_full_recipe) {
         ingredientsRecycler.adapter = ingredientsAdapter
 
         moreInfoButton.setOnClickListener {
-            viewModel.setFlag()
-//            expandTextView(isMoreInfoButtonClicked, expandableTextView, moreInfoButton)
-            isMoreInfoButtonClicked = !isMoreInfoButtonClicked
-//            Log.d("test", "current ingredients: ${ingredientsAdapter.ingredients}")
+            viewModel.changeFlag()
         }
 
         binding.finishButton.setOnClickListener {
             viewModel.setCurrentRecipe(null)
-            activity?.supportFragmentManager?.let {
-                val transaction = it.beginTransaction()
-                transaction
-                    .replace(R.id.fragmentContainer, FeedFragment())
-                    .addToBackStack(null)
-                    .commit()
-            }
+            viewModel.resetFlag()
+            findNavController().navigate(R.id.action_fullRecipeFragment_to_feedFragment)
         }
+        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun expandTextView(flag: Boolean, tv: TextView, bt: TextView) {
         if (!flag) {
             tv.maxLines = 2
-            bt.text = "Подробнее"
+            bt.text = getString(R.string.more_info)
         } else {
             tv.maxLines = Integer.MAX_VALUE
-            bt.text = "Свернуть"
+            bt.text = getString(R.string.hide)
         }
     }
 }
