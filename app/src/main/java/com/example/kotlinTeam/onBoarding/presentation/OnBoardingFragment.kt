@@ -1,12 +1,12 @@
 package com.example.kotlinTeam.onBoarding.presentation
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.setPadding
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -17,6 +17,8 @@ import com.example.kotlinTeam.common.viewBinding.viewBinding
 import com.example.kotlinTeam.databinding.FragmentOnboardingBinding
 import com.example.kotlinTeam.onBoarding.domain.events.OnBoardingEvents
 import com.example.kotlinTeam.common.presentation.dp
+import com.example.kotlinTeam.common.presentation.ptX
+import com.example.kotlinTeam.common.presentation.ptY
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -71,45 +73,46 @@ internal class OnBoardingFragment : Fragment() {
                 Toast.makeText(context, "TODO Переход к продуктам", Toast.LENGTH_SHORT).show()
             } else {
                 title.text = page.title.text
-                title.textSize = page.title.size
 
                 title.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                     setMargins(
-                        page.title.marginStart.dp,
-                        page.title.marginTop.dp,
-                        page.title.marginEnd.dp,
-                        0
+                        leftMargin,
+                        page.title.marginTop.ptY,
+                        rightMargin,
+                        bottomMargin,
                     )
                 }
-                if (page.title.gravity) title.gravity = Gravity.CENTER
+                title.gravity = if (page.title.gravityCenter) Gravity.CENTER else Gravity.START
 
                 page.text?.let {
                     text.text = page.text.text
                     text.textSize = page.text.size
                     text.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                         setMargins(
-                            page.text.marginStart.dp,
-                            page.text.marginTop.dp,
-                            page.text.marginEnd.dp,
-                            0
+                            page.text.marginHorizontal?.dp ?: leftMargin,
+                            page.text.marginTop?.dp ?: topMargin,
+                            page.text.marginHorizontal?.dp ?: rightMargin,
+                            bottomMargin
                         )
                     }
-                    if (page.text.background != null) {
-                        text.setBackgroundColor(Color.parseColor(page.text.background))
-                        text.background
+                    if (page.text.padding != null) {
+                        text.setPadding(page.text.padding)
                     }
-                    if (page.text.gravity) text.gravity = Gravity.CENTER
+                    if (page.text.background) {
+                        text.setBackgroundResource(R.drawable.shape_onboarding)
+                    }
+                    text.gravity = if (page.text.gravityCenter) Gravity.CENTER else Gravity.START
                 }
 
-                page.shape?.let {
+                page.circle?.let {
                     circle.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                        width = (page.shape.radius * 2).dp
-                        height = (page.shape.radius * 2).dp
+                        width = page.circle.size.ptX * 2
+                        height = page.circle.size.ptX * 2
                         setMargins(
-                            (page.shape.positionX - page.shape.radius).dp,
-                            (page.shape.positionY - page.shape.radius).dp,
-                            (page.shape.positionX + page.shape.radius).dp,
-                            (page.shape.positionY + page.shape.radius).dp,
+                            page.circle.positionX.ptX - page.circle.size.ptX,
+                            page.circle.positionY.ptY - page.circle.size.ptX,
+                            0,
+                            0,
                         )
                     }
                 }
@@ -118,15 +121,7 @@ internal class OnBoardingFragment : Fragment() {
                     Glide
                         .with(requireContext())
                         .load(page.image.image.toInt())
-                        .into(binding.image)
-                    image.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                        setMargins(
-                            page.image.marginStart.dp,
-                            page.image.marginTop.dp,
-                            page.image.marginEnd.dp,
-                            0
-                        )
-                    }
+                        .into(image)
                 }
             }
         }

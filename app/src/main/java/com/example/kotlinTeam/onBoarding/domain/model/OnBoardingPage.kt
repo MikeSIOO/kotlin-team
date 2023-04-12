@@ -4,39 +4,32 @@ data class OnBoardingPage(
     val id: Int,
     val title: Title,
     val text: Text?,
-    val shape: Shape?,
+    val circle: Circle?,
     val image: Image?,
 ) {
     class Title(
         val text: String,
-        val marginStart: Int,
         val marginTop: Int,
-        val marginEnd: Int,
-        val size: Float,
-        val gravity: Boolean,
+        val gravityCenter: Boolean,
     )
 
     class Text(
         val text: String,
-        val marginStart: Int,
-        val marginTop: Int,
-        val marginEnd: Int,
+        val marginTop: Int?,
+        val marginHorizontal: Int?,
         val size: Float,
-        val background: String?,
-        val gravity: Boolean
+        val background: Boolean,
+        val padding: Int?,
+        val gravityCenter: Boolean
     )
 
-    class Shape(
+    class Circle(
         val positionX: Int,
         val positionY: Int,
-        val radius: Int,
-        val color: String,
+        val size: Int,
     )
 
     class Image(
         val image: String,
-        val marginStart: Int,
-        val marginTop: Int,
-        val marginEnd: Int,
     )
 }

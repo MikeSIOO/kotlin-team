@@ -20,24 +20,23 @@ class OnBoardingFakeService @Inject constructor() {
     }
 
     companion object {
+        private fun getX(X: Int, W: Int) = ((W.toFloat() / 2 + X) / 360 * 100).toInt()
+        private fun getY(Y: Int, W: Int) = ((W.toFloat() / 2 + Y) / 800 * 100).toInt()
+        private fun getR(W: Int) = ((W.toFloat() / 2) / 360 * 100).toInt()
         fun getFakeOnBoarding(): List<OnBoardingPageDto> {
             return listOf(
                 OnBoardingPageDto(
                     0,
                     OnBoardingPageDto.Title(
                         "Привет!",
-                        30,
-                        400,
-                        30,
-                        40F,
+                        75,
                         false,
                     ),
                     null,
-                    OnBoardingPageDto.Shape(
-                        -56,
-                        416,
-                        124,
-                        "#00ff00"
+                    OnBoardingPageDto.Circle(
+                        getX(-179, 251),
+                        getY(491, 251),
+                        getR(251),
                     ),
                     null
                 ),
@@ -45,26 +44,22 @@ class OnBoardingFakeService @Inject constructor() {
                     1,
                     OnBoardingPageDto.Title(
                         "Привет!",
-                        30,
-                        360,
-                        30,
-                        40F,
+                        69,
                         false,
                     ),
                     OnBoardingPageDto.Text(
-                        "Не знаете, что хотите приготовить на ужин сегодня?",
-                        30,
-                        410,
-                        130,
-                        20F,
+                        "Не знаете, что\nхотите приготовить\nна ужин сегодня?",
                         null,
-                        false
+                        null,
+                        20F,
+                        false,
+                        null,
+                        false,
                     ),
-                    OnBoardingPageDto.Shape(
-                        52,
-                        416,
-                        232,
-                        "#00ff00"
+                    OnBoardingPageDto.Circle(
+                        getX(-179, 465),
+                        getY(383, 465),
+                        getR(465),
                     ),
                     null
                 ),
@@ -72,26 +67,22 @@ class OnBoardingFakeService @Inject constructor() {
                     2,
                     OnBoardingPageDto.Title(
                         "Привет!",
-                        30,
-                        360,
-                        30,
-                        40F,
+                        69,
                         false,
                     ),
                     OnBoardingPageDto.Text(
-                        "Не переживайте, мы вам поможем.",
-                        30,
-                        410,
-                        130,
+                        "Не переживайте, мы\nвам поможем.",
+                        null,
+                        null,
                         20F,
+                        false,
                         null,
                         false,
                     ),
-                    OnBoardingPageDto.Shape(
-                        190,
-                        460,
-                        320,
-                        "#00ff00"
+                    OnBoardingPageDto.Circle(
+                        getX(-131, 640),
+                        getY(346, 640),
+                        getR(640),
                     ),
                     null
                 ),
@@ -99,26 +90,22 @@ class OnBoardingFakeService @Inject constructor() {
                     3,
                     OnBoardingPageDto.Title(
                         "Привет!",
-                        30,
-                        360,
-                        30,
-                        40F,
+                        68,
                         false,
                     ),
                     OnBoardingPageDto.Text(
-                        "Не переживайте, мы вам поможем.\nДавайте начнем",
-                        30,
-                        410,
-                        130,
+                        "Не переживайте, мы\nвам поможем.\nДавайте начнем",
+                        null,
+                        null,
                         20F,
+                        false,
                         null,
                         false,
                     ),
-                    OnBoardingPageDto.Shape(
-                        308,
-                        468,
-                        488,
-                        "#00ff00"
+                    OnBoardingPageDto.Circle(
+                        getX(-179, 977),
+                        getY(177, 977),
+                        getR(977),
                     ),
                     null
                 ),
@@ -126,26 +113,22 @@ class OnBoardingFakeService @Inject constructor() {
                     4,
                     OnBoardingPageDto.Title(
                         "Привет!",
-                        30,
-                        360,
-                        30,
-                        40F,
+                        68,
                         false,
                     ),
                     OnBoardingPageDto.Text(
-                        "Не переживайте, мы вам поможем.\nДавайте начнем ->",
-                        30,
-                        410,
-                        130,
+                        "Не переживайте, мы\nвам поможем.\nДавайте начнем ⟶",
+                        null,
+                        null,
                         20F,
+                        false,
                         null,
                         false,
                     ),
-                    OnBoardingPageDto.Shape(
-                        200,
-                        300,
-                        400,
-                        "#00ff00"
+                    OnBoardingPageDto.Circle(
+                        getX(-382, 1281),
+                        getY(-127, 1281),
+                        getR(1281),
                     ),
                     null
                 ),
@@ -153,32 +136,25 @@ class OnBoardingFakeService @Inject constructor() {
                     5,
                     OnBoardingPageDto.Title(
                         "Отлично!",
-                        80,
-                        180,
-                        80,
-                        40F,
-                        true
+                        27,
+                        true,
                     ),
                     OnBoardingPageDto.Text(
                         "Давайте выберем продукты, которые есть у вас в холодильнике. Это нужно, чтобы мы подсказали акутальный для вас рецепт.",
-                        40,
-                        240,
-                        40,
-                        14F,
-                        "#FFF5ED",
+                        16,
+                        50,
+                        12F,
+                        true,
+                        30,
                         true,
                     ),
-                    OnBoardingPageDto.Shape(
+                    OnBoardingPageDto.Circle(
                         0,
                         0,
                         0,
-                        "#00ff00"
                     ),
                     OnBoardingPageDto.Image(
-                        R.drawable.ic_launcher_background.toString(),
-                        50,
-                        350,
-                        50,
+                        R.drawable.man.toString()
                     )
                 ),
             )
