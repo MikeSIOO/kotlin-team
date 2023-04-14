@@ -38,27 +38,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/profile_name"
+                style="@style/Text.Body.Medium.Black.Semibold"
                 app:layout_constraintStart_toEndOf="@id/avatar_card_view"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/profile_second_name_text_view"
                 app:layout_constraintVertical_chainStyle="packed"
-                android:layout_marginStart="16dp"
-                android:fontFamily="@font/generalsans_semibold"
-                android:textSize="16sp"
-                android:textColor="@color/text_secondary" />
+                android:layout_marginStart="16dp" />
 
         <TextView
                 android:id="@+id/profile_second_name_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/profile_second_name"
+                style="@style/Text.Body.Medium.Black.Semibold"
                 app:layout_constraintStart_toEndOf="@id/avatar_card_view"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/profile_name_text_view"
-                android:layout_marginStart="16dp"
-                android:fontFamily="@font/generalsans_semibold"
-                android:textSize="16sp"
-                android:textColor="@color/text_secondary" />
+                android:layout_marginStart="16dp" />
 
         <androidx.cardview.widget.CardView
                 android:layout_width="45dp"
@@ -75,7 +71,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@drawable/log_out_icon" />
+                    style="@style/ImageButton.LogOut" />
         </androidx.cardview.widget.CardView>
 
 
@@ -98,9 +94,7 @@
                 android:text="@string/profile_made_recipes"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:fontFamily="@font/generalsans_semibold"
-                android:textSize="20sp"
-                android:textColor="@color/text_secondary" />
+                style="@style/Text.Headline.Small.Black" />
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/made_recipes_recycler_view"
@@ -124,8 +118,9 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+            style="@style/Button.Retry"
             android:id="@+id/btn_retry"
-            android:layout_width="wrap_content"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:text="@string/retry_button_text"
             android:visibility="gone"
@@ -133,5 +128,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -40,9 +40,7 @@
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/white"
-                    android:textSize="26sp"
+                    style="@style/Text.Headline.Small.White"
                     android:text="@{recipe.title}"
                     android:letterSpacing="0.02"
                     tools:text="Ризотто с белыми грибамииии" />
@@ -52,8 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{@string/time_to_cook(recipe.time)}"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"
+                    style="@style/Text.Body.ExtraSmall.White"
                     tools:text="Время приготовления: 35 мин" />
 
         </LinearLayout>

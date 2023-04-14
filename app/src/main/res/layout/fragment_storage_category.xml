@@ -39,10 +39,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/title"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="@color/default_text"
-            android:layout_marginHorizontal="12dp"
+            style="@style/Text.Headline.Medium.Black"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintTop_toBottomOf="@id/guideline_top"
             app:layout_constraintEnd_toEndOf="@id/guideline_right" />
@@ -52,9 +49,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/subtitle"
-            android:textSize="16sp"
-            android:textColor="@color/default_text"
-            android:layout_marginHorizontal="12dp"
+            style="@style/Text.Body.Medium.Black"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintTop_toBottomOf="@id/title"
             app:layout_constraintEnd_toEndOf="@id/guideline_right" />
@@ -87,13 +82,8 @@
 
     <Button
             android:text="Начать поиск блюд"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:id="@+id/search_button"
-            android:background="@drawable/shape_corner"
-            android:layout_marginHorizontal="12dp"
-            android:textStyle="bold"
-            android:textSize="16sp"
+            style="@style/Button.Primary"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
             app:layout_constraintBottom_toBottomOf="@id/guideline_bottom" />

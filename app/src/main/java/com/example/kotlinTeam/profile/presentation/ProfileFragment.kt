@@ -123,7 +123,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun goToRecipeFragment(madeRecipe: MadeRecipe) {
-        Toast.makeText(context, "You have selected ${madeRecipe.title}", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "You have selected", Toast.LENGTH_SHORT).show()
         viewModel.onEvent(ProfileFragmentEvents.LoadRecipe(madeRecipe))
     }
 }

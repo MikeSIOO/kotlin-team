@@ -54,9 +54,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/title"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/default_text"
+            style="@style/Text.Headline.Medium.Black"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="12dp"
             android:textAlignment="center"
@@ -93,13 +91,8 @@
 
     <Button
             android:text="Начать поиск блюд"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:id="@+id/search_button"
-            android:background="@drawable/shape_corner"
-            android:layout_marginHorizontal="12dp"
-            android:textStyle="bold"
-            android:textSize="16sp"
+            style="@style/Button.Primary"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
             app:layout_constraintBottom_toBottomOf="@id/guideline_bottom" />
