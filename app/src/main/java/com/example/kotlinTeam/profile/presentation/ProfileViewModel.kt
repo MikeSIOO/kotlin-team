@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.filter
 import androidx.paging.map
 import com.example.kotlinTeam.profile.common.Resource
 import com.example.kotlinTeam.profile.domain.model.MadeRecipe
@@ -23,7 +24,7 @@ class ProfileViewModel @Inject constructor(
     private val profileUseCases: ProfileUseCases
 ) : ViewModel() {
 
-    private val profileId = 1
+    private val profileId = "1"
 
     private val _stateProfile = MutableStateFlow(ProfileState())
     val stateProfile: StateFlow<ProfileState> = _stateProfile
@@ -48,13 +49,13 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private fun getProfile(id: Int) {
+    private fun getProfile(id: String) {
         profileUseCases.getProfile(id).onEach { result ->
             when (result) {
                 is Resource.Success -> {
                     _stateProfile.value = stateProfile.value.copy(
                         profile = result.data ?: Profile(
-                            id = -1,
+                            id = "-1",
                             name = "not found",
                             secondName = null,
                             image = ""
@@ -79,6 +80,6 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun getRecipes() = profileUseCases.getMadeRecipes(profileId).map { pagingData ->
-        pagingData.map { it.toMadeRecipe() }
+        pagingData.filter { !(it.id.isNullOrBlank() || it.title.isNullOrBlank()) }.map { it.toMadeRecipe() }//.filter { !(it.id.isNullOrBlank() || it.title.isNullOrBlank()) }
     }.cachedIn(viewModelScope)
 }

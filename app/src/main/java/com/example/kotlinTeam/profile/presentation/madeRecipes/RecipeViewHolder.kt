@@ -1,6 +1,5 @@
 package com.example.kotlinTeam.profile.presentation.madeRecipes
 
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinTeam.R
 import com.example.kotlinTeam.databinding.RecipeItemSmallBinding
@@ -19,11 +18,6 @@ class RecipeViewHolder(
         )
         dataBinding.root.setOnClickListener {
             callback(madeRecipe)
-            Toast.makeText(
-                dataBinding.root.context,
-                "You have selected ${madeRecipe.title}",
-                Toast.LENGTH_SHORT
-            ).show()
         }
     }
 }

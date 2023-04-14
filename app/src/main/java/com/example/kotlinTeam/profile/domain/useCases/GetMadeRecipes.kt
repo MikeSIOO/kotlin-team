@@ -10,7 +10,7 @@ class GetMadeRecipes @Inject constructor(
     private val repository: FirestoreRepository
 ) {
 
-    operator fun invoke(id: Int): Flow<PagingData<RecipeOo>> {
+    operator fun invoke(id: String): Flow<PagingData<RecipeOo>> {
         return repository.getRecipes(id)
     }
 }
