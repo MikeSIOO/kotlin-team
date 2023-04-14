@@ -28,10 +28,6 @@ import kotlinx.coroutines.withContext
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = ProfileFragment()
-    }
-
     private val binding by viewBinding(FragmentProfileBinding::bind)
     private val viewModel by viewModels<ProfileViewModel>()
     private val recipeListAdapter = RecipeListAdapter { madeRecipe: MadeRecipe ->

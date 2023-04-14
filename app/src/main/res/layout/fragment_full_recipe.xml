@@ -5,7 +5,6 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
                 name="recipe"
                 type="com.example.kotlinTeam.feed.data.Recipe" />
@@ -27,7 +26,9 @@
 
         <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:scrollbars="none"
+                android:overScrollMode="never">
 
             <LinearLayout
                     android:layout_width="match_parent"
@@ -237,13 +238,14 @@
                                 android:layout_gravity="center_horizontal" />
 
 
+
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
 
                 <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="300dp" />
+                        android:layout_height="244dp" />
 
             </LinearLayout>
 

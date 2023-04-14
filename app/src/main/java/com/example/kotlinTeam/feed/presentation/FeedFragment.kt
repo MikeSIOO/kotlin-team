@@ -7,6 +7,7 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.example.kotlinTeam.R
 import com.example.kotlinTeam.common.viewBinding.viewBinding
@@ -115,15 +116,7 @@ class FeedFragment : Fragment(R.layout.fragment_feed), CardStackListener {
         if (direction == Direction.Right) {
             val recipe = myAdapter.currentList[manager.topPosition - 1]
             viewModel.setCurrentRecipe(recipe)
-            activity?.supportFragmentManager?.let {
-                val transaction = it.beginTransaction()
-                val matchFragment = MatchFragment.newInstance(recipe.id)
-                transaction
-                    .replace(R.id.fragmentContainer, matchFragment)
-                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                    .addToBackStack(null)
-                    .commit()
-            }
+            findNavController().navigate(R.id.action_feedFragment_to_matchFragment)
         }
     }
 
