@@ -13,12 +13,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.kotlinTeam.R
-import com.example.kotlinTeam.common.viewBinding.viewBinding
-import com.example.kotlinTeam.databinding.FragmentOnboardingBinding
-import com.example.kotlinTeam.onBoarding.domain.events.OnBoardingEvents
 import com.example.kotlinTeam.common.presentation.dp
 import com.example.kotlinTeam.common.presentation.ptX
 import com.example.kotlinTeam.common.presentation.ptY
+import com.example.kotlinTeam.common.viewBinding.viewBinding
+import com.example.kotlinTeam.databinding.FragmentOnboardingBinding
+import com.example.kotlinTeam.onBoarding.domain.events.OnBoardingEvents
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -127,4 +127,3 @@ internal class OnBoardingFragment : Fragment() {
         }
     }
 }
-

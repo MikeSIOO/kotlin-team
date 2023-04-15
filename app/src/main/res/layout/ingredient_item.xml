@@ -9,9 +9,7 @@
         android:layout_gravity="top"
         android:layout_marginHorizontal="4dp"
         android:layout_marginBottom="10dp"
-        android:textSize="16sp"
-        android:textStyle="normal"
-        android:textColor="@color/text_secondary"
+        style="@style/Text.Body.Medium.Black"
         android:drawablePadding="10dp"
         tools:text="белые грибы свежие - 400 г"
         app:drawableStartCompat="@drawable/baseline_circle_24" />

@@ -1,12 +1,12 @@
 package com.example.kotlinTeam.feed.presentation
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import com.example.kotlinTeam.MainActivity
 import com.example.kotlinTeam.R
 import com.example.kotlinTeam.common.viewBinding.viewBinding
 import com.example.kotlinTeam.databinding.FragmentMatchBinding
@@ -16,42 +16,32 @@ import dagger.hilt.android.AndroidEntryPoint
 class MatchFragment : Fragment(R.layout.fragment_match) {
 
     private val binding by viewBinding(FragmentMatchBinding::bind)
-    private var recipeId: Int? = null
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        arguments?.let {
-            recipeId = it.getInt(RECIPE_ID)
-        }
-
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
+    private val viewModel: FeedViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        (activity as MainActivity).setBottomNavigationVisibility(View.GONE)
         setUpView()
         super.onViewCreated(view, savedInstanceState)
         val backButton = binding.backToFeedButton
         val startButton = binding.startButton
+
         backButton.setOnClickListener {
-            openNewFragment(FeedFragment())
+            viewModel.setCurrentRecipe(null)
+            navigateToFragment(R.id.action_matchFragment_to_feedFragment)
         }
 
         startButton.setOnClickListener {
-            openNewFragment(FullRecipeFragment())
+            navigateToFragment(R.id.action_matchFragment_to_fullRecipeFragment)
         }
     }
 
-    private fun openNewFragment(fragment: Fragment) {
-        activity?.supportFragmentManager?.let {
-            val transaction = it.beginTransaction()
-            transaction
-                .replace(R.id.fragmentContainer, fragment)
-                .addToBackStack(null)
-                .commit()
-        }
+    override fun onDestroyView() {
+        (activity as MainActivity).setBottomNavigationVisibility(View.VISIBLE)
+        super.onDestroyView()
+    }
+
+    private fun navigateToFragment(fragmentId: Int) {
+        findNavController().navigate(fragmentId)
     }
 
     private fun setUpView() {
@@ -84,7 +74,6 @@ class MatchFragment : Fragment(R.layout.fragment_match) {
             binding.recipeImg.layoutParams.width =
                 (binding.recipeImg.layoutParams.height / WIDTH_COEFFICIENT).toInt()
 
-
             binding.userCard.layoutParams.height =
                 (binding.userImg.layoutParams.height + (USER_CARD_HEIGHT_COEFFICIENT * density!!)).toInt()
             binding.dishCard.layoutParams.height =
@@ -98,7 +87,6 @@ class MatchFragment : Fragment(R.layout.fragment_match) {
     }
 
     companion object {
-        private const val RECIPE_ID = "recipe_id"
         private var HEIGHT_COEFFICIENT = 3.0
         private const val HEIGHT_COEFFICIENT_SMALL = 3.5
         private const val WIDTH_COEFFICIENT = 1.3636
@@ -111,11 +99,5 @@ class MatchFragment : Fragment(R.layout.fragment_match) {
         private const val USER_CARD_HEIGHT_COEFFICIENT = 50
         private const val DISH_CARD_HEIGHT_COEFFICIENT = 30
         private const val CARD_WIDTH_COEFFICIENT = 44
-
-        fun newInstance(recipeId: Int) = MatchFragment().apply {
-            arguments = bundleOf(
-                RECIPE_ID to recipeId,
-            )
-        }
     }
 }

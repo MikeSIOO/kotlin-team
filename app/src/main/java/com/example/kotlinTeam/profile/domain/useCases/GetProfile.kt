@@ -10,7 +10,7 @@ class GetProfile @Inject constructor(
     private val repository: ProfileRepository
 ) {
 
-    operator fun invoke(id: Int): Flow<Resource<Profile>> {
+    operator fun invoke(id: String): Flow<Resource<Profile>> {
         return repository.getProfile(id)
     }
 }

@@ -12,5 +12,7 @@ import dagger.hilt.components.SingletonComponent
 abstract class OnBoardingRepositoryModule {
 
     @Binds
-    abstract fun bindOnBoardingRepository(onBoardingRepository: OnBoardingRepositoryImplementation): OnBoardingRepository
+    abstract fun bindOnBoardingRepository(
+        onBoardingRepository: OnBoardingRepositoryImplementation
+    ): OnBoardingRepository
 }

@@ -18,7 +18,7 @@ class ProfileRepositoryImpl @Inject constructor(
     private val appContext: Application
 ) : ProfileRepository {
 
-    override fun getProfile(id: Int): Flow<Resource<Profile>> = flow {
+    override fun getProfile(id: String): Flow<Resource<Profile>> = flow {
         try {
             emit(Resource.Loading<Profile>())
             val profile = withContext(Dispatchers.IO) {

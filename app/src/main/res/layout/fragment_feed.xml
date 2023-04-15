@@ -29,17 +29,11 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="#372428"
+                    style="@style/Text.Headline.ExtraSmall.Black"
                     android:text="@string/recipe_search" />
 
             <ImageButton
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:gravity="center"
-                    android:src="@drawable/filters"
-                    android:background="@drawable/filter_button_border"
+                    style="@style/ImageButton.Filter"
                     android:layout_gravity="end|center_vertical" />
 
         </FrameLayout>
@@ -76,20 +70,14 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/skip_button"
-                android:elevation="6dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@+id/rewind_button"
-                android:src="@drawable/dislike_red"
-                app:backgroundTint="@android:color/white"
-                app:fabSize="auto"
-                app:tint="@color/button_red"
-                app:rippleColor="#22ED7563" />
+                style="@style/FloatingActionButton.Big.Skip" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/rewind_button"
-                android:elevation="6dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="32dp"
@@ -97,30 +85,22 @@
                 android:layout_marginRight="32dp"
                 android:layout_marginEnd="32dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/skip"
-                app:backgroundTint="@android:color/white"
-                app:fabSize="mini"
-                app:tint="@color/button_grey" />
+                style="@style/FloatingActionButton.Mini.Rewind" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/like_button"
-                android:elevation="6dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/rewind_button"
-                android:src="@drawable/like_white"
-                app:backgroundTint="@color/text_primary"
-                app:fabSize="auto"
-                app:tint="@android:color/white"
-                app:rippleColor="#9F8053" />
+                style="@style/FloatingActionButton.Big.Like"/>
 
     </RelativeLayout>
 
     <ProgressBar
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            style="?android:attr/progressBarStyle"
+            style="@style/ProgressBar"
             android:id="@+id/progressBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

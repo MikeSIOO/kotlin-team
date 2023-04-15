@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface ProfileRepository {
 
-    fun getProfile(id: Int): Flow<Resource<Profile>>
+    fun getProfile(id: String): Flow<Resource<Profile>>
 }

@@ -3,9 +3,9 @@ package com.example.kotlinTeam.onBoarding.data.api.servise
 import com.example.kotlinTeam.R
 import com.example.kotlinTeam.onBoarding.data.api.model.OnBoardingPageDto
 import com.example.kotlinTeam.onBoarding.data.api.model.OnBoardingResponseDto
-import kotlinx.coroutines.delay
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.delay
 
 @Singleton
 class OnBoardingFakeService @Inject constructor() {

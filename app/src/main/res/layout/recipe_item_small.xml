@@ -31,9 +31,7 @@
                     android:id="@+id/made_recipe_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    android:fontFamily="@font/generalsans_semibold"
+                    style="@style/Text.Body.Small.White.Semibold"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginBottom="8dp" />
 
@@ -52,9 +50,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:textColor="@android:color/white"
-                        android:fontFamily="@font/generalsans_semibold"
-                        android:textSize="11sp"
+                        style="@style/Text.Body.ExtraSmall.White.Semibold"
                         android:letterSpacing="0.1" />
 
             </FrameLayout>
