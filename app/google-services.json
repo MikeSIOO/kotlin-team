@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:762057901722:android:2e333843a01908d0aec123",
         "android_client_info": {
-          "package_name": "com.example.kotkin_team"
+          "package_name": "com.example.kotlinTeam"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "762057901722-d9spt686vmpqlbc7sit5bgck0ji5n8k3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.kotkin_team",
+            "package_name": "com.example.kotlinTeam",
             "certificate_hash": "142e6d90b9c6aebf66a01a7eb98de182991019ef"
           }
         },

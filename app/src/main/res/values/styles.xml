@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/accent</item>
+        <item name="hintTextColor">@color/accent</item>
+        <item name="boxStrokeWidth">2dp</item>
 
     <style name="Button">
         <item name="android:background">@drawable/btn_round_corner</item>

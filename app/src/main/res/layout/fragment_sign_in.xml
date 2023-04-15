@@ -18,10 +18,10 @@
 
     <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/window_box_margin"
+            android:layout_marginHorizontal="@dimen/margin_button_horizontal"
             android:layout_marginTop="@dimen/margin_sign_in_top"
             app:layout_constraintBottom_toTopOf="@id/passwordLayout"
             app:layout_constraintEnd_toEndOf="parent"
@@ -38,10 +38,10 @@
 
     <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/window_box_margin"
+            android:layout_marginHorizontal="@dimen/margin_button_horizontal"
             app:layout_constraintBottom_toTopOf="@id/sign_in_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +61,7 @@
             style="@style/MaterialButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/window_box_margin"
+            android:layout_marginHorizontal="@dimen/margin_button_horizontal"
             android:paddingVertical="@dimen/padding_button_vertical"
             android:text="@string/sign_in"
             app:layout_constraintBottom_toTopOf="@id/not_reg"

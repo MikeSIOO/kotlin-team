@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.kotlinTeam.MainActivity
 import com.example.kotlinTeam.R
 import com.example.kotlinTeam.common.viewBinding.viewBinding
 import com.example.kotlinTeam.databinding.FragmentEntryBinding
@@ -23,6 +24,8 @@ class EntryFragment : Fragment(R.layout.fragment_entry) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        (activity as MainActivity).setBottomNavigationVisibility(View.GONE)
+
         super.onViewCreated(view, savedInstanceState)
 
         binding.signEntryButton.setOnClickListener {
