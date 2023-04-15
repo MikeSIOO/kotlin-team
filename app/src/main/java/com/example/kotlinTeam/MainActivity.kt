@@ -1,14 +1,26 @@
-<<<<<<<< HEAD:app/src/main/java/com/example/kotlinTeam/MainActivity.kt
 package com.example.kotlinTeam
-========
->>>>>>>> 8fcda79 (добавил комментарии мра, что получилось выполнить):app/src/main/java/com/example/kotkin_team/MainActivity.kt
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val navFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navFragment.navController
+        val navView = findViewById<BottomNavigationView>(R.id.nav_view)
+        navView.setupWithNavController(navController)
+    }
+
+    fun setBottomNavigationVisibility(visibility: Int) {
+        findViewById<BottomNavigationView>(R.id.nav_view).visibility = visibility
     }
 }

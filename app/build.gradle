@@ -1,9 +1,10 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'com.google.gms.google-services'
-    id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
+    id 'com.google.gms.google-services'
+    id 'androidx.navigation.safeargs'
 }
 
 android {
@@ -11,7 +12,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.kotkin_team"
+        applicationId "com.example.kotlinTeam"
         minSdk 24
         targetSdk 33
         versionCode 1
@@ -41,23 +42,54 @@ android {
 }
 
 dependencies {
-    //firebase
-    implementation 'com.google.firebase:firebase-auth:21.1.0'
-
-    //navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:2.5.3"
-    implementation "androidx.navigation:navigation-ui-ktx:2.5.3"
-
-    //material
-    implementation 'com.google.android.material:material:1.5.0'
-
-    //android
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
 
-    //test
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    // CardStackView
+    implementation 'com.github.yuyakaido:cardstackview:2.3.4'
+
+    // Dagger - Hilt
+    implementation "com.google.dagger:hilt-android:2.43.2"
+    kapt "com.google.dagger:hilt-android-compiler:2.43.2"
+
+    // Fragment / ViewModel
+    implementation "androidx.fragment:fragment-ktx:1.5.5"
+
+    // Paging 3
+    implementation 'androidx.paging:paging-runtime-ktx:3.1.0'
+
+    // Firebase
+    implementation 'com.google.firebase:firebase-auth:21.1.0'
+    implementation "com.google.firebase:firebase-database-ktx:20.1.0"
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.4.4'
+
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.14.2'
+
+    // Room
+    implementation("androidx.room:room-runtime:2.5.1")
+    annotationProcessor("androidx.room:room-compiler:2.5.1")
+    kapt("androidx.room:room-compiler:2.5.1")
+    implementation("androidx.room:room-ktx:2.5.1")
+
+    // DefaultLifecycleObserver
+    implementation"androidx.lifecycle:lifecycle-common-java8:2.6.0"
+
+    //Reflection
+    implementation"org.jetbrains.kotlin:kotlin-reflect:1.8.10"
+
+    //Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:2.5.3"
+    implementation "androidx.navigation:navigation-ui-ktx:2.5.3"
+    implementation"androidx.navigation:navigation-dynamic-features-fragment:2.5.3"
+
 }
