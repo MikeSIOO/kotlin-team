@@ -59,7 +59,7 @@ class SignUpFragment : Fragment() {
                     }
                 }.await()
 
-                if (isSignSuccess == true){
+                if (isSignSuccess == true) {
                     findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
                 }
             }
