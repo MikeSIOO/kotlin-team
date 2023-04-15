@@ -28,9 +28,14 @@ internal class StorageCategoryFragment : Fragment() {
 
     private val storageCategoryAdapter =
         StorageCategoryAdapter { storageCategory: StorageCategory ->
-            val bundle = bundleOf("parentId" to storageCategory.id,
-            "parentName" to storageCategory.name)
-            findNavController().navigate(R.id.action_storageCategoryFragment_to_storageProductFragment, bundle)
+            val bundle = bundleOf(
+                "parentId" to storageCategory.id,
+                "parentName" to storageCategory.name
+            )
+            findNavController().navigate(
+                R.id.action_storageCategoryFragment_to_storageProductFragment,
+                bundle
+            )
         }
 
     override fun onCreateView(
@@ -43,7 +48,6 @@ internal class StorageCategoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         binding.recyclerView.apply {
             layoutManager = GridLayoutManager(context, COLUMN_COUNT)

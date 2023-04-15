@@ -28,7 +28,6 @@ class MatchFragment : Fragment(R.layout.fragment_match) {
         backButton.setOnClickListener {
             viewModel.setCurrentRecipe(null)
             navigateToFragment(R.id.action_matchFragment_to_feedFragment)
-
         }
 
         startButton.setOnClickListener {
@@ -75,7 +74,6 @@ class MatchFragment : Fragment(R.layout.fragment_match) {
             binding.recipeImg.layoutParams.width =
                 (binding.recipeImg.layoutParams.height / WIDTH_COEFFICIENT).toInt()
 
-
             binding.userCard.layoutParams.height =
                 (binding.userImg.layoutParams.height + (USER_CARD_HEIGHT_COEFFICIENT * density!!)).toInt()
             binding.dishCard.layoutParams.height =
@@ -102,5 +100,4 @@ class MatchFragment : Fragment(R.layout.fragment_match) {
         private const val DISH_CARD_HEIGHT_COEFFICIENT = 30
         private const val CARD_WIDTH_COEFFICIENT = 44
     }
-
 }

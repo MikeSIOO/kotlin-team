@@ -50,7 +50,9 @@ internal class StorageProductFragment : Fragment() {
         viewModel.onEvent(StorageProductEvents.InitProduct(parentId))
 
         binding.backButton.setOnClickListener {
-            findNavController().navigate(R.id.action_storageProductFragment_to_storageCategoryFragment)
+            findNavController().navigate(
+                R.id.action_storageProductFragment_to_storageCategoryFragment
+            )
         }
         binding.title.text = parentName
         binding.recyclerView.apply {
