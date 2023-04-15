@@ -55,7 +55,9 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
 
                 if (isSignSuccess == true) {
                     (activity as MainActivity).setBottomNavigationVisibility(View.VISIBLE)
-                    findNavController().navigate(R.id.action_signInFragment_to_actionStorageCategory)
+                    findNavController().navigate(
+                        R.id.action_signInFragment_to_actionStorageCategory
+                    )
                 }
             }
         }
