@@ -19,8 +19,8 @@ jobs:
         run: chmod +x gradlew
       - name: Create Google Services JSON File
         env:
-          DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
-        run: mkdir kotlin-team/app && echo $GOOGLE_SERVICES_JSON | base64 -di > ./kotlin-team/app/google-services.json
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: echo $GOOGLE_SERVICES_JSON | base64 -di > ./kotlin-team/app/google-services.json
       - name: 🔨 Build debug
         run: ./gradlew assembleDebug
       - name: 🛠️ Unit-test
