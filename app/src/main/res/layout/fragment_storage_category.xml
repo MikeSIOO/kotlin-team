@@ -35,7 +35,7 @@
             android:id="@+id/guideline_bottom" />
 
     <TextView
-            android:text="Выберите продукты"
+            android:text="@string/storage_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/title"
@@ -45,7 +45,7 @@
             app:layout_constraintEnd_toEndOf="@id/guideline_right" />
 
     <TextView
-            android:text="которые у вас есть"
+            android:text="@string/storage_subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/subtitle"

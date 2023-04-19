@@ -32,4 +32,6 @@
     <string name="step_pl">Шаг %1$s</string>
     <string name="finish_cooking">Завершить</string>
     <string name="hide">Свернуть</string>
+    <string name="storage_title">Выберите продукты</string>
+    <string name="storage_subtitle">которые у вас есть</string>
 </resources>
