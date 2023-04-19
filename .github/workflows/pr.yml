@@ -10,10 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Putting data
-        env:
-          DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
-        run: mkdir kotlin-team && echo $GOOGLE_SERVICES_JSON | base64 -di > ./kotlin-team/google-services.json
       - name: Set up JDK 1.11
         uses: actions/setup-java@v2
         with:
@@ -21,6 +17,10 @@ jobs:
           java-version: '11'
       - name: 🔐 Set up permission
         run: chmod +x gradlew
+      - name: Create Google Services JSON File
+        env:
+          DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: mkdir kotlin-team/app && echo $GOOGLE_SERVICES_JSON | base64 -di > ./kotlin-team/app/google-services.json
       - name: 🔨 Build debug
         run: ./gradlew assembleDebug
       - name: 🛠️ Unit-test
