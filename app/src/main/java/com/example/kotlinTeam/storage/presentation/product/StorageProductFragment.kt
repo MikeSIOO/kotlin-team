@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.kotlinTeam.R
 import com.example.kotlinTeam.common.viewBinding.viewBinding
@@ -50,9 +49,7 @@ internal class StorageProductFragment : Fragment() {
         viewModel.onEvent(StorageProductEvents.InitProduct(parentId))
 
         binding.backButton.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_storageProductFragment_to_storageCategoryFragment
-            )
+            this.parentFragmentManager.popBackStack()
         }
         binding.title.text = parentName
         binding.recyclerView.apply {
