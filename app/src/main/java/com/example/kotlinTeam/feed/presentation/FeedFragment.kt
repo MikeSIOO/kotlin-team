@@ -5,15 +5,16 @@ import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.example.kotlinTeam.R
 import com.example.kotlinTeam.common.viewBinding.viewBinding
 import com.example.kotlinTeam.databinding.FragmentFeedBinding
 import com.example.kotlinTeam.feed.domain.FeedAdapter
-import com.example.kotlinTeam.feed.domain.FeedLoadingState
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.Direction
@@ -23,27 +24,40 @@ import com.yuyakaido.android.cardstackview.StackFrom
 import com.yuyakaido.android.cardstackview.SwipeAnimationSetting
 import com.yuyakaido.android.cardstackview.SwipeableMethod
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class FeedFragment : Fragment(R.layout.fragment_feed), CardStackListener {
     private val binding by viewBinding(FragmentFeedBinding::bind)
-    private val manager by lazy { CardStackLayoutManager(context, this) }
-    private val myAdapter = FeedAdapter()
+    lateinit var manager: CardStackLayoutManager
+    private val feedRecipeAdapter = FeedAdapter()
     private val viewModel: FeedViewModel by activityViewModels()
     private val cardStackView get() = binding.cardStackView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        manager = CardStackLayoutManager(context, this)
+        manager.topPosition = viewModel.feedState.value.topPosition
         val progressBar = binding.progressBar
 
-        viewModel.feedState.observe(
-            viewLifecycleOwner
-        ) { result ->
-            myAdapter.submitList(result.recipeList)
-            if (result.loadingState == FeedLoadingState.LOADING) {
-                progressBar.visibility = View.VISIBLE
-            } else if (result.loadingState == FeedLoadingState.LOADED) {
-                progressBar.visibility = View.GONE
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.feedState.collectLatest { state ->
+                when (state.isLoading) {
+                    true -> {
+                        progressBar.visibility = View.VISIBLE
+                    }
+                    false -> {
+                        progressBar.visibility = View.GONE
+                        if (state.error.isBlank()) {
+                            state.data?.let {
+                                feedRecipeAdapter.submitData(it)
+                            }
+                        } else {
+                            Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
             }
         }
         setupCardStackView()
@@ -103,9 +117,10 @@ class FeedFragment : Fragment(R.layout.fragment_feed), CardStackListener {
         manager.setCanScrollVertical(false)
         manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
         manager.setOverlayInterpolator(LinearInterpolator())
+
         cardStackView.apply {
             layoutManager = manager
-            adapter = myAdapter
+            adapter = feedRecipeAdapter
         }
     }
 
@@ -114,13 +129,15 @@ class FeedFragment : Fragment(R.layout.fragment_feed), CardStackListener {
 
     override fun onCardSwiped(direction: Direction?) {
         if (direction == Direction.Right) {
-            val recipe = myAdapter.currentList[manager.topPosition - 1]
+            val recipe = feedRecipeAdapter.snapshot().items[manager.topPosition - 1]
+            viewModel.changeManagerTopPosition(1)
             viewModel.setCurrentRecipe(recipe)
             findNavController().navigate(R.id.action_feedFragment_to_matchFragment)
         }
     }
 
     override fun onCardRewound() {
+        viewModel.changeManagerTopPosition(-1)
     }
 
     override fun onCardCanceled() {

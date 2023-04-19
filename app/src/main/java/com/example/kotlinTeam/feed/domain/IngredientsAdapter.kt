@@ -4,18 +4,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinTeam.databinding.IngredientItemBinding
-import com.example.kotlinTeam.feed.data.Ingredient
+import com.example.kotlinTeam.common.data.dataSource.model.recipe.IngredientOo
 
 class IngredientsAdapter : RecyclerView.Adapter<IngredientsAdapter.IngredientsViewHolder>() {
     class IngredientsViewHolder(private val binding: IngredientItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(ingredient: Ingredient) {
+        fun bind(ingredient: IngredientOo) {
             binding.ingredientTv.setIngredientString(ingredient)
         }
     }
 
-    private var ingredients: List<Ingredient> = listOf()
-    fun setData(data: List<Ingredient>) {
+    private var ingredients: List<IngredientOo> = listOf()
+    fun setData(data: List<IngredientOo>) {
         ingredients = data
     }
 

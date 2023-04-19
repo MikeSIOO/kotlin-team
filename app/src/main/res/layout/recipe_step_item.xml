@@ -7,7 +7,7 @@
 
         <variable
                 name="step"
-                type="com.example.kotlinTeam.feed.data.Step" />
+                type="com.example.kotlinTeam.common.data.dataSource.model.recipe.StepOo" />
     </data>
 
     <LinearLayout

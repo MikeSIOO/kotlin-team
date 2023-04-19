@@ -4,18 +4,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinTeam.databinding.RecipeStepItemBinding
-import com.example.kotlinTeam.feed.data.Step
+import com.example.kotlinTeam.common.data.dataSource.model.recipe.StepOo
 
 class StepsAdapter : RecyclerView.Adapter<StepsAdapter.StepsViewHolder>() {
     class StepsViewHolder(private val binding: RecipeStepItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(step: Step) {
+        fun bind(step: StepOo) {
             binding.step = step
         }
     }
 
-    var steps: List<Step> = listOf()
-    fun setData(data: List<Step>) {
+    var steps: List<StepOo> = listOf()
+    fun setData(data: List<StepOo>) {
         steps = data
     }
 

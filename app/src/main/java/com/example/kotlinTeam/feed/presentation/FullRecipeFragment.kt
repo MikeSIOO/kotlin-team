@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kotlinTeam.R
@@ -13,6 +14,8 @@ import com.example.kotlinTeam.databinding.FragmentFullRecipeBinding
 import com.example.kotlinTeam.feed.domain.IngredientsAdapter
 import com.example.kotlinTeam.feed.domain.StepsAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class FullRecipeFragment : Fragment(R.layout.fragment_full_recipe) {
@@ -27,16 +30,15 @@ class FullRecipeFragment : Fragment(R.layout.fragment_full_recipe) {
         val ingredientsAdapter = IngredientsAdapter()
         val moreInfoButton = binding.moreInfoButton
 
-        viewModel.feedState.observe(
-            viewLifecycleOwner
-        ) {
-            binding.recipe = it.currentRecipe
-            if (it.currentRecipe != null) {
-                stepsAdapter.setData(it.currentRecipe.steps)
-                ingredientsAdapter.setData(it.currentRecipe.ingredients)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.currentRecipeState.collectLatest {
+                binding.recipe = it.currentRecipe
+                if (it.currentRecipe != null) {
+                    stepsAdapter.setData(it.currentRecipe.instructions)
+                    ingredientsAdapter.setData(it.currentRecipe.ingredients)
+                }
+                expandTextView(it.isMoreInfoButtonClicked, expandableTextView, moreInfoButton)
             }
-
-            expandTextView(it.isMoreInfoButtonClicked, expandableTextView, moreInfoButton)
         }
 
         stepsRecycler.layoutManager = LinearLayoutManager(context)
@@ -50,7 +52,6 @@ class FullRecipeFragment : Fragment(R.layout.fragment_full_recipe) {
         }
 
         binding.finishButton.setOnClickListener {
-            viewModel.setCurrentRecipe(null)
             viewModel.resetFlag()
             findNavController().navigate(R.id.action_fullRecipeFragment_to_feedFragment)
         }

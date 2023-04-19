@@ -89,13 +89,5 @@
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
             android:clipToPadding="false" />
 
-    <Button
-            android:text="Начать поиск блюд"
-            android:id="@+id/search_button"
-            style="@style/Button.Primary"
-            app:layout_constraintStart_toStartOf="@id/guideline_left"
-            app:layout_constraintEnd_toEndOf="@id/guideline_right"
-            app:layout_constraintBottom_toBottomOf="@id/guideline_bottom" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

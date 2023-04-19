@@ -7,7 +7,7 @@
     <data>
         <variable
                 name="recipe"
-                type="com.example.kotlinTeam.feed.data.Recipe" />
+                type="com.example.kotlinTeam.common.data.dataSource.model.recipe.RecipeOo" />
     </data>
 
     <RelativeLayout
@@ -90,7 +90,7 @@
                                         android:layout_width="wrap_content"
                                         android:maxWidth="54dp"
                                         android:layout_height="wrap_content"
-                                        android:text="@{@string/time(recipe.time)}"
+                                        android:text="@{@string/time(recipe.cookingMinutes)}"
                                         style="@style/Text.Body.Small.Orange.Semibold"
                                         android:maxLines="1"
                                         android:layout_gravity="center_vertical"
@@ -136,7 +136,7 @@
                                     android:layout_height="wrap_content"
                                     app:layout_constraintTop_toTopOf="@+id/cuisine_pl"
                                     app:layout_constraintStart_toEndOf="@+id/cuisine_pl"
-                                    android:text="@{recipe.cuisine}"
+                                    android:text="@{recipe.cuisines}"
                                     style="@style/Text.Body.Small.Black"
                                     android:layout_marginStart="2dp"
                                     tools:text="итальянская" />
@@ -155,7 +155,7 @@
                                 android:id="@+id/dish_info"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Ризотто – это традиционное итальянское блюдо, распространенное на северо-западе Италии. Хотя определенного рецепта ризотто не существует (продукты могут быть любыми, в нашем случае – белые грибы), основное... Продолжние описания"
+                                android:text="@{recipe.description}"
                                 style="@style/Text.Body.Small.Black"
                                 android:maxLines="4"
                                 android:lineSpacingMultiplier="1.1"
@@ -228,14 +228,17 @@
 
                         <com.google.android.material.button.MaterialButton
                                 android:id="@+id/finish_button"
-                                style="@style/Button.Primary"
                                 android:background="@drawable/shape_corner"
                                 android:layout_width="280dp"
+                                android:textAllCaps="false"
                                 android:text="@string/finish_cooking"
+                                android:textColor="@color/white"
+                                android:textSize="16sp"
                                 android:layout_height="56dp"
                                 android:layout_marginTop="10dp"
-                                android:layout_marginBottom="30dp"
-                                android:layout_gravity="center_horizontal" />
+                                android:layout_marginBottom="86dp"
+                                android:layout_gravity="center_horizontal"
+                                app:backgroundTint="@color/text_primary"/>
 
 
 
