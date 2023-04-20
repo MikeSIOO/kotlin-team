@@ -25,6 +25,7 @@ class FirestoreRepository @Inject constructor(
         return RecipeOo(
             id = this.id,
             title = this.title,
+            description = this.description,
             image = this.image,
             cookingMinutes = this.cookingMinutes,
             cuisines = if (this.cuisines == null) {
@@ -48,11 +49,11 @@ class FirestoreRepository @Inject constructor(
                 }
             },
             servings = this.servings,
-            ingredientsMap = if (this.ingredientsMap == null) {
+            ingredients = if (this.ingredients == null) {
                 emptyMap()
             } else {
                 buildMap<String, IngredientDto> {
-                    for ((amount, ingredientRef) in this@toRecipeOo.ingredientsMap) {
+                    for ((amount, ingredientRef) in this@toRecipeOo.ingredients) {
                         val ingredient = ingredientRef.get().await()
                             .toObject(IngredientDto::class.java)
                         put(amount, ingredient ?: continue)
