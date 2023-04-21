@@ -43,19 +43,21 @@ class FeedFragment : Fragment(R.layout.fragment_feed), CardStackListener {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.feedState.collectLatest { state ->
-                when (state.isLoading) {
+                when (!state.isLoading) {
                     true -> {
-                        progressBar.visibility = View.VISIBLE
-                    }
-                    false -> {
                         progressBar.visibility = View.GONE
                         if (state.error.isBlank()) {
                             state.data?.let {
                                 feedRecipeAdapter.submitData(it)
                             }
+
                         } else {
-                            Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT)
+                                .show()
                         }
+                    }
+                    false -> {
+                        progressBar.visibility = View.VISIBLE
                     }
                 }
             }

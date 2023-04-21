@@ -15,7 +15,8 @@ class FeedViewModel @Inject constructor(
     private val useCases: FeedUseCases
 ) : ViewModel() {
 
-    private val _feedState: MutableStateFlow<FeedState> = MutableStateFlow(FeedState())
+    private val _feedState: MutableStateFlow<FeedState> =
+        MutableStateFlow(FeedState(isLoading = true, data = null))
     val feedState: StateFlow<FeedState> = _feedState.asStateFlow()
 
     private val _currentRecipeState: MutableStateFlow<CurrentRecipeState> = MutableStateFlow(
@@ -24,19 +25,23 @@ class FeedViewModel @Inject constructor(
     val currentRecipeState: StateFlow<CurrentRecipeState> = _currentRecipeState
 
     init {
+        System.out.println("state 0 vm ${_feedState.value}")
         viewModelScope.launch {
+
             _feedState.value = FeedState(isLoading = true, topPosition = 0)
             try {
-                useCases.getFeedUseCase().cachedIn(viewModelScope).collectLatest{
+                useCases.getFeedUseCase().cachedIn(viewModelScope).collect {
                     _feedState.value = FeedState(isLoading = false, data = it, topPosition = 0)
                 }
             } catch (e: Exception) {
-                _feedState.value = FeedState(isLoading = false, error = e.localizedMessage ?: "Unknown error", topPosition = 0)
+                _feedState.value = FeedState(
+                    isLoading = false,
+                    error = e.localizedMessage ?: "Unknown error",
+                    topPosition = 0
+                )
             }
         }
     }
-
-
 
     fun setCurrentRecipe(recipe: RecipeOo?) {
         _currentRecipeState.value = currentRecipeState.value.copy(currentRecipe = recipe)
@@ -68,5 +73,3 @@ class FeedViewModel @Inject constructor(
         setCurrentRecipe(null)
     }
 }
-
-
