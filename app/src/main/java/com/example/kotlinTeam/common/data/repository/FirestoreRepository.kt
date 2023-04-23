@@ -4,11 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.kotlinTeam.common.data.dataSource.FirestorePagingSource
-import com.example.kotlinTeam.common.data.dataSource.model.recipe.CuisineDto
-import com.example.kotlinTeam.common.data.dataSource.model.recipe.DietDto
-import com.example.kotlinTeam.common.data.dataSource.model.recipe.IngredientDto
-import com.example.kotlinTeam.common.data.dataSource.model.recipe.RecipeDto
-import com.example.kotlinTeam.common.data.dataSource.model.recipe.RecipeOo
+import com.example.kotlinTeam.common.data.dataSource.model.recipe.*
 import com.example.kotlinTeam.profile.common.Constants
 import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
@@ -20,7 +16,6 @@ import kotlinx.coroutines.tasks.await
 class FirestoreRepository @Inject constructor(
     private val firestore: FirebaseFirestore
 ) {
-
     private suspend fun RecipeDto.toRecipeOo(): RecipeOo {
         return RecipeOo(
             id = this.id,
@@ -28,6 +23,7 @@ class FirestoreRepository @Inject constructor(
             description = this.description,
             image = this.image,
             cookingMinutes = this.cookingMinutes,
+            difficulty = this.difficulty,
             cuisines = if (this.cuisines == null) {
                 emptyList()
             } else {
@@ -48,23 +44,32 @@ class FirestoreRepository @Inject constructor(
                     }
                 }
             },
+            description = this.description,
             servings = this.servings,
             ingredients = if (this.ingredients == null) {
-                emptyMap()
+                emptyList()
             } else {
-                buildMap<String, IngredientDto> {
+                buildList<IngredientOo> {
                     for ((amount, ingredientRef) in this@toRecipeOo.ingredients) {
                         val ingredient = ingredientRef.get().await()
                             .toObject(IngredientDto::class.java)
-                        put(amount, ingredient ?: continue)
+                        add(ingredient?.title?.let { IngredientOo(it, amount) } ?: continue)
                     }
                 }
             },
-            instructions = this.instructions ?: emptyMap()
+            instructions = if (this.instructions != null) {
+                buildList<StepOo> {
+                    for (step in this@toRecipeOo.instructions) {
+                        add(StepOo(step.key, step.value))
+                    }
+                }
+            } else {
+                emptyList()
+            }
         )
     }
 
-    fun getRecipes(id: String): Flow<PagingData<RecipeOo>> {
+    fun getRecipes(id: String?): Flow<PagingData<RecipeOo>> {
         val recipeCollectionRef = firestore.collection(Constants.RECIPES_COLLECTION)
         val query = recipeCollectionRef.orderBy(Constants.TITLE_PROPERTY)
 

@@ -2,16 +2,16 @@ package com.example.kotlinTeam.feed.domain
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kotlinTeam.common.data.dataSource.model.recipe.RecipeOo
 import com.example.kotlinTeam.databinding.RecipeCardBinding
-import com.example.kotlinTeam.feed.data.Recipe
 
-class FeedAdapter : ListAdapter<Recipe, FeedAdapter.ViewHolder>(FeedDiffCallback()) {
+class FeedAdapter : PagingDataAdapter<RecipeOo, FeedAdapter.ViewHolder>(FeedDiffCallback()) {
 
     class ViewHolder(private val binding: RecipeCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(recipe: Recipe) {
+        fun bind(recipe: RecipeOo) {
             binding.recipe = recipe
         }
     }
@@ -24,6 +24,6 @@ class FeedAdapter : ListAdapter<Recipe, FeedAdapter.ViewHolder>(FeedDiffCallback
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val recipe = getItem(position)
-        holder.bind(recipe)
+        recipe.let { holder.bind(it!!) }
     }
 }

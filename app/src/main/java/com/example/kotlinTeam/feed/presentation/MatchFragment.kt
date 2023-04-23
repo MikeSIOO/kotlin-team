@@ -5,12 +5,15 @@ import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.kotlinTeam.MainActivity
 import com.example.kotlinTeam.R
 import com.example.kotlinTeam.common.viewBinding.viewBinding
 import com.example.kotlinTeam.databinding.FragmentMatchBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MatchFragment : Fragment(R.layout.fragment_match) {
@@ -19,6 +22,11 @@ class MatchFragment : Fragment(R.layout.fragment_match) {
     private val viewModel: FeedViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.currentRecipeState.collectLatest {
+                binding.recipe = it.currentRecipe
+            }
+        }
         (activity as MainActivity).setBottomNavigationVisibility(View.GONE)
         setUpView()
         super.onViewCreated(view, savedInstanceState)

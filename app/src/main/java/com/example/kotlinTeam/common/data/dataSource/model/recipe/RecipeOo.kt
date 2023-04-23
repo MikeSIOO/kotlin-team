@@ -8,11 +8,13 @@ data class RecipeOo(
     val description: String? = null,
     val image: String? = null,
     val cookingMinutes: Int? = null,
+    val difficulty: String? = null,
     val cuisines: List<CuisineDto> = emptyList(),
     val diets: List<DietDto> = emptyList(),
+    val description: String? = null,
     val servings: Int? = null,
-    val ingredients: Map<String, IngredientDto> = emptyMap(),
-    val instructions: Map<String, String> = emptyMap()
+    val ingredients: List<IngredientOo> = emptyList(),
+    val instructions: List<StepOo> = emptyList()
 ) {
     fun toMadeRecipe(): MadeRecipe {
         return MadeRecipe(
