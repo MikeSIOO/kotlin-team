@@ -4,13 +4,34 @@ import android.content.Context
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.example.kotlinTeam.authentication.data.repository.FirebaseRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 class FirebaseAuthViewModel : ViewModel() {
 
     private val firebaseRepository: FirebaseRepository = FirebaseRepository()
 
-    suspend fun checkSignUp(
+    suspend fun signUp(
+        context: Context,
+        email: String,
+        pasword: String,
+        confirmedPassword: String
+    ): Boolean {
+        return withContext(Dispatchers.IO) {
+            async {
+                checkSignUp(
+                    context,
+                    email,
+                    pasword,
+                    confirmedPassword
+                )
+            }
+        }.await() == true
+    }
+
+    private suspend fun checkSignUp(
         context: Context,
         email: String,
         pasword: String,
@@ -32,7 +53,7 @@ class FirebaseAuthViewModel : ViewModel() {
         return false
     }
 
-    suspend fun signUpUser(
+    private suspend fun signUpUser(
         context: Context,
         email: String,
         pasword: String,
@@ -55,10 +76,18 @@ class FirebaseAuthViewModel : ViewModel() {
         }.await()
     }
 
-    suspend fun checkSignIn(context: Context, email: String, pasword: String): Boolean? {
-        if (email.isNotEmpty() && pasword.isNotEmpty()) {
+    suspend fun signIn(context: Context, email: String, password: String): Boolean {
+        return withContext(Dispatchers.IO) {
+            async {
+                checkSignIn(context, email, password)
+            }
+        }.await() == true
+    }
+
+    private suspend fun checkSignIn(context: Context, email: String, password: String): Boolean? {
+        if (email.isNotEmpty() && password.isNotEmpty()) {
             var isSignSuccess: Boolean? = null
-            signInUser(context, email, pasword) {
+            signInUser(context, email, password) {
                 isSignSuccess = it
             }
             return isSignSuccess
@@ -68,7 +97,7 @@ class FirebaseAuthViewModel : ViewModel() {
         return false
     }
 
-    suspend fun signInUser(
+    private suspend fun signInUser(
         context: Context,
         email: String,
         pasword: String,
@@ -91,7 +120,7 @@ class FirebaseAuthViewModel : ViewModel() {
         }.await()
     }
 
-    fun getToast(context: Context, message: String) {
+    private fun getToast(context: Context, message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
