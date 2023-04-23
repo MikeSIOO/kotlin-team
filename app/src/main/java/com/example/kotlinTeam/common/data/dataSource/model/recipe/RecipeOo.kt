@@ -5,6 +5,7 @@ import com.example.kotlinTeam.profile.domain.model.MadeRecipe
 data class RecipeOo(
     val id: String? = null,
     val title: String? = null,
+    val description: String? = null,
     val image: String? = null,
     val cookingMinutes: Int? = null,
     val difficulty: String? = null,
@@ -13,7 +14,7 @@ data class RecipeOo(
     val description: String? = null,
     val servings: Int? = null,
     val ingredients: List<IngredientOo> = emptyList(),
-    val instructions: List<StepOo> = emptyList(),
+    val instructions: List<StepOo> = emptyList()
 ) {
     fun toMadeRecipe(): MadeRecipe {
         return MadeRecipe(

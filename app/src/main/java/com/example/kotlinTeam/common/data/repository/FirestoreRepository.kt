@@ -20,6 +20,7 @@ class FirestoreRepository @Inject constructor(
         return RecipeOo(
             id = this.id,
             title = this.title,
+            description = this.description,
             image = this.image,
             cookingMinutes = this.cookingMinutes,
             difficulty = this.difficulty,
