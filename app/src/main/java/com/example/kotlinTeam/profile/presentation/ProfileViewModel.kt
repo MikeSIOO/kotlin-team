@@ -80,6 +80,6 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun getRecipes() = profileUseCases.getMadeRecipes(profileId).map { pagingData ->
-        pagingData.filter { !(it.id.isNullOrBlank() || it.title.isNullOrBlank()) }.map { it.toMadeRecipe() }//.filter { !(it.id.isNullOrBlank() || it.title.isNullOrBlank()) }
+        pagingData.filter { !(it.id.isNullOrBlank() || it.title.isNullOrBlank()) }.map { it.toMadeRecipe() } // .filter { !(it.id.isNullOrBlank() || it.title.isNullOrBlank()) }
     }.cachedIn(viewModelScope)
 }

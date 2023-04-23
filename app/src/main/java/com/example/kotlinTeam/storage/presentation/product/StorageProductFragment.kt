@@ -50,7 +50,9 @@ internal class StorageProductFragment : Fragment() {
         viewModel.onEvent(StorageProductEvents.InitProduct(parentId))
 
         binding.backButton.setOnClickListener {
-            findNavController().navigate(R.id.action_storageProductFragment_to_storageCategoryFragment)
+            findNavController().navigate(
+                R.id.action_storageProductFragment_to_storageCategoryFragment
+            )
         }
         binding.title.text = parentName
         binding.recyclerView.apply {
@@ -58,16 +60,28 @@ internal class StorageProductFragment : Fragment() {
             adapter = storageProductAdapter
         }
 
+        binding.btnRetry.setOnClickListener {
+            viewModel.onEvent(StorageProductEvents.InitProduct(parentId))
+            binding.mainProgressBar.visibility = View.VISIBLE
+            binding.btnRetry.visibility = View.GONE
+        }
+
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.storageProductState.collectLatest {
                 when {
                     it.isLoading -> {
-                        Toast.makeText(context, "LOADING...", Toast.LENGTH_SHORT).show()
+                        binding.mainProgressBar.visibility = View.VISIBLE
                     }
+
                     it.error.isNotBlank() -> {
+                        binding.btnRetry.visibility = View.VISIBLE
                         Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
                     }
+
                     else -> {
+                        binding.mainProgressBar.visibility = View.GONE
+                        binding.btnRetry.visibility = View.GONE
+                        binding.recyclerView.visibility = View.VISIBLE
                         storageProductAdapter.submitList(it.storageProduct)
                     }
                 }
@@ -78,11 +92,13 @@ internal class StorageProductFragment : Fragment() {
             viewModel.storageSelectProductState.collectLatest {
                 when {
                     it.isLoading -> {
-                        Toast.makeText(context, "LOADING SELECT", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(context, "LOADING SELECT", Toast.LENGTH_SHORT).show()
                     }
+
                     it.error.isNotBlank() -> {
                         Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
                     }
+
                     else -> {
                         storageProductAdapter.notifyItemChanged(
                             storageProductAdapter.currentList.indexOf(
