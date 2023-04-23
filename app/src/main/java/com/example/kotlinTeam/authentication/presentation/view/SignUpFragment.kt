@@ -48,18 +48,7 @@ class SignUpFragment : Fragment() {
 
             viewLifecycleOwner.lifecycleScope.launch {
 
-                val isSignSuccess = withContext(Dispatchers.IO) {
-                    async {
-                        firebaseAuthViewModel.checkSignUp(
-                            requireContext(),
-                            email,
-                            pass,
-                            confirmPass
-                        )
-                    }
-                }.await()
-
-                if (isSignSuccess == true) {
+                if (firebaseAuthViewModel.signUp(requireContext(), email, pass, confirmPass)) {
                     findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
                 }
             }

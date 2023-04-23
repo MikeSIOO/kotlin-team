@@ -47,13 +47,7 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
 
             viewLifecycleOwner.lifecycleScope.launch {
 
-                val isSignSuccess = withContext(Dispatchers.IO) {
-                    async {
-                        firebaseAuthViewModel.checkSignIn(requireContext(), email, pass)
-                    }
-                }.await()
-
-                if (isSignSuccess == true) {
+                if (firebaseAuthViewModel.signIn(requireContext(), email, pass)) {
                     (activity as MainActivity).setBottomNavigationVisibility(View.VISIBLE)
                     findNavController().navigate(
                         R.id.action_signInFragment_to_actionStorageCategory

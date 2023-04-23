@@ -4,7 +4,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".authentication.presentation.view.SignUpFragment">
+        tools:context=".authentication.presentation.view.SignUpFragment"
+        android:background="@color/white">
 
     <ImageView
             android:id="@+id/fooder_logo"
@@ -25,6 +26,7 @@
             android:layout_marginHorizontal="@dimen/margin_button_horizontal"
             android:backgroundTint="@color/white"
             android:layout_marginTop="@dimen/margin_sign_up_top"
+            android:textColorHint="@color/text_grey"
             app:layout_constraintBottom_toTopOf="@id/passwordLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,6 +36,7 @@
                 android:id="@+id/email_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/text_grey"
                 android:hint="@string/add_mail"
                 android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -45,6 +48,7 @@
             style="@style/TextInputLayoutStyle"
             android:layout_marginHorizontal="@dimen/margin_button_horizontal"
             android:layout_marginTop="@dimen/margin_vertical"
+            android:textColorHint="@color/text_grey"
             app:layout_constraintBottom_toTopOf="@id/confirmPasswordLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,6 +59,7 @@
                 android:id="@+id/password_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/text_grey"
                 android:hint="@string/add_password"
                 android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -67,6 +72,7 @@
             android:layout_marginHorizontal="@dimen/margin_button_horizontal"
             android:layout_marginTop="@dimen/margin_vertical"
             android:layout_marginBottom="@dimen/margin_vertical"
+            android:textColorHint="@color/text_grey"
             app:layout_constraintBottom_toTopOf="@id/sign_up_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -77,14 +83,15 @@
                 android:id="@+id/confirm_password_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/text_grey"
                 android:hint="@string/add_password_again"
                 android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
+    <Button
 
             android:id="@+id/sign_up_button"
-            style="@style/MaterialButtonStyle"
+            style="@style/Button.Primary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_button_horizontal"
@@ -99,6 +106,7 @@
             android:id="@+id/already_reg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/text_grey"
             android:text="@string/already_register"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
