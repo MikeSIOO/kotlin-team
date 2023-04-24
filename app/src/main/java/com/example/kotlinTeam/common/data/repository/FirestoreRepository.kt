@@ -44,7 +44,6 @@ class FirestoreRepository @Inject constructor(
                     }
                 }
             },
-            description = this.description,
             servings = this.servings,
             ingredients = if (this.ingredients == null) {
                 emptyList()
