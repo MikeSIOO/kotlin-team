@@ -39,6 +39,7 @@
         </FrameLayout>
 
         <LinearLayout
+                android:id="@+id/card_stack_view_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:clipChildren="false"
@@ -98,11 +99,21 @@
     </RelativeLayout>
 
     <ProgressBar
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             style="@style/ProgressBar"
             android:id="@+id/progressBar"
+            android:visibility="visible"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <Button
+            android:id="@+id/retry_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/try_again"
+            android:layout_gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
