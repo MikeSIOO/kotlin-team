@@ -10,13 +10,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.kotlinTeam.MainActivity
 import com.example.kotlinTeam.R
+import com.example.kotlinTeam.authentication.presentation.SignEvents
 import com.example.kotlinTeam.authentication.presentation.viewmodel.FirebaseAuthViewModel
 import com.example.kotlinTeam.common.viewBinding.viewBinding
 import com.example.kotlinTeam.databinding.FragmentSignUpBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class SignUpFragment : Fragment() {
 
@@ -47,9 +46,18 @@ class SignUpFragment : Fragment() {
             val confirmPass = binding.confirmPasswordText.text.toString()
 
             viewLifecycleOwner.lifecycleScope.launch {
-
-                if (firebaseAuthViewModel.signUp(requireContext(), email, pass, confirmPass)) {
-                    findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
+                firebaseAuthViewModel.onEvent(
+                    SignEvents.SignUp(
+                        requireContext(),
+                        email,
+                        pass,
+                        confirmPass
+                    )
+                )
+                firebaseAuthViewModel.stateSignUp.collectLatest { signState ->
+                    if (signState.isSignUpSuccesfull) {
+                        findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
+                    }
                 }
             }
         }

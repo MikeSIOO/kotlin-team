@@ -10,13 +10,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.kotlinTeam.MainActivity
 import com.example.kotlinTeam.R
+import com.example.kotlinTeam.authentication.presentation.SignEvents
 import com.example.kotlinTeam.authentication.presentation.viewmodel.FirebaseAuthViewModel
 import com.example.kotlinTeam.common.viewBinding.viewBinding
 import com.example.kotlinTeam.databinding.FragmentSignInBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class SignInFragment : Fragment(R.layout.fragment_sign_in) {
 
@@ -46,13 +45,29 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
             val pass = binding.passwordText.text.toString()
 
             viewLifecycleOwner.lifecycleScope.launch {
-
-                if (firebaseAuthViewModel.signIn(requireContext(), email, pass)) {
-                    (activity as MainActivity).setBottomNavigationVisibility(View.VISIBLE)
-                    findNavController().navigate(
-                        R.id.action_signInFragment_to_actionStorageCategory
+                firebaseAuthViewModel.onEvent(
+                    SignEvents.SignIn(
+                        requireContext(),
+                        email,
+                        pass
                     )
+                )
+                firebaseAuthViewModel.stateSignIn.collectLatest { signState ->
+                    if (signState.isSignInSuccesfull) {
+                        (activity as MainActivity).setBottomNavigationVisibility(View.VISIBLE)
+                        findNavController().navigate(
+                            R.id.action_signInFragment_to_actionStorageCategory
+                        )
+                    }
+
                 }
+
+//                if (firebaseAuthViewModel.signIn(requireContext(), email, pass)) {
+//                    (activity as MainActivity).setBottomNavigationVisibility(View.VISIBLE)
+//                    findNavController().navigate(
+//                        R.id.action_signInFragment_to_actionStorageCategory
+//                    )
+//                }
             }
         }
     }

@@ -2,10 +2,17 @@ package com.example.kotlinTeam.authentication.presentation.viewmodel
 
 import android.content.Context
 import android.widget.Toast
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.kotlinTeam.authentication.data.repository.FirebaseRepository
+import com.example.kotlinTeam.authentication.presentation.SignEvents
+import com.example.kotlinTeam.authentication.presentation.SignInState
+import com.example.kotlinTeam.authentication.presentation.SignUpState
+import com.example.kotlinTeam.profile.presentation.ProfileFragmentEvents
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
@@ -13,22 +20,45 @@ class FirebaseAuthViewModel : ViewModel() {
 
     private val firebaseRepository: FirebaseRepository = FirebaseRepository()
 
+    private val _stateSignUp = MutableStateFlow(SignUpState())
+    val stateSignUp: StateFlow<SignUpState> = _stateSignUp
+
+    private val _stateSignIn = MutableStateFlow(SignInState())
+    val stateSignIn: StateFlow<SignInState> = _stateSignIn
+
+    suspend fun onEvent(event: SignEvents) {
+        when (event) {
+            is SignEvents.SignUp -> {
+                signUp(event.context, event.email, event.pasword, event.confirmedPassword)
+            }
+            is SignEvents.SignIn -> {
+                signIn(event.context, event.email, event.password)
+            }
+        }
+    }
+
     suspend fun signUp(
         context: Context,
         email: String,
         pasword: String,
         confirmedPassword: String
-    ): Boolean {
-        return withContext(Dispatchers.IO) {
-            async {
-                checkSignUp(
-                    context,
-                    email,
-                    pasword,
-                    confirmedPassword
-                )
-            }
-        }.await() == true
+    ) {
+        if (withContext(Dispatchers.IO) {
+                async {
+                    checkSignUp(
+                        context,
+                        email,
+                        pasword,
+                        confirmedPassword
+                    )
+                }
+            }.await() == true) {
+
+            _stateSignUp.value = stateSignUp.value.copy(
+                isSignUpSuccesfull = true
+            )
+
+        }
     }
 
     private suspend fun checkSignUp(
@@ -76,12 +106,17 @@ class FirebaseAuthViewModel : ViewModel() {
         }.await()
     }
 
-    suspend fun signIn(context: Context, email: String, password: String): Boolean {
-        return withContext(Dispatchers.IO) {
-            async {
-                checkSignIn(context, email, password)
-            }
-        }.await() == true
+    suspend fun signIn(context: Context, email: String, password: String) {
+        if (withContext(Dispatchers.IO) {
+                async {
+                    checkSignIn(context, email, password)
+                }
+            }.await() == true) {
+
+            _stateSignIn.value = stateSignIn.value.copy(
+                isSignInSuccesfull = true
+            )
+        }
     }
 
     private suspend fun checkSignIn(context: Context, email: String, password: String): Boolean? {
