@@ -59,15 +59,7 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
                             R.id.action_signInFragment_to_actionStorageCategory
                         )
                     }
-
                 }
-
-//                if (firebaseAuthViewModel.signIn(requireContext(), email, pass)) {
-//                    (activity as MainActivity).setBottomNavigationVisibility(View.VISIBLE)
-//                    findNavController().navigate(
-//                        R.id.action_signInFragment_to_actionStorageCategory
-//                    )
-//                }
             }
         }
     }
