@@ -2,13 +2,11 @@ package com.example.kotlinTeam.authentication.presentation.viewmodel
 
 import android.content.Context
 import android.widget.Toast
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.kotlinTeam.authentication.data.repository.FirebaseRepository
 import com.example.kotlinTeam.authentication.presentation.SignEvents
 import com.example.kotlinTeam.authentication.presentation.SignInState
 import com.example.kotlinTeam.authentication.presentation.SignUpState
-import com.example.kotlinTeam.profile.presentation.ProfileFragmentEvents
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -56,8 +54,8 @@ class FirebaseAuthViewModel : ViewModel() {
 
             _stateSignUp.value = stateSignUp.value.copy(
                 isSignUpSuccesfull = true
-            )
 
+            )
         }
     }
 
@@ -115,6 +113,7 @@ class FirebaseAuthViewModel : ViewModel() {
 
             _stateSignIn.value = stateSignIn.value.copy(
                 isSignInSuccesfull = true
+
             )
         }
     }
