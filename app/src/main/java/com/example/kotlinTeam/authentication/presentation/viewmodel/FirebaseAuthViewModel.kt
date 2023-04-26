@@ -50,11 +50,10 @@ class FirebaseAuthViewModel : ViewModel() {
                         confirmedPassword
                     )
                 }
-            }.await() == true) {
-
+            }.await() == true
+        ) {
             _stateSignUp.value = stateSignUp.value.copy(
                 isSignUpSuccesfull = true
-
             )
         }
     }
@@ -109,11 +108,10 @@ class FirebaseAuthViewModel : ViewModel() {
                 async {
                     checkSignIn(context, email, password)
                 }
-            }.await() == true) {
-
+            }.await() == true
+        ) {
             _stateSignIn.value = stateSignIn.value.copy(
                 isSignInSuccesfull = true
-
             )
         }
     }
