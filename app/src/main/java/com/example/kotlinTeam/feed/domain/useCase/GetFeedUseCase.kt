@@ -6,5 +6,5 @@ import javax.inject.Inject
 class GetFeedUseCase @Inject constructor(
     private val repo: FirestoreRepository
 ) {
-    operator fun invoke() = repo.getRecipes(null)
+    operator fun invoke() = repo.getRecipes()
 }
