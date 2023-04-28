@@ -14,10 +14,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.kotlinTeam.R
 import com.example.kotlinTeam.common.viewBinding.viewBinding
 import com.example.kotlinTeam.databinding.FragmentStorageCategoryBinding
-import com.example.kotlinTeam.storage.domain.events.StorageCategoryEvents
 import com.example.kotlinTeam.storage.domain.model.StorageCategory
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 private const val COLUMN_COUNT = 3
 
@@ -31,7 +31,7 @@ internal class StorageCategoryFragment : Fragment() {
         StorageCategoryAdapter { storageCategory: StorageCategory ->
             val bundle = bundleOf(
                 "parentId" to storageCategory.id,
-                "parentName" to storageCategory.name
+                "parentName" to storageCategory.title
             )
             findNavController().navigate(
                 R.id.action_storageCategoryFragment_to_storageProductFragment,
@@ -50,37 +50,40 @@ internal class StorageCategoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recyclerView.apply {
-            layoutManager = GridLayoutManager(context, COLUMN_COUNT)
-            adapter = storageCategoryAdapter
-        }
 
-        binding.btnRetry.setOnClickListener {
-            viewModel.onEvent(StorageCategoryEvents.InitCategory)
-            binding.mainProgressBar.visibility = View.VISIBLE
-            binding.btnRetry.visibility = View.GONE
-        }
+//        binding.btnRetry.setOnClickListener {
+//            viewModel.onEvent(StorageCategoryEvents.InitCategory)
+//            binding.mainProgressBar.visibility = View.VISIBLE
+//            binding.btnRetry.visibility = View.GONE
+//        }
+//        binding.mainProgressBar.visibility = View.GONE
+//        binding.btnRetry.visibility = View.GONE
+//        binding.recyclerView.visibility = View.VISIBLE
+        binding.recyclerView.visibility = View.VISIBLE
 
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.storageCategoryState.collectLatest {
-                when {
-                    it.isLoading -> {
-                        binding.mainProgressBar.visibility = View.VISIBLE
-                    }
-
-                    it.error.isNotBlank() -> {
-                        binding.btnRetry.visibility = View.VISIBLE
-                        Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
-                    }
-
-                    else -> {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.storageCategoryState.collectLatest { state ->
+                when (!state.isLoading) {
+                    true -> {
                         binding.mainProgressBar.visibility = View.GONE
-                        binding.btnRetry.visibility = View.GONE
-                        binding.recyclerView.visibility = View.VISIBLE
-                        storageCategoryAdapter.submitList(it.storageCategory)
+                        if (state.error.isBlank()) {
+                            state.storageCategory?.let {
+                                storageCategoryAdapter.submitData(it)
+                            }
+                        } else {
+                            Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    false -> {
+                        binding.mainProgressBar.visibility = View.VISIBLE
                     }
                 }
             }
+        }
+
+        binding.recyclerView.apply {
+            layoutManager = GridLayoutManager(context, COLUMN_COUNT)
+            adapter = storageCategoryAdapter
         }
     }
 }

@@ -5,7 +5,9 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.kotlinTeam.common.data.dataSource.FirestorePagingSource
 import com.example.kotlinTeam.common.data.dataSource.model.recipe.*
+import com.example.kotlinTeam.common.data.dataSource.model.storage.CategoryIngredientDto
 import com.example.kotlinTeam.profile.common.Constants
+import com.example.kotlinTeam.storage.domain.model.StorageCategory
 import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -83,6 +85,35 @@ class FirestoreRepository @Inject constructor(
             pagingSourceFactory = {
                 FirestorePagingSource(query) {
                     it.toObject(RecipeDto::class.java)!!.toRecipeOo()
+                }
+            }
+        ).flow
+    }
+
+    // хранилище продуктов
+    private fun CategoryIngredientDto.toStorageCategory(): StorageCategory {
+        return StorageCategory(
+            id = this.id,
+            title = this.title,
+            image = this.image,
+        )
+    }
+
+    fun getCategory(): Flow<PagingData<StorageCategory>> {
+        val recipeCollectionRef = firestore.collection(com.example.kotlinTeam.storage.common.Constants.CATEGORY_COLLECTION)
+        val query = recipeCollectionRef.orderBy(com.example.kotlinTeam.storage.common.Constants.TITLE_PROPERTY)
+
+        val pagingConfig = PagingConfig(
+            pageSize = com.example.kotlinTeam.storage.common.Constants.PAGE_SIZE,
+            enablePlaceholders = false,
+            initialLoadSize = com.example.kotlinTeam.storage.common.Constants.INITIAL_LOAD_SIZE
+        )
+
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = {
+                FirestorePagingSource(query) {
+                    it.toObject(CategoryIngredientDto::class.java)!!.toStorageCategory()
                 }
             }
         ).flow
