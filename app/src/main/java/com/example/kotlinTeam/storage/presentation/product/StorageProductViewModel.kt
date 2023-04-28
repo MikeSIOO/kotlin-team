@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.example.kotlinTeam.storage.common.StorageStatuses
 import com.example.kotlinTeam.storage.domain.events.StorageProductEvents
 import com.example.kotlinTeam.storage.domain.model.StorageProduct
@@ -17,16 +18,20 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class StorageProductViewModel @Inject constructor(
     private val storageGetProductUseCase: StorageGetProductUseCase,
     private val storageSelectProductUseCase: StorageSelectProductUseCase
 ) : ViewModel() {
-    private val _parentId = MutableLiveData(-1)
-    val parentId: LiveData<Int> = _parentId
+    private val _parentId = MutableLiveData("")
+    val parentId: LiveData<String> = _parentId
 
-    private val _storageProductState = MutableStateFlow(StorageProductState())
+
+    private val _storageProductState: MutableStateFlow<StorageProductState> = MutableStateFlow(
+        StorageProductState(isLoading = true, storageProduct = null)
+    )
     val storageProductState: StateFlow<StorageProductState> = _storageProductState
 
     private val _storageSelectProductState = MutableStateFlow(StorageSelectProductState())
@@ -47,28 +52,19 @@ class StorageProductViewModel @Inject constructor(
     }
 
     private fun getProduct() {
-        storageGetProductUseCase(parentId.value!!).onEach { result ->
-            _storageProductState.value = when (result) {
-                is StorageStatuses.Success -> {
-                    storageProductState.value.copy(
-                        storageProduct = result.data ?: emptyList(),
-                        isLoading = false,
-                        error = ""
-                    )
+        viewModelScope.launch {
+            _storageProductState.value = StorageProductState(isLoading = true)
+            try {
+                storageGetProductUseCase.invoke(parentId.value!!).cachedIn(viewModelScope).collect {
+                    _storageProductState.value = StorageProductState(isLoading = false, storageProduct = it)
                 }
-                is StorageStatuses.Error -> {
-                    storageProductState.value.copy(
-                        isLoading = false,
-                        error = result.message ?: "An unexpected error occurred"
-                    )
-                }
-                is StorageStatuses.Loading -> {
-                    storageProductState.value.copy(
-                        isLoading = true
-                    )
-                }
+            } catch (e: Exception) {
+                _storageProductState.value = StorageProductState(
+                    isLoading = false,
+                    error = e.localizedMessage ?: "Unknown error",
+                )
             }
-        }.launchIn(viewModelScope)
+        }
     }
 
     private fun selectProduct(storageProduct: StorageProduct) {

@@ -17,6 +17,7 @@ import com.example.kotlinTeam.storage.domain.events.StorageProductEvents
 import com.example.kotlinTeam.storage.domain.model.StorageProduct
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 private const val ARG_PARENT_ID = "parentId"
 private const val ARG_PARENT_NAME = "parentName"
@@ -44,10 +45,10 @@ internal class StorageProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val parentId = requireArguments().getInt(ARG_PARENT_ID)
+        val parentId = requireArguments().getString(ARG_PARENT_ID)
         val parentName = requireArguments().getString(ARG_PARENT_NAME)
 
-        viewModel.onEvent(StorageProductEvents.InitProduct(parentId))
+        viewModel.onEvent(StorageProductEvents.InitProduct(parentId!!))
 
         binding.backButton.setOnClickListener {
             findNavController().navigate(
@@ -55,37 +56,32 @@ internal class StorageProductFragment : Fragment() {
             )
         }
         binding.title.text = parentName
-        binding.recyclerView.apply {
-            layoutManager = GridLayoutManager(context, COLUMN_COUNT)
-            adapter = storageProductAdapter
-        }
 
-        binding.btnRetry.setOnClickListener {
-            viewModel.onEvent(StorageProductEvents.InitProduct(parentId))
-            binding.mainProgressBar.visibility = View.VISIBLE
-            binding.btnRetry.visibility = View.GONE
-        }
+        binding.recyclerView.visibility = View.VISIBLE
 
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.storageProductState.collectLatest {
-                when {
-                    it.isLoading -> {
-                        binding.mainProgressBar.visibility = View.VISIBLE
-                    }
-
-                    it.error.isNotBlank() -> {
-                        binding.btnRetry.visibility = View.VISIBLE
-                        Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
-                    }
-
-                    else -> {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.storageProductState.collectLatest { state ->
+                when (!state.isLoading) {
+                    true -> {
                         binding.mainProgressBar.visibility = View.GONE
-                        binding.btnRetry.visibility = View.GONE
-                        binding.recyclerView.visibility = View.VISIBLE
-                        storageProductAdapter.submitList(it.storageProduct)
+                        if (state.error.isBlank()) {
+                            state.storageProduct?.let {
+                                storageProductAdapter.submitData(it)
+                            }
+                        } else {
+                            Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    false -> {
+                        binding.mainProgressBar.visibility = View.VISIBLE
                     }
                 }
             }
+        }
+
+        binding.recyclerView.apply {
+            layoutManager = GridLayoutManager(context, COLUMN_COUNT)
+            adapter = storageProductAdapter
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -100,11 +96,11 @@ internal class StorageProductFragment : Fragment() {
                     }
 
                     else -> {
-                        storageProductAdapter.notifyItemChanged(
-                            storageProductAdapter.currentList.indexOf(
-                                it.storageProduct
-                            )
-                        )
+//                        storageProductAdapter.notifyItemChanged(
+//                            storageProductAdapter.currentList.indexOf(
+//                                it.storageProduct
+//                            )
+//                        )
                     }
                 }
             }

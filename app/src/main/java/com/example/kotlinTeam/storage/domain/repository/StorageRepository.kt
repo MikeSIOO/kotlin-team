@@ -5,7 +5,5 @@ import com.example.kotlinTeam.storage.domain.model.StorageProduct
 import kotlinx.coroutines.flow.Flow
 
 interface StorageRepository {
-    fun getProduct(parentId: Int): Flow<StorageStatuses<List<StorageProduct>>>
-
     fun selectProduct(storageProduct: StorageProduct): Flow<StorageStatuses<StorageProduct>>
 }
