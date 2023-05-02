@@ -22,7 +22,7 @@ fun TextView.setText(cuisines: List<CuisineDto>) {
 }
 
 @BindingAdapter("imageUrl")
-fun ImageView.loadImage(imageUrl: String) {
+fun ImageView.loadImage(imageUrl: String?) {
     val errorDrawable = ResourcesCompat.getDrawable(resources, R.drawable.feed_error, context.theme)
     Glide.with(context).load(imageUrl).error(errorDrawable).into(this)
 }
