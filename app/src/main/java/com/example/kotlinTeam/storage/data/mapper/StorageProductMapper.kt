@@ -36,4 +36,19 @@ class StorageProductMapper @Inject constructor() {
             storageProduct.parentId
         )
     }
+
+    fun mapEntityListToProductList(
+        storageProductEntity: List<StorageProductEntity>
+    ):List<StorageProduct> {
+        return storageProductEntity.map {
+            StorageProduct(
+                id = it.id,
+                name = it.name,
+                image = null,
+                parentId = it.parentId,
+                selected = true
+
+            )
+        }
+    }
 }

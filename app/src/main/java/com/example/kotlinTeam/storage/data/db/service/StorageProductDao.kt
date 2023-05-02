@@ -1,5 +1,6 @@
 package com.example.kotlinTeam.storage.data.db.service
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -16,4 +17,7 @@ interface StorageProductDao {
 
     @Delete
     suspend fun delete(storageProductEntity: StorageProductEntity)
+
+    @Query("SELECT * FROM StorageProductEntity")
+    fun getSelectedProducts(): List<StorageProductEntity>
 }

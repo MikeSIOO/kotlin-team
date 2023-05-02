@@ -72,4 +72,20 @@ class StorageRepositoryImplementation @Inject constructor(
                 )
             }
         }
+
+    override fun getSelectedProducts(): Flow<StorageStatuses<List<StorageProduct>>> =
+        flow {
+            try {
+                emit(StorageStatuses.Loading())
+                val selectedProductsEntities = storageProductDao.getSelectedProducts()
+                val selectedProducts = storageProductMapper.mapEntityListToProductList(selectedProductsEntities)
+                emit (StorageStatuses.Success(selectedProducts))
+            } catch (e: IOException) {
+                emit(
+                    StorageStatuses.Error(
+                        "Попробуйте позже"
+                    )
+                )
+            }
+        }
 }

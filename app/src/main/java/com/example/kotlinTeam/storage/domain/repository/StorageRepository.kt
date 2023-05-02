@@ -11,4 +11,6 @@ interface StorageRepository {
     fun getProduct(parentId: Int): Flow<StorageStatuses<List<StorageProduct>>>
 
     fun selectProduct(storageProduct: StorageProduct): Flow<StorageStatuses<StorageProduct>>
+
+    fun getSelectedProducts(): Flow<StorageStatuses<List<StorageProduct>>>
 }
