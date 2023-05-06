@@ -50,15 +50,7 @@ internal class StorageCategoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-//        binding.btnRetry.setOnClickListener {
-//            viewModel.onEvent(StorageCategoryEvents.InitCategory)
-//            binding.mainProgressBar.visibility = View.VISIBLE
-//            binding.btnRetry.visibility = View.GONE
-//        }
-//        binding.mainProgressBar.visibility = View.GONE
-//        binding.btnRetry.visibility = View.GONE
-//        binding.recyclerView.visibility = View.VISIBLE
+        // TODO не отображается состояние загрузки
         binding.recyclerView.visibility = View.VISIBLE
 
         viewLifecycleOwner.lifecycleScope.launch {

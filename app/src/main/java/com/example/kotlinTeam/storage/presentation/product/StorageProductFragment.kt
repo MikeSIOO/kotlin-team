@@ -57,6 +57,7 @@ internal class StorageProductFragment : Fragment() {
         }
         binding.title.text = parentName
 
+        // TODO не отображается состояние загрузки
         binding.recyclerView.visibility = View.VISIBLE
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -84,23 +85,23 @@ internal class StorageProductFragment : Fragment() {
             adapter = storageProductAdapter
         }
 
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.storageSelectProductState.collectLatest {
-                when {
-                    it.isLoading -> {
-//                        Toast.makeText(context, "LOADING SELECT", Toast.LENGTH_SHORT).show()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.storageSelectProductState.collectLatest { state ->
+                when (!state.isLoading) {
+                    true -> {
+                        binding.mainProgressBar.visibility = View.GONE
+                        if (state.error.isBlank()) {
+                            storageProductAdapter.notifyItemChanged(
+                                storageProductAdapter.snapshot().items.indexOf(
+                                    state.storageProduct
+                                )
+                            )
+                        } else {
+                            Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
+                        }
                     }
-
-                    it.error.isNotBlank() -> {
-                        Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
-                    }
-
-                    else -> {
-//                        storageProductAdapter.notifyItemChanged(
-//                            storageProductAdapter.currentList.indexOf(
-//                                it.storageProduct
-//                            )
-//                        )
+                    false -> {
+                        binding.mainProgressBar.visibility = View.VISIBLE
                     }
                 }
             }
