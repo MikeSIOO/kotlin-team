@@ -8,6 +8,7 @@ import com.example.kotlinTeam.common.data.dataSource.model.recipe.*
 import com.example.kotlinTeam.common.data.dataSource.model.storage.StorageCategoryDto
 import com.example.kotlinTeam.common.data.dataSource.model.storage.StorageProductDto
 import com.example.kotlinTeam.profile.common.Constants
+import com.example.kotlinTeam.storage.data.db.service.StorageProductDao
 import com.example.kotlinTeam.storage.data.mapper.StorageCategoryMapper
 import com.example.kotlinTeam.storage.data.mapper.StorageProductMapper
 import com.example.kotlinTeam.storage.domain.model.StorageCategory
@@ -21,6 +22,7 @@ import kotlinx.coroutines.tasks.await
 @Singleton
 class FirestoreRepository @Inject constructor(
     private val firestore: FirebaseFirestore,
+    private val storageProductDao: StorageProductDao,
     private val storageCategoryMapper: StorageCategoryMapper,
     private val storageProductMapper: StorageProductMapper,
 ) {
@@ -118,7 +120,7 @@ class FirestoreRepository @Inject constructor(
     }
     fun getProduct(parentId: String): Flow<PagingData<StorageProduct>> {
         val recipeCollectionRef = firestore.collection(com.example.kotlinTeam.storage.common.Constants.PRODUCT_COLLECTION)
-        // TODO parentId
+        // TODO parentId to query
         val query = recipeCollectionRef.orderBy(com.example.kotlinTeam.storage.common.Constants.TITLE_PROPERTY)
 
         val pagingConfig = PagingConfig(
@@ -131,7 +133,12 @@ class FirestoreRepository @Inject constructor(
             config = pagingConfig,
             pagingSourceFactory = {
                 FirestorePagingSource(query) {
-                    storageProductMapper.map(it.toObject(StorageProductDto::class.java)!!, null)
+                    storageProductMapper.map(
+                        it.toObject(StorageProductDto::class.java)!!,
+                        storageProductDao.getById(
+                            it.toObject(StorageProductDto::class.java)!!.id.toString()
+                        )
+                    )
                 }
             }
         ).flow
