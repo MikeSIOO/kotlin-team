@@ -3,8 +3,8 @@ package com.example.kotlinTeam.feed.domain
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kotlinTeam.databinding.RecipeStepItemBinding
 import com.example.kotlinTeam.common.data.dataSource.model.recipe.StepOo
+import com.example.kotlinTeam.databinding.RecipeStepItemBinding
 
 class StepsAdapter : RecyclerView.Adapter<StepsAdapter.StepsViewHolder>() {
     class StepsViewHolder(private val binding: RecipeStepItemBinding) :

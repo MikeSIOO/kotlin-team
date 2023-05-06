@@ -38,7 +38,10 @@ class StorageCategoryViewModel @Inject constructor(
             _storageCategoryState.value = StorageCategoryState(isLoading = true)
             try {
                 storageGetCategoryUseCase.invoke().cachedIn(viewModelScope).collect {
-                    _storageCategoryState.value = StorageCategoryState(isLoading = false, storageCategory = it)
+                    _storageCategoryState.value = StorageCategoryState(
+                        isLoading = false,
+                        storageCategory = it
+                    )
                 }
             } catch (e: Exception) {
                 _storageCategoryState.value = StorageCategoryState(

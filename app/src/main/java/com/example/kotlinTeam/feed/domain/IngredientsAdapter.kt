@@ -3,8 +3,8 @@ package com.example.kotlinTeam.feed.domain
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kotlinTeam.databinding.IngredientItemBinding
 import com.example.kotlinTeam.common.data.dataSource.model.recipe.IngredientOo
+import com.example.kotlinTeam.databinding.IngredientItemBinding
 
 class IngredientsAdapter : RecyclerView.Adapter<IngredientsAdapter.IngredientsViewHolder>() {
     class IngredientsViewHolder(private val binding: IngredientItemBinding) :

@@ -50,7 +50,6 @@ class FeedFragment : Fragment(R.layout.fragment_feed), CardStackListener {
                             state.data?.let {
                                 feedRecipeAdapter.submitData(it)
                             }
-
                         } else {
                             Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT)
                                 .show()

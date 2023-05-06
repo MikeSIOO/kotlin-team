@@ -98,8 +98,12 @@ class FirestoreRepository @Inject constructor(
 
     // хранилище продуктов
     fun getCategory(): Flow<PagingData<StorageCategory>> {
-        val recipeCollectionRef = firestore.collection(com.example.kotlinTeam.storage.common.Constants.CATEGORY_COLLECTION)
-        val query = recipeCollectionRef.orderBy(com.example.kotlinTeam.storage.common.Constants.TITLE_PROPERTY)
+        val recipeCollectionRef = firestore.collection(
+            com.example.kotlinTeam.storage.common.Constants.CATEGORY_COLLECTION
+        )
+        val query = recipeCollectionRef.orderBy(
+            com.example.kotlinTeam.storage.common.Constants.TITLE_PROPERTY
+        )
 
         val pagingConfig = PagingConfig(
             pageSize = com.example.kotlinTeam.storage.common.Constants.PAGE_SIZE,
@@ -118,7 +122,9 @@ class FirestoreRepository @Inject constructor(
     }
 
     fun getProduct(parentId: String): Flow<PagingData<StorageProduct>> {
-        val recipeCollectionRef = firestore.collection(com.example.kotlinTeam.storage.common.Constants.PRODUCT_COLLECTION)
+        val recipeCollectionRef = firestore.collection(
+            com.example.kotlinTeam.storage.common.Constants.PRODUCT_COLLECTION
+        )
 
         val query = recipeCollectionRef
             .whereEqualTo("parentId", "/category/$parentId")

@@ -28,7 +28,6 @@ class StorageProductViewModel @Inject constructor(
     private val _parentId = MutableLiveData("")
     val parentId: LiveData<String> = _parentId
 
-
     private val _storageProductState: MutableStateFlow<StorageProductState> = MutableStateFlow(
         StorageProductState(isLoading = true, storageProduct = null)
     )
@@ -56,7 +55,10 @@ class StorageProductViewModel @Inject constructor(
             _storageProductState.value = StorageProductState(isLoading = true)
             try {
                 storageGetProductUseCase.invoke(parentId.value!!).cachedIn(viewModelScope).collect {
-                    _storageProductState.value = StorageProductState(isLoading = false, storageProduct = it)
+                    _storageProductState.value = StorageProductState(
+                        isLoading = false,
+                        storageProduct = it
+                    )
                 }
             } catch (e: Exception) {
                 _storageProductState.value = StorageProductState(
