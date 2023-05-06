@@ -17,7 +17,7 @@ class StorageRepositoryImplementation @Inject constructor(
     private val storageMapper: StorageMapper,
 ) : StorageRepository {
     override fun selectProduct(storageProduct: StorageProduct):
-            Flow<StorageStatuses<StorageProduct>> = flow {
+        Flow<StorageStatuses<StorageProduct>> = flow {
             try {
                 emit(StorageStatuses.Loading())
                 val storageProductEntity = storageMapper.mapToProductEntity(storageProduct)

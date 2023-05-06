@@ -5,16 +5,19 @@ import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
-import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.example.kotlinTeam.R
 import com.example.kotlinTeam.common.viewBinding.viewBinding
 import com.example.kotlinTeam.databinding.FragmentFeedBinding
 import com.example.kotlinTeam.feed.domain.FeedAdapter
+import com.example.kotlinTeam.feed.domain.FeedLoadStateAdapter
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.Direction
@@ -32,36 +35,30 @@ class FeedFragment : Fragment(R.layout.fragment_feed), CardStackListener {
     private val binding by viewBinding(FragmentFeedBinding::bind)
     lateinit var manager: CardStackLayoutManager
     private val feedRecipeAdapter = FeedAdapter()
+    private val header = FeedLoadStateAdapter()
     private val viewModel: FeedViewModel by activityViewModels()
     private val cardStackView get() = binding.cardStackView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
+        val adapterWithLoadState = feedRecipeAdapter.withLoadStateHeader(header)
+        binding.retryButton.setOnClickListener { feedRecipeAdapter.retry() }
         manager = CardStackLayoutManager(context, this)
-        manager.topPosition = viewModel.feedState.value.topPosition
-        val progressBar = binding.progressBar
+        manager.topPosition = viewModel.currentRecipeState.value.topPosition
+
+        setupCardStackView(adapterWithLoadState)
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.feedState.collectLatest { state ->
-                when (!state.isLoading) {
-                    true -> {
-                        progressBar.visibility = View.GONE
-                        if (state.error.isBlank()) {
-                            state.data?.let {
-                                feedRecipeAdapter.submitData(it)
-                            }
-                        } else {
-                            Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    }
-                    false -> {
-                        progressBar.visibility = View.VISIBLE
-                    }
+            viewModel.feedRecipes.collect { recipes ->
+                recipes.let {
+                    feedRecipeAdapter.submitData(it)
                 }
             }
         }
-        setupCardStackView()
+
+        observeLoadState(feedRecipeAdapter)
+
         setupButtons()
         cardStackView.itemAnimator.apply {
             if (this is DefaultItemAnimator) {
@@ -106,7 +103,7 @@ class FeedFragment : Fragment(R.layout.fragment_feed), CardStackListener {
         }
     }
 
-    private fun setupCardStackView() {
+    private fun setupCardStackView(feedAdapter: ConcatAdapter) {
         manager.setStackFrom(StackFrom.None)
         manager.setVisibleCount(VISIBLE_COUNT)
         manager.setTranslationInterval(TRANSLATION_INTERVAL)
@@ -121,7 +118,18 @@ class FeedFragment : Fragment(R.layout.fragment_feed), CardStackListener {
 
         cardStackView.apply {
             layoutManager = manager
-            adapter = feedRecipeAdapter
+            adapter = feedAdapter
+        }
+    }
+
+    private fun observeLoadState(feedAdapter: FeedAdapter) {
+        lifecycleScope.launch {
+            feedAdapter.loadStateFlow.collectLatest {
+                binding.cardStackViewWrapper.isVisible = it.refresh is LoadState.NotLoading
+                binding.progressBar.isVisible = it.refresh is LoadState.Loading
+                binding.retryButton.isVisible =
+                    it.refresh is LoadState.Error && feedAdapter.itemCount == 0
+            }
         }
     }
 

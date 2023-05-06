@@ -2,6 +2,7 @@ package com.example.kotlinTeam.feed.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.kotlinTeam.common.data.dataSource.model.recipe.RecipeOo
 import com.example.kotlinTeam.feed.domain.useCase.FeedUseCases
@@ -15,9 +16,9 @@ class FeedViewModel @Inject constructor(
     private val useCases: FeedUseCases
 ) : ViewModel() {
 
-    private val _feedState: MutableStateFlow<FeedState> =
-        MutableStateFlow(FeedState(isLoading = true, data = null))
-    val feedState: StateFlow<FeedState> = _feedState.asStateFlow()
+    private val _feedRecipes: MutableStateFlow<PagingData<RecipeOo>> =
+        MutableStateFlow(PagingData.empty())
+    val feedRecipes: StateFlow<PagingData<RecipeOo>> = _feedRecipes
 
     private val _currentRecipeState: MutableStateFlow<CurrentRecipeState> = MutableStateFlow(
         CurrentRecipeState()
@@ -25,20 +26,13 @@ class FeedViewModel @Inject constructor(
     val currentRecipeState: StateFlow<CurrentRecipeState> = _currentRecipeState
 
     init {
-        System.out.println("state 0 vm ${_feedState.value}")
         viewModelScope.launch {
-
-            _feedState.value = FeedState(isLoading = true, topPosition = 0)
             try {
                 useCases.getFeedUseCase().cachedIn(viewModelScope).collect {
-                    _feedState.value = FeedState(isLoading = false, data = it, topPosition = 0)
+                    _feedRecipes.value = it
                 }
             } catch (e: Exception) {
-                _feedState.value = FeedState(
-                    isLoading = false,
-                    error = e.localizedMessage ?: "Unknown error",
-                    topPosition = 0
-                )
+                _feedRecipes.value = PagingData.empty()
             }
         }
     }
@@ -62,10 +56,9 @@ class FeedViewModel @Inject constructor(
     }
 
     fun changeManagerTopPosition(diff: Int) {
-        _feedState.value =
-            feedState.value.copy(
-                topPosition = feedState.value.topPosition + diff
-            )
+        _currentRecipeState.value = currentRecipeState.value.copy(
+            topPosition = currentRecipeState.value.topPosition + diff
+        )
     }
 
     override fun onCleared() {

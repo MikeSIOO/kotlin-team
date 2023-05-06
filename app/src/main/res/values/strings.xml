@@ -34,4 +34,6 @@
     <string name="hide">Свернуть</string>
     <string name="storage_title">Выберите продукты</string>
     <string name="storage_subtitle">которые у вас есть</string>
+    <string name="sorry_can_t_load_data">Ошибка при загрузке данных</string>
+    <string name="try_again">Обновить</string>
 </resources>
