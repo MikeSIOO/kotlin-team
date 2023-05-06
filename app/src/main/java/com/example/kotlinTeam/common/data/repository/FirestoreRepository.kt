@@ -9,8 +9,7 @@ import com.example.kotlinTeam.common.data.dataSource.model.storage.StorageCatego
 import com.example.kotlinTeam.common.data.dataSource.model.storage.StorageProductDto
 import com.example.kotlinTeam.profile.common.Constants
 import com.example.kotlinTeam.storage.data.db.service.StorageProductDao
-import com.example.kotlinTeam.storage.data.mapper.StorageCategoryMapper
-import com.example.kotlinTeam.storage.data.mapper.StorageProductMapper
+import com.example.kotlinTeam.storage.data.mapper.StorageMapper
 import com.example.kotlinTeam.storage.domain.model.StorageCategory
 import com.example.kotlinTeam.storage.domain.model.StorageProduct
 import com.google.firebase.firestore.FirebaseFirestore
@@ -23,8 +22,7 @@ import kotlinx.coroutines.tasks.await
 class FirestoreRepository @Inject constructor(
     private val firestore: FirebaseFirestore,
     private val storageProductDao: StorageProductDao,
-    private val storageCategoryMapper: StorageCategoryMapper,
-    private val storageProductMapper: StorageProductMapper,
+    private val storageMapper: StorageMapper,
 ) {
     private suspend fun RecipeDto.toRecipeOo(): RecipeOo {
         return RecipeOo(
@@ -113,11 +111,12 @@ class FirestoreRepository @Inject constructor(
             config = pagingConfig,
             pagingSourceFactory = {
                 FirestorePagingSource(query) {
-                    storageCategoryMapper.map(it.toObject(StorageCategoryDto::class.java)!!)
+                    storageMapper.mapCategory(it.toObject(StorageCategoryDto::class.java)!!)
                 }
             }
         ).flow
     }
+
     fun getProduct(parentId: String): Flow<PagingData<StorageProduct>> {
         val recipeCollectionRef = firestore.collection(com.example.kotlinTeam.storage.common.Constants.PRODUCT_COLLECTION)
 
@@ -135,7 +134,7 @@ class FirestoreRepository @Inject constructor(
             config = pagingConfig,
             pagingSourceFactory = {
                 FirestorePagingSource(query) {
-                    storageProductMapper.map(
+                    storageMapper.mapProduct(
                         it.toObject(StorageProductDto::class.java)!!,
                         storageProductDao.getById(
                             it.toObject(StorageProductDto::class.java)!!.id.toString()

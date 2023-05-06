@@ -57,20 +57,31 @@ internal class StorageProductFragment : Fragment() {
         }
         binding.title.text = parentName
 
-        // TODO не отображается состояние загрузки
-        binding.recyclerView.visibility = View.VISIBLE
+        binding.recyclerView.apply {
+            layoutManager = GridLayoutManager(context, COLUMN_COUNT)
+            adapter = storageProductAdapter
+        }
 
+        binding.btnRetry.setOnClickListener {
+            viewModel.onEvent(StorageProductEvents.InitProduct(parentId))
+            binding.mainProgressBar.visibility = View.VISIBLE
+            binding.btnRetry.visibility = View.GONE
+        }
+
+        // TODO не отображается состояние загрузки
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.storageProductState.collectLatest { state ->
                 when (!state.isLoading) {
                     true -> {
                         binding.mainProgressBar.visibility = View.GONE
                         if (state.error.isBlank()) {
+                            binding.recyclerView.visibility = View.VISIBLE
                             state.storageProduct?.let {
                                 storageProductAdapter.submitData(it)
                             }
                         } else {
-                            Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
+                            binding.btnRetry.visibility = View.VISIBLE
+                            Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
                         }
                     }
                     false -> {
@@ -78,11 +89,6 @@ internal class StorageProductFragment : Fragment() {
                     }
                 }
             }
-        }
-
-        binding.recyclerView.apply {
-            layoutManager = GridLayoutManager(context, COLUMN_COUNT)
-            adapter = storageProductAdapter
         }
 
         viewLifecycleOwner.lifecycleScope.launch {

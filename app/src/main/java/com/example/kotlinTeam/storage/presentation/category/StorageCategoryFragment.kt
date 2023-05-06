@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.kotlinTeam.R
 import com.example.kotlinTeam.common.viewBinding.viewBinding
 import com.example.kotlinTeam.databinding.FragmentStorageCategoryBinding
+import com.example.kotlinTeam.storage.domain.events.StorageCategoryEvents
 import com.example.kotlinTeam.storage.domain.model.StorageCategory
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -50,20 +51,26 @@ internal class StorageCategoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // TODO не отображается состояние загрузки
-        binding.recyclerView.visibility = View.VISIBLE
+        binding.btnRetry.setOnClickListener {
+            viewModel.onEvent(StorageCategoryEvents.InitCategory)
+            binding.mainProgressBar.visibility = View.VISIBLE
+            binding.btnRetry.visibility = View.GONE
+        }
 
+        // TODO не отображается состояние загрузки
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.storageCategoryState.collectLatest { state ->
                 when (!state.isLoading) {
                     true -> {
                         binding.mainProgressBar.visibility = View.GONE
                         if (state.error.isBlank()) {
+                            binding.recyclerView.visibility = View.VISIBLE
                             state.storageCategory?.let {
                                 storageCategoryAdapter.submitData(it)
                             }
                         } else {
-                            Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
+                            binding.btnRetry.visibility = View.VISIBLE
+                            Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
                         }
                     }
                     false -> {

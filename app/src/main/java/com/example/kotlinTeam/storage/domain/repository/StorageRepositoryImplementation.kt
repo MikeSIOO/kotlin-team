@@ -2,7 +2,7 @@ package com.example.kotlinTeam.storage.domain.repository
 
 import com.example.kotlinTeam.storage.common.StorageStatuses
 import com.example.kotlinTeam.storage.data.db.service.StorageProductDao
-import com.example.kotlinTeam.storage.data.mapper.StorageProductMapper
+import com.example.kotlinTeam.storage.data.mapper.StorageMapper
 import com.example.kotlinTeam.storage.domain.model.StorageProduct
 import java.io.IOException
 import javax.inject.Inject
@@ -14,13 +14,13 @@ import kotlinx.coroutines.flow.flow
 @Singleton
 class StorageRepositoryImplementation @Inject constructor(
     private val storageProductDao: StorageProductDao,
-    private val storageProductMapper: StorageProductMapper,
+    private val storageMapper: StorageMapper,
 ) : StorageRepository {
     override fun selectProduct(storageProduct: StorageProduct): Flow<StorageStatuses<StorageProduct>> =
         flow {
             try {
                 emit(StorageStatuses.Loading())
-                val storageProductEntity = storageProductMapper.mapToEntity(storageProduct)
+                val storageProductEntity = storageMapper.mapToProductEntity(storageProduct)
                 if (storageProduct.selected) {
                     storageProductDao.delete(storageProductEntity)
                 } else {
