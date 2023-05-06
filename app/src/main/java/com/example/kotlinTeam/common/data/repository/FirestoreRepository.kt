@@ -120,8 +120,10 @@ class FirestoreRepository @Inject constructor(
     }
     fun getProduct(parentId: String): Flow<PagingData<StorageProduct>> {
         val recipeCollectionRef = firestore.collection(com.example.kotlinTeam.storage.common.Constants.PRODUCT_COLLECTION)
-        // TODO parentId to query
-        val query = recipeCollectionRef.orderBy(com.example.kotlinTeam.storage.common.Constants.TITLE_PROPERTY)
+
+        val query = recipeCollectionRef
+            .whereEqualTo("parentId", "/category/$parentId")
+            .orderBy(com.example.kotlinTeam.storage.common.Constants.TITLE_PROPERTY)
 
         val pagingConfig = PagingConfig(
             pageSize = com.example.kotlinTeam.storage.common.Constants.PAGE_SIZE,
