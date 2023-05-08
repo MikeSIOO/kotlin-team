@@ -3,4 +3,25 @@
     <dimen name="text_onboarding_title">40sp</dimen>
     <dimen name="text_onboarding_sub">20sp</dimen>
     <dimen name="oboarding_circle_stating_size">251dp</dimen>
+
+    <!--utils-->
+    <dimen name="zero_size">0dp</dimen>
+
+    <!--padding-->
+    <dimen name="padding_button_vertical">16dp</dimen>
+
+    <!-- margin -->
+    <dimen name="margin_entry_top">60dp</dimen>
+    <dimen name="margin_sign_in_top">120dp</dimen>
+    <dimen name="margin_sign_up_top">120dp</dimen>
+    <dimen name="margin_vertical">20dp</dimen>
+    <dimen name="window_box_margin">20dp</dimen>
+    <dimen name="margin_button_horizontal">52dp</dimen>
+
+    <!-- text size -->
+    <dimen name="text_size_large">24sp</dimen>
+    <dimen name="text_size_small">16sp</dimen>
+
+    <!--corner-->
+    <dimen name="button_corner_radius">12dp</dimen>
 </resources>
