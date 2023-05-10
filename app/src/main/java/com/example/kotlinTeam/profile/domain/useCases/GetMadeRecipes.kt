@@ -11,6 +11,6 @@ class GetMadeRecipes @Inject constructor(
 ) {
 
     operator fun invoke(id: String): Flow<PagingData<RecipeOo>> {
-        return repository.getRecipes(id)
+        return repository.getRecipesByUserId(id)
     }
 }
