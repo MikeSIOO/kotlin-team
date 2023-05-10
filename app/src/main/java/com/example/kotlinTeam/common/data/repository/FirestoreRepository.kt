@@ -115,7 +115,7 @@ class FirestoreRepository @Inject constructor(
             config = pagingConfig,
             pagingSourceFactory = {
                 FirestorePagingSource(query) {
-                    storageMapper.mapCategory(it.toObject(StorageCategoryDto::class.java)!!)
+                    storageMapper.mapCategory(it.toObject(StorageCategoryDto::class.java))
                 }
             }
         ).flow
@@ -141,9 +141,9 @@ class FirestoreRepository @Inject constructor(
             pagingSourceFactory = {
                 FirestorePagingSource(query) {
                     storageMapper.mapProduct(
-                        it.toObject(StorageProductDto::class.java)!!,
+                        it.toObject(StorageProductDto::class.java),
                         storageProductDao.getById(
-                            it.toObject(StorageProductDto::class.java)!!.id.toString()
+                            it.toObject(StorageProductDto::class.java)?.id.toString()
                         )
                     )
                 }

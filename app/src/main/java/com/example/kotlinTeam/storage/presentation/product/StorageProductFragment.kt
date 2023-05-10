@@ -75,17 +75,21 @@ internal class StorageProductFragment : Fragment() {
                     true -> {
                         binding.mainProgressBar.visibility = View.GONE
                         if (state.error.isBlank()) {
+                            binding.btnRetry.visibility = View.GONE
                             binding.recyclerView.visibility = View.VISIBLE
                             state.storageProduct?.let {
                                 storageProductAdapter.submitData(it)
                             }
                         } else {
                             binding.btnRetry.visibility = View.VISIBLE
+                            binding.recyclerView.visibility = View.GONE
                             Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
                         }
                     }
                     false -> {
                         binding.mainProgressBar.visibility = View.VISIBLE
+                        binding.btnRetry.visibility = View.GONE
+                        binding.recyclerView.visibility = View.GONE
                     }
                 }
             }

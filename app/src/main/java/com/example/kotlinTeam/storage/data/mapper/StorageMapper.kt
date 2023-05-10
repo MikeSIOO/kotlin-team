@@ -8,23 +8,23 @@ import com.example.kotlinTeam.storage.domain.model.StorageProduct
 import javax.inject.Inject
 
 class StorageMapper @Inject constructor() {
-    fun mapCategory(input: StorageCategoryDto): StorageCategory {
+    fun mapCategory(input: StorageCategoryDto?): StorageCategory {
         return StorageCategory(
-            id = input.id,
-            title = input.title,
-            image = input.image
+            id = input?.id,
+            title = input?.title,
+            image = input?.image
         )
     }
 
     fun mapProduct(
-        storageProductDto: StorageProductDto,
+        storageProductDto: StorageProductDto?,
         storageProductEntity: StorageProductEntity?
     ): StorageProduct {
         return StorageProduct(
-            id = storageProductDto.id,
-            title = storageProductDto.title,
-            image = storageProductDto.image,
-            parentId = storageProductDto.parentId,
+            id = storageProductDto?.id,
+            title = storageProductDto?.title,
+            image = storageProductDto?.image,
+            parentId = storageProductDto?.parentId,
             selected = storageProductEntity != null
         )
     }
@@ -33,7 +33,7 @@ class StorageMapper @Inject constructor() {
         storageProduct: StorageProduct,
     ): StorageProductEntity {
         return StorageProductEntity(
-            storageProduct.id!!,
+            storageProduct.id.toString(),
             storageProduct.title,
             storageProduct.parentId
         )
