@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.kotlinTeam.R
 import com.example.kotlinTeam.common.viewBinding.viewBinding
@@ -53,16 +54,13 @@ internal class StorageCategoryFragment : Fragment() {
 
         binding.btnRetry.setOnClickListener {
             viewModel.onEvent(StorageCategoryEvents.InitCategory)
-            binding.mainProgressBar.visibility = View.VISIBLE
             binding.btnRetry.visibility = View.GONE
         }
 
-        // TODO не отображается состояние загрузки
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.storageCategoryState.collectLatest { state ->
                 when (!state.isLoading) {
                     true -> {
-                        binding.mainProgressBar.visibility = View.GONE
                         if (state.error.isBlank()) {
                             binding.btnRetry.visibility = View.GONE
                             binding.recyclerView.visibility = View.VISIBLE
@@ -76,11 +74,18 @@ internal class StorageCategoryFragment : Fragment() {
                         }
                     }
                     false -> {
-                        binding.mainProgressBar.visibility = View.VISIBLE
                         binding.btnRetry.visibility = View.GONE
                         binding.recyclerView.visibility = View.GONE
                     }
                 }
+            }
+        }
+
+        storageCategoryAdapter.addLoadStateListener { loadState ->
+            if (loadState.refresh is LoadState.Loading) {
+                binding.mainProgressBar.visibility = View.VISIBLE
+            } else {
+                binding.mainProgressBar.visibility = View.GONE
             }
         }
 

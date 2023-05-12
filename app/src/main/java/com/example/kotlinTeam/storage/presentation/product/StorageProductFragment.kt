@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.kotlinTeam.R
 import com.example.kotlinTeam.common.viewBinding.viewBinding
@@ -68,7 +69,6 @@ internal class StorageProductFragment : Fragment() {
             binding.btnRetry.visibility = View.GONE
         }
 
-        // TODO не отображается состояние загрузки
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.storageProductState.collectLatest { state ->
                 when (!state.isLoading) {
@@ -114,6 +114,14 @@ internal class StorageProductFragment : Fragment() {
                         binding.mainProgressBar.visibility = View.VISIBLE
                     }
                 }
+            }
+        }
+
+        storageProductAdapter.addLoadStateListener { loadState ->
+            if (loadState.refresh is LoadState.Loading) {
+                binding.mainProgressBar.visibility = View.VISIBLE
+            } else {
+                binding.mainProgressBar.visibility = View.GONE
             }
         }
 
