@@ -1,163 +1,145 @@
 package com.example.kotlinTeam.authentication.presentation.viewmodel
 
-import android.content.Context
-import android.widget.Toast
+import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.example.kotlinTeam.authentication.data.repository.FirebaseRepository
-import com.example.kotlinTeam.authentication.presentation.SignEvents
-import com.example.kotlinTeam.authentication.presentation.SignInState
-import com.example.kotlinTeam.authentication.presentation.SignUpState
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
+import androidx.lifecycle.viewModelScope
+import com.example.kotlinTeam.authentication.domain.AuthUseCases
+import com.example.kotlinTeam.authentication.presentation.AuthEvents
+import com.google.firebase.auth.FirebaseUser
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.receiveAsFlow
+import javax.inject.Inject
 
-class FirebaseAuthViewModel : ViewModel() {
+@HiltViewModel
+class FirebaseAuthViewModel @Inject constructor(
+    private val authUseCases: AuthUseCases
+) : ViewModel() {
 
-    private val firebaseRepository: FirebaseRepository = FirebaseRepository()
+    private val _firebaseUser = MutableStateFlow<FirebaseUser?>(null)
+    val currentUser get() = _firebaseUser
 
-    private val _stateSignUp = MutableStateFlow(SignUpState())
-    val stateSignUp: StateFlow<SignUpState> = _stateSignUp
+    private val eventsChannel = Channel<UIEvents>()
+    val UIEventsFlow = eventsChannel.receiveAsFlow()
 
-    private val _stateSignIn = MutableStateFlow(SignInState())
-    val stateSignIn: StateFlow<SignInState> = _stateSignIn
+    init {
+        _firebaseUser.value = authUseCases.getCurrentUser()
+    }
 
-    suspend fun onEvent(event: SignEvents) {
+    fun onEvent(event: AuthEvents) {
         when (event) {
-            is SignEvents.SignUp -> {
-                signUp(event.context, event.email, event.pasword, event.confirmedPassword)
+            is AuthEvents.SingUp -> {
+                signUpUser(event.email, event.password, event.confirmedPassword)
             }
-            is SignEvents.SignIn -> {
-                signIn(event.context, event.email, event.password)
+            is AuthEvents.SingIn -> {
+                signInUser(event.email, event.password)
+            }
+            is AuthEvents.ResetPassword -> {
+                verifySendPasswordReset(event.email)
             }
         }
     }
 
-    suspend fun signUp(
-        context: Context,
-        email: String,
-        pasword: String,
-        confirmedPassword: String
-    ) {
-        if (withContext(Dispatchers.IO) {
-            async {
-                checkSignUp(
-                        context,
-                        email,
-                        pasword,
-                        confirmedPassword
-                    )
+
+
+    private fun signInUser(email: String , password: String) = viewModelScope.launch {
+        eventsChannel.send(UIEvents.Loading)
+        when {
+            email.isEmpty() -> {
+                eventsChannel.send(UIEvents.ErrorCode(1))
             }
-        }.await() == true
-        ) {
-            _stateSignUp.value = stateSignUp.value.copy(
-                isSignUpSuccesfull = true
-            )
+            password.isEmpty() -> {
+                eventsChannel.send(UIEvents.ErrorCode(2))
+            }
+            else -> {
+                actualSignInUser(email , password)
+            }
         }
     }
 
-    private suspend fun checkSignUp(
-        context: Context,
-        email: String,
-        pasword: String,
-        confirmedPassword: String
-    ): Boolean? {
-        if (email.isNotEmpty() && pasword.isNotEmpty() && confirmedPassword.isNotEmpty()) {
-            if (pasword == confirmedPassword) {
-                var isSignSuccess: Boolean? = null
-                signUpUser(context, email, pasword) {
-                    isSignSuccess = it
-                }
-                return isSignSuccess
-            } else {
-                getToast(context, WRONG_PASSWORD_REPEAT)
+    private fun signUpUser(email : String , password: String , confirmPass : String)= viewModelScope.launch {
+        eventsChannel.send(UIEvents.Loading)
+        when {
+            email.isEmpty() -> {
+                eventsChannel.send(UIEvents.ErrorCode(1))
+            }
+            password.isEmpty() -> {
+                eventsChannel.send(UIEvents.ErrorCode(2))
+            }
+            password != confirmPass ->{
+                eventsChannel.send(UIEvents.ErrorCode(3))
+            }
+            else -> {
+                actualSignUpUser(email, password)
+            }
+        }
+    }
+
+
+    private fun actualSignInUser(email:String, password: String) = viewModelScope.launch {
+        eventsChannel.send(UIEvents.Loading)
+        try {
+            val user = authUseCases.singIn(email, password)
+            user?.let {
+                _firebaseUser.value = it
+                eventsChannel.send(UIEvents.Message("Успешно"))
+            }
+        } catch(e:Exception) {
+            val error = e.toString().split(":").toTypedArray()
+            Log.d("auth", "signInUser: ${error[1]}")
+            eventsChannel.send(UIEvents.Error(error[1]))
+        }
+    }
+
+    private fun actualSignUpUser(email:String , password: String) = viewModelScope.launch {
+        eventsChannel.send(UIEvents.Loading)
+        try {
+            val user = authUseCases.singUp(email, password)
+            user?.let {
+                eventsChannel.send(UIEvents.Message("Успешно"))
+                eventsChannel.send(UIEvents.Registered)
+            }
+        } catch(e:Exception) {
+            val error = e.toString().split(":").toTypedArray()
+            Log.d("auth", "signInUser: ${error[1]}")
+            eventsChannel.send(UIEvents.Error(error[1]))
+        }
+    }
+
+    private fun verifySendPasswordReset(email: String) {
+        if (email.isEmpty()){
+            viewModelScope.launch {
+                eventsChannel.send(UIEvents.ErrorCode(1))
             }
         } else {
-            getToast(context, WRONG_DATA)
+            sendPasswordResetEmail(email)
         }
-        return false
+
     }
 
-    private suspend fun signUpUser(
-        context: Context,
-        email: String,
-        pasword: String,
-        onSignCompleted: (Boolean) -> Unit
-    ) {
-        firebaseRepository.signUp(email, pasword).addOnCompleteListener {
-            if (it.isSuccessful) {
-                onSignCompleted.invoke(true)
-                getToast(
-                    context,
-                    "$email успешно зарегистрирован",
-                )
+    private fun sendPasswordResetEmail(email: String) = viewModelScope.launch {
+        eventsChannel.send(UIEvents.Loading)
+        try {
+            val result = authUseCases.resetPassword(email)
+            if (result) {
+                eventsChannel.send(UIEvents.Message("reset email sent"))
             } else {
-                onSignCompleted.invoke(false)
-                getToast(
-                    context,
-                    it.exception.toString()
-                )
+                eventsChannel.send(UIEvents.Error("could not send password reset"))
             }
-        }.await()
-    }
-
-    suspend fun signIn(context: Context, email: String, password: String) {
-        if (withContext(Dispatchers.IO) {
-            async {
-                checkSignIn(context, email, password)
-            }
-        }.await() == true
-        ) {
-            _stateSignIn.value = stateSignIn.value.copy(
-                isSignInSuccesfull = true
-            )
+        } catch (e : Exception) {
+            val error = e.toString().split(":").toTypedArray()
+            Log.d("auth", "signInUser: ${error[1]}")
+            eventsChannel.send(UIEvents.Error(error[1]))
         }
     }
 
-    private suspend fun checkSignIn(context: Context, email: String, password: String): Boolean? {
-        if (email.isNotEmpty() && password.isNotEmpty()) {
-            var isSignSuccess: Boolean? = null
-            signInUser(context, email, password) {
-                isSignSuccess = it
-            }
-            return isSignSuccess
-        } else {
-            Toast.makeText(context, WRONG_DATA, Toast.LENGTH_SHORT).show()
-        }
-        return false
-    }
-
-    private suspend fun signInUser(
-        context: Context,
-        email: String,
-        pasword: String,
-        onSignCompleted: (Boolean) -> Unit
-    ) {
-        firebaseRepository.signIn(email, pasword).addOnCompleteListener {
-            if (it.isSuccessful) {
-                onSignCompleted.invoke(true)
-                getToast(
-                    context,
-                    "$email успешно вошел",
-                )
-            } else {
-                onSignCompleted.invoke(true)
-                getToast(
-                    context,
-                    it.exception.toString()
-                )
-            }
-        }.await()
-    }
-
-    private fun getToast(context: Context, message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-    }
-
-    companion object {
-        private const val WRONG_DATA = "Вы не ввели все данные"
-        private const val WRONG_PASSWORD_REPEAT = "Пароли не совпадают"
+    sealed class UIEvents {
+        object Registered: UIEvents()
+        object Loading : UIEvents()
+        data class Message(val message : String) : UIEvents()
+        data class ErrorCode(val code : Int):UIEvents()
+        data class Error(val error : String) : UIEvents()
     }
 }

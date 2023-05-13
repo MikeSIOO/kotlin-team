@@ -4,5 +4,6 @@ import javax.inject.Inject
 
 data class ProfileUseCases @Inject constructor(
     val getProfile: GetProfile,
-    val getMadeRecipes: GetMadeRecipes
+    val getMadeRecipes: GetMadeRecipes,
+    val logOut: LogOut
 )
