@@ -13,8 +13,8 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.kotlinTeam.R
 import com.example.kotlinTeam.common.viewBinding.viewBinding
-import com.example.kotlinTeam.databinding.FragmentStorageCategoryBinding
-import com.example.kotlinTeam.storage.domain.events.StorageCategoryEvents
+import com.example.kotlinTeam.databinding.FragmentStorageBinding
+import com.example.kotlinTeam.storage.domain.events.StorageEvents
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -24,7 +24,7 @@ private const val COLUMN_COUNT = 3
 @AndroidEntryPoint
 internal class StorageFragment : Fragment() {
 
-    private val binding by viewBinding(FragmentStorageCategoryBinding::bind)
+    private val binding by viewBinding(FragmentStorageBinding::bind)
     private val viewModel: StorageViewModel by viewModels()
 
     private val storageAdapter = StorageAdapter()
@@ -34,14 +34,14 @@ internal class StorageFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_storage_category, container, false)
+        return inflater.inflate(R.layout.fragment_storage, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnRetry.setOnClickListener {
-            viewModel.onEvent(StorageCategoryEvents.InitCategory)
+            viewModel.onEvent(StorageEvents.InitCategory)
             binding.btnRetry.visibility = View.GONE
         }
 
@@ -52,7 +52,8 @@ internal class StorageFragment : Fragment() {
                         if (state.error.isBlank()) {
                             binding.btnRetry.visibility = View.GONE
                             binding.recyclerView.visibility = View.VISIBLE
-                            state.storageCategory?.let {
+                            state.storageData?.let {
+                                Log.i("!@#", it.toString())
                                 storageAdapter.submitData(it)
                             }
                         } else {

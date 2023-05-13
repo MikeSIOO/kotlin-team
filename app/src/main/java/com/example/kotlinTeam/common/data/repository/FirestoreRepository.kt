@@ -10,9 +10,7 @@ import com.example.kotlinTeam.common.data.dataSource.model.storage.StorageProduc
 import com.example.kotlinTeam.profile.common.Constants
 import com.example.kotlinTeam.storage.data.db.service.StorageProductDao
 import com.example.kotlinTeam.storage.data.mapper.StorageMapper
-import com.example.kotlinTeam.storage.domain.model.StorageCategory
 import com.example.kotlinTeam.storage.domain.model.StorageDataModel
-import com.example.kotlinTeam.storage.domain.model.StorageProduct
 import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -148,7 +146,7 @@ class FirestoreRepository @Inject constructor(
         ).flow
     }
 
-    fun getProduct(parentId: String): Flow<PagingData<StorageProduct>> {
+    fun getProduct(parentId: String): Flow<PagingData<StorageDataModel>> {
         val recipeCollectionRef = firestore.collection(
             com.example.kotlinTeam.storage.common.Constants.PRODUCT_COLLECTION
         )
@@ -172,7 +170,7 @@ class FirestoreRepository @Inject constructor(
                         storageProductDao.getById(
                             it.toObject(StorageProductDto::class.java)?.id.toString()
                         )
-                    )
+                    ) as StorageDataModel
                 }
             }
         ).flow

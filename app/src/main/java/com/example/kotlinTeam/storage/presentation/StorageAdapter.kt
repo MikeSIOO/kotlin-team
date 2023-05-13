@@ -24,6 +24,13 @@ class StorageAdapter() : PagingDataAdapter<StorageDataModel, StorageHolder>(Stor
         getItem(position).let { holder.bind(it!!) }
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return when (getItem(position)) {
+            is StorageDataModel.StorageCategory -> TYPE_CATEGORY
+            else -> TYPE_PRODUCT
+        }
+    }
+
     companion object {
         private const val TYPE_CATEGORY = 0
         private const val TYPE_PRODUCT = 1

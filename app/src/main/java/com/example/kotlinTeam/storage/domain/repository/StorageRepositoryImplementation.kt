@@ -3,7 +3,7 @@ package com.example.kotlinTeam.storage.domain.repository
 import com.example.kotlinTeam.storage.common.StorageStatuses
 import com.example.kotlinTeam.storage.data.db.service.StorageProductDao
 import com.example.kotlinTeam.storage.data.mapper.StorageMapper
-import com.example.kotlinTeam.storage.domain.model.StorageProduct
+import com.example.kotlinTeam.storage.domain.model.StorageDataModel
 import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -16,8 +16,8 @@ class StorageRepositoryImplementation @Inject constructor(
     private val storageProductDao: StorageProductDao,
     private val storageMapper: StorageMapper,
 ) : StorageRepository {
-    override fun selectProduct(storageProduct: StorageProduct):
-        Flow<StorageStatuses<StorageProduct>> = flow {
+    override fun selectProduct(storageProduct: StorageDataModel.StorageProduct):
+        Flow<StorageStatuses<StorageDataModel.StorageProduct>> = flow {
             try {
                 emit(StorageStatuses.Loading())
                 val storageProductEntity = storageMapper.mapToProductEntity(storageProduct)

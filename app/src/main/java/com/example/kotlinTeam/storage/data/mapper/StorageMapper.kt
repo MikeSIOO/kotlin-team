@@ -3,9 +3,7 @@ package com.example.kotlinTeam.storage.data.mapper
 import com.example.kotlinTeam.common.data.dataSource.model.storage.StorageCategoryDto
 import com.example.kotlinTeam.common.data.dataSource.model.storage.StorageProductDto
 import com.example.kotlinTeam.storage.data.db.model.StorageProductEntity
-import com.example.kotlinTeam.storage.domain.model.StorageCategory
 import com.example.kotlinTeam.storage.domain.model.StorageDataModel
-import com.example.kotlinTeam.storage.domain.model.StorageProduct
 import javax.inject.Inject
 
 class StorageMapper @Inject constructor() {
@@ -20,8 +18,8 @@ class StorageMapper @Inject constructor() {
     fun mapProduct(
         storageProductDto: StorageProductDto?,
         storageProductEntity: StorageProductEntity?
-    ): StorageProduct {
-        return StorageProduct(
+    ): StorageDataModel.StorageProduct {
+        return StorageDataModel.StorageProduct(
             id = storageProductDto?.id,
             title = storageProductDto?.title,
             image = storageProductDto?.image,
@@ -31,7 +29,7 @@ class StorageMapper @Inject constructor() {
     }
 
     fun mapToProductEntity(
-        storageProduct: StorageProduct,
+        storageProduct: StorageDataModel.StorageProduct,
     ): StorageProductEntity {
         return StorageProductEntity(
             storageProduct.id.toString(),

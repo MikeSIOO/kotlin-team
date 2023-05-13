@@ -1,14 +1,14 @@
 package com.example.kotlinTeam.storage.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.example.kotlinTeam.storage.domain.events.StorageCategoryEvents
-import com.example.kotlinTeam.storage.domain.events.StorageProductEvents
-import com.example.kotlinTeam.storage.domain.state.StorageCategoryState
-import com.example.kotlinTeam.storage.domain.state.StorageProductState
-import com.example.kotlinTeam.storage.domain.state.StorageSelectProductState
+import com.example.kotlinTeam.storage.domain.events.StorageEvents
+import com.example.kotlinTeam.storage.domain.state.StorageState
 import com.example.kotlinTeam.storage.domain.useCases.StorageGetCategoryUseCase
+import com.example.kotlinTeam.storage.domain.useCases.StorageGetProductUseCase
+import com.example.kotlinTeam.storage.domain.useCases.StorageSelectProductUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,37 +17,41 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class StorageViewModel @Inject constructor(
-    private val storageGetCategoryUseCase: StorageGetCategoryUseCase
+    private val storageGetCategoryUseCase: StorageGetCategoryUseCase,
+    private val storageGetProductUseCase: StorageGetProductUseCase,
+    private val storageSelectProductUseCase: StorageSelectProductUseCase
 ) : ViewModel() {
-    private val _storageCategoryState: MutableStateFlow<StorageCategoryState> = MutableStateFlow(
-        StorageCategoryState(isLoading = true, storageCategory = null)
+    private val _storageCategoryState: MutableStateFlow<StorageState> = MutableStateFlow(
+        StorageState(isLoading = true, storageData = null)
     )
-    val storageCategoryState: StateFlow<StorageCategoryState> = _storageCategoryState
+    val storageCategoryState: StateFlow<StorageState> = _storageCategoryState
 
     init {
         getCategory()
     }
 
-    fun onEvent(event: StorageCategoryEvents) {
+    fun onEvent(event: StorageEvents) {
         when (event) {
-            is StorageCategoryEvents.InitCategory -> {
+            is StorageEvents.InitCategory -> {
                 getCategory()
             }
+            else -> {}
         }
     }
 
     private fun getCategory() {
         viewModelScope.launch {
-            _storageCategoryState.value = StorageCategoryState(isLoading = true)
+            _storageCategoryState.value = StorageState(isLoading = true)
             try {
-                storageGetCategoryUseCase.invoke().cachedIn(viewModelScope).collect {
-                    _storageCategoryState.value = StorageCategoryState(
+//                storageGetCategoryUseCase.invoke("JTKAzyPCwNRQLMxDdjKY").cachedIn(viewModelScope).collect {
+                storageGetProductUseCase.invoke("JTKAzyPCwNRQLMxDdjKY").cachedIn(viewModelScope).collect {
+                    _storageCategoryState.value = StorageState(
                         isLoading = false,
-                        storageCategory = it
+                        storageData = it
                     )
                 }
             } catch (e: Exception) {
-                _storageCategoryState.value = StorageCategoryState(
+                _storageCategoryState.value = StorageState(
                     isLoading = false,
                     error = e.localizedMessage ?: "Unknown error",
                 )

@@ -1,5 +1,6 @@
 package com.example.kotlinTeam.storage.presentation
 
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
@@ -8,7 +9,7 @@ import com.example.kotlinTeam.databinding.ItemStorageCategoryBinding
 import com.example.kotlinTeam.databinding.ItemStorageProductBinding
 import com.example.kotlinTeam.storage.domain.model.StorageDataModel
 
-class StorageHolder(private val binding: ViewBinding) : //TODO category
+class StorageHolder(private val binding: ViewBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     private fun bindCategory(item: StorageDataModel.StorageCategory) {
@@ -42,6 +43,19 @@ class StorageHolder(private val binding: ViewBinding) : //TODO category
     }
 
     fun bind(storageDataModel: StorageDataModel) {
+        when (binding) {
+            is ItemStorageCategoryBinding -> {
+                Log.i("!@#", "categ")
+            }
+
+            is ItemStorageProductBinding -> {
+                Log.i("!@#", "product")
+            }
+
+            else -> {
+                Log.i("!@#", "else")
+            }
+        }
         when (storageDataModel) {
             is StorageDataModel.StorageCategory -> bindCategory(storageDataModel)
             is StorageDataModel.StorageProduct -> bindProduct(storageDataModel)
