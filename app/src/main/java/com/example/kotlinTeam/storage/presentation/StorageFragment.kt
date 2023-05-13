@@ -101,11 +101,11 @@ internal class StorageFragment : Fragment() {
                 s: CharSequence, start: Int,
                 before: Int, count: Int
             ) {
-//                if (s != "") {
+                if (s.toString() != "") {
                     viewModel.onEvent(StorageEvents.SearchProduct(s.toString()))
-//                } else {
-//                    viewModel.onEvent(StorageEvents.InitCategory)
-//                }
+                } else {
+                    viewModel.onEvent(StorageEvents.InitCategory)
+                }
             }
         })
 
