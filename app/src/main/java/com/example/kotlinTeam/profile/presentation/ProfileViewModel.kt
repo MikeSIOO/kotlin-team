@@ -10,6 +10,7 @@ import com.example.kotlinTeam.profile.common.Resource
 import com.example.kotlinTeam.profile.domain.model.MadeRecipe
 import com.example.kotlinTeam.profile.domain.model.Profile
 import com.example.kotlinTeam.profile.domain.useCases.ProfileUseCases
+import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
@@ -18,13 +19,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val profileUseCases: ProfileUseCases
 ) : ViewModel() {
-
-    private val profileId = "1lqblaswF4YFGlxiWd8s6VKARgu2"
 
     private val _stateProfile = MutableStateFlow(ProfileState())
     val stateProfile: StateFlow<ProfileState> = _stateProfile
@@ -33,7 +33,7 @@ class ProfileViewModel @Inject constructor(
     val madeRecipes: Flow<PagingData<MadeRecipe>> = _madeRecipes
 
     init {
-        getProfile(profileId)
+        getProfile()
     }
 
     fun onEvent(event: ProfileFragmentEvents) {
@@ -42,24 +42,22 @@ class ProfileViewModel @Inject constructor(
                 getRecipes()
             }
             is ProfileFragmentEvents.LoadProfile -> {
-                getProfile(profileId)
+                getProfile()
             }
             is ProfileFragmentEvents.LoadRecipe -> {
+            }
+            is ProfileFragmentEvents.LogOut -> {
+                logOut()
             }
         }
     }
 
-    private fun getProfile(id: String) {
-        profileUseCases.getProfile(id).onEach { result ->
+    private fun getProfile() {
+        profileUseCases.getProfile().onEach { result ->
             when (result) {
                 is Resource.Success -> {
                     _stateProfile.value = stateProfile.value.copy(
-                        profile = result.data ?: Profile(
-                            id = "-1",
-                            name = "not found",
-                            secondName = null,
-                            image = ""
-                        ),
+                        profile = result.data,
                         isLoading = false,
                         error = ""
                     )
@@ -79,7 +77,11 @@ class ProfileViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    private fun getRecipes() = profileUseCases.getMadeRecipes(profileId).map { pagingData ->
+    private fun getRecipes() = profileUseCases.getMadeRecipes().map { pagingData ->
         pagingData.filter { !(it.id.isNullOrBlank() || it.title.isNullOrBlank()) } .map { it.toMadeRecipe() }
     }.cachedIn(viewModelScope)
+
+    private fun logOut() = viewModelScope.launch {
+        profileUseCases.logOut()
+    }
 }

@@ -15,7 +15,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
         <androidx.cardview.widget.CardView
                 android:id="@+id/avatar_card_view"
@@ -36,24 +37,14 @@
         <TextView
                 android:id="@+id/profile_name_text_view"
                 android:layout_width="wrap_content"
+                android:maxWidth="100dp"
                 android:layout_height="wrap_content"
+                android:maxLines="2"
                 android:text="@string/profile_name"
                 style="@style/Text.Body.Medium.Black.Semibold"
                 app:layout_constraintStart_toEndOf="@id/avatar_card_view"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/profile_second_name_text_view"
-                app:layout_constraintVertical_chainStyle="packed"
-                android:layout_marginStart="16dp" />
-
-        <TextView
-                android:id="@+id/profile_second_name_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/profile_second_name"
-                style="@style/Text.Body.Medium.Black.Semibold"
-                app:layout_constraintStart_toEndOf="@id/avatar_card_view"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profile_name_text_view"
                 android:layout_marginStart="16dp" />
 
         <ImageButton
