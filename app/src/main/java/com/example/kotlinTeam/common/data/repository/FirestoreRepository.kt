@@ -1,5 +1,6 @@
 package com.example.kotlinTeam.common.data.repository
 
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -16,6 +17,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
+import java.lang.Exception
 
 @Singleton
 class FirestoreRepository @Inject constructor(
@@ -146,7 +148,7 @@ class FirestoreRepository @Inject constructor(
         ).flow
     }
 
-    fun getProduct(parentId: String): Flow<PagingData<StorageDataModel>> {
+    fun getProductByParent(parentId: String): Flow<PagingData<StorageDataModel>> {
         val recipeCollectionRef = firestore.collection(
             com.example.kotlinTeam.storage.common.Constants.PRODUCT_COLLECTION
         )
@@ -154,6 +156,37 @@ class FirestoreRepository @Inject constructor(
         val query = recipeCollectionRef
             .whereEqualTo("parentId", "/category/$parentId")
             .orderBy(com.example.kotlinTeam.storage.common.Constants.TITLE_PROPERTY)
+
+        val pagingConfig = PagingConfig(
+            pageSize = com.example.kotlinTeam.storage.common.Constants.PAGE_SIZE,
+            enablePlaceholders = false,
+            initialLoadSize = com.example.kotlinTeam.storage.common.Constants.INITIAL_LOAD_SIZE
+        )
+
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = {
+                FirestorePagingSource(query) {
+                    storageMapper.mapProduct(
+                        it.toObject(StorageProductDto::class.java),
+                        storageProductDao.getById(
+                            it.toObject(StorageProductDto::class.java)?.id.toString()
+                        )
+                    ) as StorageDataModel
+                }
+            }
+        ).flow
+    }
+
+    fun getProductByTitle(title: String): Flow<PagingData<StorageDataModel>> {
+        val recipeCollectionRef = firestore.collection(
+            com.example.kotlinTeam.storage.common.Constants.PRODUCT_COLLECTION
+        )
+
+        // TODO Работает с учетом регистра и только на полное совпадение
+        val query = recipeCollectionRef
+            .whereEqualTo("title", title)
+            .orderBy("parentId")
 
         val pagingConfig = PagingConfig(
             pageSize = com.example.kotlinTeam.storage.common.Constants.PAGE_SIZE,

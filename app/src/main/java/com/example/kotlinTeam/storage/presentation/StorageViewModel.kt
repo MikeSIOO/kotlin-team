@@ -1,5 +1,6 @@
 package com.example.kotlinTeam.storage.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
@@ -9,7 +10,8 @@ import com.example.kotlinTeam.storage.domain.model.StorageDataModel
 import com.example.kotlinTeam.storage.domain.state.StorageSelectProductState
 import com.example.kotlinTeam.storage.domain.state.StorageState
 import com.example.kotlinTeam.storage.domain.useCases.StorageGetCategoryUseCase
-import com.example.kotlinTeam.storage.domain.useCases.StorageGetProductUseCase
+import com.example.kotlinTeam.storage.domain.useCases.StorageGetProductByParentUseCase
+import com.example.kotlinTeam.storage.domain.useCases.StorageGetProductByTitleUseCase
 import com.example.kotlinTeam.storage.domain.useCases.StorageSelectProductUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -22,7 +24,8 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class StorageViewModel @Inject constructor(
     private val storageGetCategoryUseCase: StorageGetCategoryUseCase,
-    private val storageGetProductUseCase: StorageGetProductUseCase,
+    private val storageGetProductByParentUseCase: StorageGetProductByParentUseCase,
+    private val storageGetProductByTitleUseCase: StorageGetProductByTitleUseCase,
     private val storageSelectProductUseCase: StorageSelectProductUseCase
 ) : ViewModel() {
     private val _storageState: MutableStateFlow<StorageState> = MutableStateFlow(
@@ -44,7 +47,10 @@ class StorageViewModel @Inject constructor(
                 getCategory()
             }
             is StorageEvents.InitProduct -> {
-                getProduct(event.parentId)
+                getProductByParent(event.parentId)
+            }
+            is StorageEvents.SearchProduct -> {
+                getProductByTitle(event.title)
             }
             is StorageEvents.SelectProduct -> {
                 selectProduct(event.storageProduct)
@@ -71,11 +77,30 @@ class StorageViewModel @Inject constructor(
         }
     }
 
-    private fun getProduct(parentId: String) {
+    private fun getProductByParent(parentId: String) {
         viewModelScope.launch {
             _storageState.value = StorageState(isLoading = true)
             try {
-                storageGetProductUseCase.invoke(parentId).cachedIn(viewModelScope).collect {
+                storageGetProductByParentUseCase.invoke(parentId).cachedIn(viewModelScope).collect {
+                    _storageState.value = StorageState(
+                        isLoading = false,
+                        storageData = it
+                    )
+                }
+            } catch (e: Exception) {
+                _storageState.value = StorageState(
+                    isLoading = false,
+                    error = e.localizedMessage ?: "Unknown error",
+                )
+            }
+        }
+    }
+
+    private fun getProductByTitle(title: String) {
+        viewModelScope.launch {
+            _storageState.value = StorageState(isLoading = true)
+            try {
+                storageGetProductByTitleUseCase.invoke(title).cachedIn(viewModelScope).collect {
                     _storageState.value = StorageState(
                         isLoading = false,
                         storageData = it
