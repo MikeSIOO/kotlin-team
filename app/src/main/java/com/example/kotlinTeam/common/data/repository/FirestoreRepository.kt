@@ -1,6 +1,5 @@
 package com.example.kotlinTeam.common.data.repository
 
-import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -17,7 +16,6 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
-import java.lang.Exception
 
 @Singleton
 class FirestoreRepository @Inject constructor(
@@ -103,9 +101,10 @@ class FirestoreRepository @Inject constructor(
 
     fun getRecipesByUserId(id: String): Flow<PagingData<RecipeOo>> {
         val usersCollectionRef = firestore.collection(Constants.USERS_COLLECTION)
-        val recipesSubCollectionRef = usersCollectionRef.document(id).collection(Constants.RECIPES_COLLECTION)
+        val recipesSubCollectionRef = usersCollectionRef.document(id).collection(
+            Constants.RECIPES_COLLECTION
+        )
         val query = recipesSubCollectionRef.orderBy(Constants.TIMESTAMP_PROPERTY)
-
 
         val pagingConfig = PagingConfig(
             pageSize = Constants.PAGE_SIZE,

@@ -1,6 +1,5 @@
 package com.example.kotlinTeam.storage.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
@@ -35,7 +34,6 @@ class StorageViewModel @Inject constructor(
 
     private val _storageSelectProductState = MutableStateFlow(StorageSelectProductState())
     val storageSelectProductState: StateFlow<StorageSelectProductState> = _storageSelectProductState
-
 
     init {
         getCategory()

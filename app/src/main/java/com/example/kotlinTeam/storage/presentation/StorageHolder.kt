@@ -1,6 +1,5 @@
 package com.example.kotlinTeam.storage.presentation
 
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding

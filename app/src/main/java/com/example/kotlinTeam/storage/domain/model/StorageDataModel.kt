@@ -18,4 +18,3 @@ sealed class StorageDataModel {
         }
     }
 }
-

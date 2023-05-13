@@ -42,15 +42,15 @@ class FirebaseAuthViewModel : ViewModel() {
         confirmedPassword: String
     ) {
         if (withContext(Dispatchers.IO) {
-                async {
-                    checkSignUp(
+            async {
+                checkSignUp(
                         context,
                         email,
                         pasword,
                         confirmedPassword
                     )
-                }
-            }.await() == true
+            }
+        }.await() == true
         ) {
             _stateSignUp.value = stateSignUp.value.copy(
                 isSignUpSuccesfull = true
@@ -105,10 +105,10 @@ class FirebaseAuthViewModel : ViewModel() {
 
     suspend fun signIn(context: Context, email: String, password: String) {
         if (withContext(Dispatchers.IO) {
-                async {
-                    checkSignIn(context, email, password)
-                }
-            }.await() == true
+            async {
+                checkSignIn(context, email, password)
+            }
+        }.await() == true
         ) {
             _stateSignIn.value = stateSignIn.value.copy(
                 isSignInSuccesfull = true

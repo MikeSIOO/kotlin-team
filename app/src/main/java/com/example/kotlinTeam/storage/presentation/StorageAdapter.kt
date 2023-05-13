@@ -36,5 +36,4 @@ class StorageAdapter(private val callback: (item: StorageDataModel) -> Unit) :
         private const val TYPE_CATEGORY = 0
         private const val TYPE_PRODUCT = 1
     }
-
 }

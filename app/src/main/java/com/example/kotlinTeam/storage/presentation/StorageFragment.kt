@@ -3,13 +3,11 @@ package com.example.kotlinTeam.storage.presentation
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -21,9 +19,9 @@ import com.example.kotlinTeam.databinding.FragmentStorageBinding
 import com.example.kotlinTeam.storage.domain.events.StorageEvents
 import com.example.kotlinTeam.storage.domain.model.StorageDataModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.system.exitProcess
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlin.system.exitProcess
 
 private const val COLUMN_COUNT = 3
 
@@ -88,26 +86,32 @@ internal class StorageFragment : Fragment() {
             backPressed()
         }
 
-        binding.search.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {}
+        binding.search.addTextChangedListener(
+            object : TextWatcher {
+                override fun afterTextChanged(s: Editable) {}
 
-            override fun beforeTextChanged(
-                s: CharSequence, start: Int,
-                count: Int, after: Int
-            ) {
-            }
+                override fun beforeTextChanged(
+                    s: CharSequence,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
 
-            override fun onTextChanged(
-                s: CharSequence, start: Int,
-                before: Int, count: Int
-            ) {
-                if (s.toString() != "") {
-                    viewModel.onEvent(StorageEvents.SearchProduct(s.toString()))
-                } else {
-                    viewModel.onEvent(StorageEvents.InitCategory)
+                override fun onTextChanged(
+                    s: CharSequence,
+                    start: Int,
+                    before: Int,
+                    count: Int
+                ) {
+                    if (s.toString() != "") {
+                        viewModel.onEvent(StorageEvents.SearchProduct(s.toString()))
+                    } else {
+                        viewModel.onEvent(StorageEvents.InitCategory)
+                    }
                 }
             }
-        })
+        )
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.storageState.collectLatest { state ->
