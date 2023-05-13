@@ -7,7 +7,5 @@ sealed class StorageEvents {
 
     data class InitProduct(val parentId: String) : StorageEvents()
 
-    object LoadProduct : StorageEvents()
-
     data class SelectProduct(val storageProduct: StorageDataModel.StorageProduct) : StorageEvents()
 }

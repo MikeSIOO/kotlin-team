@@ -42,7 +42,10 @@ class StorageHolder(private val binding: ViewBinding) :
         }
     }
 
-    fun bind(storageDataModel: StorageDataModel) {
+    fun bind(
+        storageDataModel: StorageDataModel,
+        callback: (storageDataModel: StorageDataModel) -> Unit
+    ) {
         when (binding) {
             is ItemStorageCategoryBinding -> {
                 Log.i("!@#", "categ")
@@ -60,5 +63,7 @@ class StorageHolder(private val binding: ViewBinding) :
             is StorageDataModel.StorageCategory -> bindCategory(storageDataModel)
             is StorageDataModel.StorageProduct -> bindProduct(storageDataModel)
         }
+
+        binding.root.setOnClickListener { callback(storageDataModel) }
     }
 }

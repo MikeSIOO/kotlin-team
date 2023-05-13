@@ -15,6 +15,7 @@ import com.example.kotlinTeam.R
 import com.example.kotlinTeam.common.viewBinding.viewBinding
 import com.example.kotlinTeam.databinding.FragmentStorageBinding
 import com.example.kotlinTeam.storage.domain.events.StorageEvents
+import com.example.kotlinTeam.storage.domain.model.StorageDataModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -27,7 +28,13 @@ internal class StorageFragment : Fragment() {
     private val binding by viewBinding(FragmentStorageBinding::bind)
     private val viewModel: StorageViewModel by viewModels()
 
-    private val storageAdapter = StorageAdapter()
+    private val storageAdapter = StorageAdapter { item: StorageDataModel ->
+        if (item is StorageDataModel.StorageCategory) {
+            viewModel.onEvent(StorageEvents.InitProduct(item.id.toString()))
+        } else if (item is StorageDataModel.StorageProduct) {
+            viewModel.onEvent(StorageEvents.SelectProduct(item))
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,7 +53,7 @@ internal class StorageFragment : Fragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.storageCategoryState.collectLatest { state ->
+            viewModel.storageState.collectLatest { state ->
                 when (!state.isLoading) {
                     true -> {
                         if (state.error.isBlank()) {
@@ -65,6 +72,30 @@ internal class StorageFragment : Fragment() {
                     false -> {
                         binding.btnRetry.visibility = View.GONE
                         binding.recyclerView.visibility = View.GONE
+                    }
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.storageSelectProductState.collectLatest { state ->
+                when (!state.isLoading) {
+                    true -> {
+                        binding.mainProgressBar.visibility = View.GONE
+                        if (state.error.isBlank()) {
+                            if (state.storageProduct is StorageDataModel) {
+                                storageAdapter.notifyItemChanged(
+                                    storageAdapter.snapshot().items.indexOf(
+                                        state.storageProduct
+                                    )
+                                )
+                            }
+                        } else {
+                            Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    false -> {
+                        binding.mainProgressBar.visibility = View.VISIBLE
                     }
                 }
             }

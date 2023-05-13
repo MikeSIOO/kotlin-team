@@ -7,7 +7,8 @@ import com.example.kotlinTeam.databinding.ItemStorageCategoryBinding
 import com.example.kotlinTeam.databinding.ItemStorageProductBinding
 import com.example.kotlinTeam.storage.domain.model.StorageDataModel
 
-class StorageAdapter() : PagingDataAdapter<StorageDataModel, StorageHolder>(StorageDiffItemCallback) {
+class StorageAdapter(private val callback: (item: StorageDataModel) -> Unit) :
+    PagingDataAdapter<StorageDataModel, StorageHolder>(StorageDiffItemCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StorageHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
 
@@ -21,7 +22,7 @@ class StorageAdapter() : PagingDataAdapter<StorageDataModel, StorageHolder>(Stor
     }
 
     override fun onBindViewHolder(holder: StorageHolder, position: Int) {
-        getItem(position).let { holder.bind(it!!) }
+        getItem(position).let { holder.bind(it!!, callback) }
     }
 
     override fun getItemViewType(position: Int): Int {
