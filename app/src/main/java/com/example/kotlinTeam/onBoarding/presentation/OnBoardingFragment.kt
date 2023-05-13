@@ -11,7 +11,9 @@ import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.example.kotlinTeam.MainActivity
 import com.example.kotlinTeam.R
 import com.example.kotlinTeam.common.presentation.dp
 import com.example.kotlinTeam.common.presentation.ptX
@@ -70,7 +72,8 @@ internal class OnBoardingFragment : Fragment() {
 
             if (page == null) {
                 // TODO перейти к продуктам
-                Toast.makeText(context, "TODO Переход к продуктам", Toast.LENGTH_SHORT).show()
+                (activity as MainActivity).setBottomNavigationVisibility(View.VISIBLE)
+                findNavController().navigate(R.id.action_onBoardingFragment_to_actionStorageCategory)
             } else {
                 title.text = page.title.text
 

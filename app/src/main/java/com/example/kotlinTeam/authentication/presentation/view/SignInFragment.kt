@@ -91,9 +91,8 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
         viewLifecycleOwner.lifecycleScope.launch {
             firebaseAuthViewModel.currentUser.collectLatest { user ->
                 user?.let {
-                    (activity as MainActivity).setBottomNavigationVisibility(View.VISIBLE)
                     findNavController().navigate(
-                        R.id.action_signInFragment_to_actionStorage
+                        R.id.action_signInFragment_to_onBoarding
                     )
                 }
             }
