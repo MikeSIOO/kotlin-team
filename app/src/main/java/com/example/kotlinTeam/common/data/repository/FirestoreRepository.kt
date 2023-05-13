@@ -76,7 +76,11 @@ class FirestoreRepository @Inject constructor(
         )
     }
 
-    fun getRecipes(id: String?): Flow<PagingData<RecipeOo>> {
+    private suspend fun RecipeWithTimestampDto.toRecipeDto(): RecipeDto {
+        return this.recipe?.get()?.await()?.toObject(RecipeDto::class.java)!!
+    }
+
+    fun getRecipes(): Flow<PagingData<RecipeOo>> {
         val recipeCollectionRef = firestore.collection(Constants.RECIPES_COLLECTION)
         val query = recipeCollectionRef.orderBy(Constants.TITLE_PROPERTY)
 
@@ -91,6 +95,28 @@ class FirestoreRepository @Inject constructor(
             pagingSourceFactory = {
                 FirestorePagingSource(query) {
                     it.toObject(RecipeDto::class.java)!!.toRecipeOo()
+                }
+            }
+        ).flow
+    }
+
+    fun getRecipesByUserId(id: String): Flow<PagingData<RecipeOo>> {
+        val usersCollectionRef = firestore.collection(Constants.USERS_COLLECTION)
+        val recipesSubCollectionRef = usersCollectionRef.document(id).collection(Constants.RECIPES_COLLECTION)
+        val query = recipesSubCollectionRef.orderBy(Constants.TIMESTAMP_PROPERTY)
+
+
+        val pagingConfig = PagingConfig(
+            pageSize = Constants.PAGE_SIZE,
+            enablePlaceholders = false,
+            initialLoadSize = Constants.INITIAL_LOAD_SIZE
+        )
+
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = {
+                FirestorePagingSource(query) {
+                    it.toObject(RecipeWithTimestampDto::class.java)!!.toRecipeDto().toRecipeOo()
                 }
             }
         ).flow

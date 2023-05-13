@@ -24,7 +24,7 @@ class ProfileViewModel @Inject constructor(
     private val profileUseCases: ProfileUseCases
 ) : ViewModel() {
 
-    private val profileId = "1"
+    private val profileId = "1lqblaswF4YFGlxiWd8s6VKARgu2"
 
     private val _stateProfile = MutableStateFlow(ProfileState())
     val stateProfile: StateFlow<ProfileState> = _stateProfile
@@ -80,6 +80,6 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun getRecipes() = profileUseCases.getMadeRecipes(profileId).map { pagingData ->
-        pagingData.filter { !(it.id.isNullOrBlank() || it.title.isNullOrBlank()) }.map { it.toMadeRecipe() } // .filter { !(it.id.isNullOrBlank() || it.title.isNullOrBlank()) }
+        pagingData.filter { !(it.id.isNullOrBlank() || it.title.isNullOrBlank()) } .map { it.toMadeRecipe() }
     }.cachedIn(viewModelScope)
 }
