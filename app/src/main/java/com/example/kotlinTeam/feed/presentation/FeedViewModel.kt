@@ -1,6 +1,5 @@
 package com.example.kotlinTeam.feed.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -39,15 +38,7 @@ class FeedViewModel @Inject constructor(
     }
 
     fun setCurrentRecipe(recipe: RecipeOo?) {
-        _currentRecipeState.value = currentRecipeState.value.copy(currentRecipe = recipe, isLoadingRecipe = false)
-    }
-
-    fun getAndSetRecipeById(id: String) {
-        _currentRecipeState.value = currentRecipeState.value.copy(isLoadingRecipe = true)
-        viewModelScope.launch {
-            val recipe = useCases.getRecipeById(id)
-            setCurrentRecipe(recipe)
-        }
+        _currentRecipeState.value = currentRecipeState.value.copy(currentRecipe = recipe)
     }
 
     fun changeFlag() {

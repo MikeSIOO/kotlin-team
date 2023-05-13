@@ -52,7 +52,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private fun getProfile() = viewModelScope.launch {
+    private fun getProfile() {
         profileUseCases.getProfile().onEach { result ->
             when (result) {
                 is Resource.Success -> {

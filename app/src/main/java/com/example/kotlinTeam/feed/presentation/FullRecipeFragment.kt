@@ -1,7 +1,6 @@
 package com.example.kotlinTeam.feed.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -25,34 +24,20 @@ class FullRecipeFragment : Fragment(R.layout.fragment_full_recipe) {
     private val ingredientsRecycler get() = binding.ingredientsRecycler
     private val stepsRecycler get() = binding.stepsRecycler
     private val expandableTextView get() = binding.dishInfo
-    private var recipeId: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            recipeId = it.getString(RECIPE_ID)
-        }
-        recipeId?.let {
-            viewModel.getAndSetRecipeById(it)
-        }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val stepsAdapter = StepsAdapter()
         val ingredientsAdapter = IngredientsAdapter()
         val moreInfoButton = binding.moreInfoButton
 
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.currentRecipeState.collectLatest {
-                if (!it.isLoadingRecipe) {
-                    if (it.currentRecipe != null) {
-                        binding.recipe = it.currentRecipe
-                        stepsAdapter.setData(it.currentRecipe.instructions)
-                        ingredientsAdapter.setData(it.currentRecipe.ingredients)
-                    }
-                    expandTextView(it.isMoreInfoButtonClicked, expandableTextView, moreInfoButton)
+                binding.recipe = it.currentRecipe
+                if (it.currentRecipe != null) {
+                    stepsAdapter.setData(it.currentRecipe.instructions)
+                    ingredientsAdapter.setData(it.currentRecipe.ingredients)
                 }
+                expandTextView(it.isMoreInfoButtonClicked, expandableTextView, moreInfoButton)
             }
         }
 
@@ -81,17 +66,5 @@ class FullRecipeFragment : Fragment(R.layout.fragment_full_recipe) {
             tv.maxLines = Integer.MAX_VALUE
             bt.text = getString(R.string.hide)
         }
-    }
-
-    companion object {
-        private const val RECIPE_ID = "recipeId"
-
-        @JvmStatic
-        fun newInstance(recipeId: String) =
-            FullRecipeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(RECIPE_ID, recipeId)
-                }
-            }
     }
 }
