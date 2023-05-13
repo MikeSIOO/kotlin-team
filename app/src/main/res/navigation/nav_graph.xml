@@ -18,6 +18,9 @@
             <action
                     android:id="@+id/action_entryFragment_to_signInFragment"
                     app:destination="@id/signInFragment" />
+            <action
+                    android:id="@+id/action_entryFragment_to_actionStorageCategory"
+                    app:destination="@id/actionStorageCategory" />
         </fragment>
         <fragment
                 android:id="@+id/signInFragment"
@@ -121,7 +124,11 @@
                 android:id="@+id/profileFragment"
                 android:name="com.example.kotlinTeam.profile.presentation.ProfileFragment"
                 android:label="Profile"
-                tools:layout="@layout/fragment_profile" />
+                tools:layout="@layout/fragment_profile" >
+            <action
+                    android:id="@+id/action_profileFragment_to_auth"
+                    app:destination="@id/auth" />
+        </fragment>
     </navigation>
 
 </navigation>

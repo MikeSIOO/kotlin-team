@@ -1,7 +1,8 @@
 package com.example.kotlinTeam.profile.data.repository
 
-import android.app.Application
+import android.content.Context
 import com.example.kotlinTeam.R
+import com.example.kotlinTeam.common.data.repository.AuthRepository
 import com.example.kotlinTeam.profile.common.Resource
 import com.example.kotlinTeam.profile.domain.model.Profile
 import com.example.kotlinTeam.profile.domain.repository.ProfileRepository
@@ -15,23 +16,21 @@ import kotlinx.coroutines.withContext
 
 @Singleton
 class ProfileRepositoryImpl @Inject constructor(
-    private val appContext: Application
+    private val authRepository: AuthRepository,
+    private val appContext: Context
 ) : ProfileRepository {
 
-    override fun getProfile(id: String): Flow<Resource<Profile>> = flow {
+    override fun getProfile(): Flow<Resource<Profile>> = flow {
         try {
             emit(Resource.Loading<Profile>())
-            val profile = withContext(Dispatchers.IO) {
+            val user = withContext(Dispatchers.IO) { authRepository.getCurrentUser() }
+            val profile = user?.let {
                 Profile(
-                    id = id,
-                    name = "Susan",
-                    secondName = "Helmhock",
-                    image = "https://sun9-9.userapi.com/impf/wpKh_I1m4InpdEDsX31RH4Fh2eLb3j" +
-                        "-Bo9iA4A/4VibiWNxgdg.jpg?size=604x453&quality" +
-                        "=96&sign=b9428274e0de3250c73c22b04d9f9173&c" +
-                        "_uniq_tag=LRvg-JVGoUInZ0oqC--Fg1GaVjy84CrtSmJ_NrV8n7M&type=album"
+                    id = it.uid,
+                    name = it.displayName ?: "нет имени",
+                    image = (it.photoUrl ?: "") as String
                 )
-            }
+            } ?: throw IOException("Пользователь не найден")
             emit(Resource.Success<Profile>(profile))
         } catch (e: IOException) {
             emit(

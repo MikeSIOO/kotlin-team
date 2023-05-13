@@ -30,7 +30,8 @@
             app:layout_constraintBottom_toTopOf="@id/passwordLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fooder_logo">
+            app:layout_constraintTop_toBottomOf="@+id/fooder_logo"
+            app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/email_text"
@@ -53,6 +54,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/emailLayout"
+            app:errorEnabled="true"
             app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -77,6 +79,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/passwordLayout"
+            app:errorEnabled="true"
             app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -103,6 +106,20 @@
             app:layout_constraintTop_toBottomOf="@+id/passwordLayout" />
 
     <TextView
+            android:id="@+id/error_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
+            android:textAlignment="center"
+            android:textColor="#E53935"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sign_up_button" />
+
+    <TextView
             android:id="@+id/already_reg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -112,6 +129,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sign_up_button" />
+
+
+    <ProgressBar
+            android:id="@+id/progressBarSignUp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

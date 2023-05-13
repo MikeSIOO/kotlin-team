@@ -9,12 +9,15 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kotlinTeam.MainActivity
 import com.example.kotlinTeam.R
 import com.example.kotlinTeam.common.viewBinding.viewBinding
 import com.example.kotlinTeam.databinding.FragmentProfileBinding
+import com.example.kotlinTeam.feed.presentation.FullRecipeFragment
 import com.example.kotlinTeam.profile.domain.model.MadeRecipe
 import com.example.kotlinTeam.profile.presentation.madeRecipes.RecipeListAdapter
 import com.example.kotlinTeam.profile.presentation.madeRecipes.loadState.MadeRecipesLoadStateAdapter
@@ -50,7 +53,11 @@ class ProfileFragment : Fragment() {
         }
 
         binding.profileLogOutButton.setOnClickListener {
-            Toast.makeText(context, "Can't log out yet)", Toast.LENGTH_SHORT).show()
+            viewModel.onEvent(ProfileFragmentEvents.LogOut)
+            (activity as MainActivity).setBottomNavigationVisibility(View.GONE)
+            findNavController().navigate(
+                R.id.action_profileFragment_to_auth
+            )
         }
 
         setupMadeRecipesRecyclerView()
@@ -72,9 +79,7 @@ class ProfileFragment : Fragment() {
 
                             profile?.let {
                                 binding.profileNameTextView.text = profile.name
-                                binding.profileSecondNameTextView.text = profile.secondName
-                                bindImage(view, profile.image, binding.avatarImageView)
-
+                                if (profile.image.isNotBlank()) bindImage(view, profile.image, binding.avatarImageView)
                                 viewModel.onEvent(ProfileFragmentEvents.LoadMadeRecipes)
                                 viewModel.madeRecipes.buffer().collectLatest { pagingData ->
                                     withContext(Dispatchers.IO) {
@@ -119,7 +124,13 @@ class ProfileFragment : Fragment() {
     }
 
     private fun goToRecipeFragment(madeRecipe: MadeRecipe) {
-        Toast.makeText(context, "You have selected ${madeRecipe.title}", Toast.LENGTH_SHORT).show()
-        viewModel.onEvent(ProfileFragmentEvents.LoadRecipe(madeRecipe))
+//        viewModel.onEvent(ProfileFragmentEvents.LoadRecipe(madeRecipe))
+//        requireActivity().supportFragmentManager.let {
+//            val transaction = it.beginTransaction()
+//            transaction
+//                .replace(R.id.nav_host_fragment, FullRecipeFragment.newInstance(madeRecipe.id))
+//                .addToBackStack(null)
+//                .commit()
+//        }
     }
 }
