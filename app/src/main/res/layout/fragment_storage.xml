@@ -5,7 +5,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".storage.presentation.StorageFragment">
-<!--    tools:context=".storage.presentation.category.StorageCategoryFragment">-->
 
     <androidx.constraintlayout.widget.Guideline
             android:orientation="vertical"
@@ -35,14 +34,31 @@
             app:layout_constraintGuide_end="24dp"
             android:id="@+id/guideline_bottom" />
 
+    <androidx.cardview.widget.CardView
+            android:id="@+id/back_button"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="@id/guideline_top"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:cardCornerRadius="15dp">
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/baseline_arrow_back_ios_24" />
+    </androidx.cardview.widget.CardView>
+
     <TextView
             android:text="@string/storage_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/title"
+            android:textAlignment="center"
             style="@style/Text.Headline.Medium.Black"
-            app:layout_constraintStart_toStartOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@id/guideline_top"
+            app:layout_constraintTop_toTopOf="@id/guideline_top"
+            app:layout_constraintStart_toEndOf="@id/back_button"
             app:layout_constraintEnd_toEndOf="@id/guideline_right" />
 
     <TextView
@@ -50,6 +66,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/subtitle"
+            android:textAlignment="center"
             style="@style/Text.Body.Medium.Black"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintTop_toBottomOf="@id/title"

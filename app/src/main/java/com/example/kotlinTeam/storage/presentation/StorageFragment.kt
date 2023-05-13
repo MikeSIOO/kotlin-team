@@ -1,11 +1,11 @@
 package com.example.kotlinTeam.storage.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -19,6 +19,7 @@ import com.example.kotlinTeam.storage.domain.model.StorageDataModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlin.system.exitProcess
 
 private const val COLUMN_COUNT = 3
 
@@ -30,10 +31,34 @@ internal class StorageFragment : Fragment() {
 
     private val storageAdapter = StorageAdapter { item: StorageDataModel ->
         if (item is StorageDataModel.StorageCategory) {
+            binding.backButton.visibility = View.VISIBLE
+            binding.title.text = item.title
+            binding.subtitle.visibility = View.GONE
             viewModel.onEvent(StorageEvents.InitProduct(item.id.toString()))
         } else if (item is StorageDataModel.StorageProduct) {
             viewModel.onEvent(StorageEvents.SelectProduct(item))
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (binding.backButton.visibility == View.VISIBLE) {
+                        binding.title.text = "Выберите продукты"
+                        binding.backButton.visibility = View.GONE
+                        binding.subtitle.visibility = View.VISIBLE
+                        binding.btnRetry.visibility = View.GONE
+                        viewModel.onEvent(StorageEvents.InitCategory)
+                    } else {
+                        requireActivity().finish()
+                        exitProcess(0)
+                    }
+                }
+            }
+        )
     }
 
     override fun onCreateView(
@@ -48,8 +73,15 @@ internal class StorageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnRetry.setOnClickListener {
-            viewModel.onEvent(StorageEvents.InitCategory)
+            binding.title.text = "Выберите продукты"
+            binding.backButton.visibility = View.GONE
+            binding.subtitle.visibility = View.VISIBLE
             binding.btnRetry.visibility = View.GONE
+            viewModel.onEvent(StorageEvents.InitCategory)
+        }
+
+        binding.backButton.setOnClickListener {
+            backPressed()
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -60,7 +92,6 @@ internal class StorageFragment : Fragment() {
                             binding.btnRetry.visibility = View.GONE
                             binding.recyclerView.visibility = View.VISIBLE
                             state.storageData?.let {
-                                Log.i("!@#", it.toString())
                                 storageAdapter.submitData(it)
                             }
                         } else {
@@ -81,7 +112,7 @@ internal class StorageFragment : Fragment() {
             viewModel.storageSelectProductState.collectLatest { state ->
                 when (!state.isLoading) {
                     true -> {
-                        binding.mainProgressBar.visibility = View.GONE
+//                        binding.mainProgressBar.visibility = View.GONE
                         if (state.error.isBlank()) {
                             if (state.storageProduct is StorageDataModel) {
                                 storageAdapter.notifyItemChanged(
@@ -95,7 +126,7 @@ internal class StorageFragment : Fragment() {
                         }
                     }
                     false -> {
-                        binding.mainProgressBar.visibility = View.VISIBLE
+//                        binding.mainProgressBar.visibility = View.VISIBLE
                     }
                 }
             }
@@ -113,5 +144,13 @@ internal class StorageFragment : Fragment() {
             layoutManager = GridLayoutManager(context, COLUMN_COUNT)
             adapter = storageAdapter
         }
+    }
+
+    private fun backPressed() {
+        binding.title.text = "Выберите продукты"
+        binding.backButton.visibility = View.GONE
+        binding.subtitle.visibility = View.VISIBLE
+        binding.btnRetry.visibility = View.GONE
+        viewModel.onEvent(StorageEvents.InitCategory)
     }
 }

@@ -46,19 +46,6 @@ class StorageHolder(private val binding: ViewBinding) :
         storageDataModel: StorageDataModel,
         callback: (storageDataModel: StorageDataModel) -> Unit
     ) {
-        when (binding) {
-            is ItemStorageCategoryBinding -> {
-                Log.i("!@#", "categ")
-            }
-
-            is ItemStorageProductBinding -> {
-                Log.i("!@#", "product")
-            }
-
-            else -> {
-                Log.i("!@#", "else")
-            }
-        }
         when (storageDataModel) {
             is StorageDataModel.StorageCategory -> bindCategory(storageDataModel)
             is StorageDataModel.StorageProduct -> bindProduct(storageDataModel)
