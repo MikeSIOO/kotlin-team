@@ -17,7 +17,7 @@ class StorageProductHolder(private val binding: ItemStorageProductBinding) :
             .load(storageProduct.image)
             .into(binding.image)
 
-        binding.textView.text = storageProduct.name
+        binding.textView.text = storageProduct.title
 
         if (storageProduct.selected) {
             binding.checkSelect.visibility = View.VISIBLE

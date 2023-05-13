@@ -5,7 +5,13 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.kotlinTeam.common.data.dataSource.FirestorePagingSource
 import com.example.kotlinTeam.common.data.dataSource.model.recipe.*
+import com.example.kotlinTeam.common.data.dataSource.model.storage.StorageCategoryDto
+import com.example.kotlinTeam.common.data.dataSource.model.storage.StorageProductDto
 import com.example.kotlinTeam.profile.common.Constants
+import com.example.kotlinTeam.storage.data.db.service.StorageProductDao
+import com.example.kotlinTeam.storage.data.mapper.StorageMapper
+import com.example.kotlinTeam.storage.domain.model.StorageCategory
+import com.example.kotlinTeam.storage.domain.model.StorageProduct
 import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,7 +20,9 @@ import kotlinx.coroutines.tasks.await
 
 @Singleton
 class FirestoreRepository @Inject constructor(
-    private val firestore: FirebaseFirestore
+    private val firestore: FirebaseFirestore,
+    private val storageProductDao: StorageProductDao,
+    private val storageMapper: StorageMapper,
 ) {
     private suspend fun RecipeDto.toRecipeOo(): RecipeOo {
         return RecipeOo(
@@ -109,6 +117,61 @@ class FirestoreRepository @Inject constructor(
             pagingSourceFactory = {
                 FirestorePagingSource(query) {
                     it.toObject(RecipeWithTimestampDto::class.java)!!.toRecipeDto().toRecipeOo()
+                }
+            }
+        ).flow
+    }
+
+    // хранилище продуктов
+    fun getCategory(): Flow<PagingData<StorageCategory>> {
+        val recipeCollectionRef = firestore.collection(
+            com.example.kotlinTeam.storage.common.Constants.CATEGORY_COLLECTION
+        )
+        val query = recipeCollectionRef.orderBy(
+            com.example.kotlinTeam.storage.common.Constants.TITLE_PROPERTY
+        )
+
+        val pagingConfig = PagingConfig(
+            pageSize = com.example.kotlinTeam.storage.common.Constants.PAGE_SIZE,
+            enablePlaceholders = false,
+            initialLoadSize = com.example.kotlinTeam.storage.common.Constants.INITIAL_LOAD_SIZE
+        )
+
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = {
+                FirestorePagingSource(query) {
+                    storageMapper.mapCategory(it.toObject(StorageCategoryDto::class.java))
+                }
+            }
+        ).flow
+    }
+
+    fun getProduct(parentId: String): Flow<PagingData<StorageProduct>> {
+        val recipeCollectionRef = firestore.collection(
+            com.example.kotlinTeam.storage.common.Constants.PRODUCT_COLLECTION
+        )
+
+        val query = recipeCollectionRef
+            .whereEqualTo("parentId", "/category/$parentId")
+            .orderBy(com.example.kotlinTeam.storage.common.Constants.TITLE_PROPERTY)
+
+        val pagingConfig = PagingConfig(
+            pageSize = com.example.kotlinTeam.storage.common.Constants.PAGE_SIZE,
+            enablePlaceholders = false,
+            initialLoadSize = com.example.kotlinTeam.storage.common.Constants.INITIAL_LOAD_SIZE
+        )
+
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = {
+                FirestorePagingSource(query) {
+                    storageMapper.mapProduct(
+                        it.toObject(StorageProductDto::class.java),
+                        storageProductDao.getById(
+                            it.toObject(StorageProductDto::class.java)?.id.toString()
+                        )
+                    )
                 }
             }
         ).flow

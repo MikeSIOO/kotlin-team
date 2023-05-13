@@ -16,7 +16,7 @@ class StorageCategoryHolder(private val binding: ItemStorageCategoryBinding) :
             .load(storageCategory.image)
             .into(binding.image)
 
-        binding.textView.text = storageCategory.name
+        binding.textView.text = storageCategory.title
 
         binding.root.setOnClickListener { callback(storageCategory) }
     }

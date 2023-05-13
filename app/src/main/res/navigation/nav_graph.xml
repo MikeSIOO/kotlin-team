@@ -63,8 +63,8 @@
                 tools:layout="@layout/fragment_storage_product">
             <argument
                     android:name="parentId"
-                    app:argType="integer"
-                    android:defaultValue="0" />
+                    app:argType="string"
+                    android:defaultValue="" />
             <argument
                     android:name="parentName"
                     app:argType="string"

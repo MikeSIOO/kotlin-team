@@ -19,7 +19,9 @@ import javax.inject.Singleton
 abstract class StorageRepositoryModule {
 
     @Binds
-    abstract fun bindStorageRepository(storageRepository: StorageRepositoryImplementation): StorageRepository
+    abstract fun bindStorageRepository(
+        storageRepository: StorageRepositoryImplementation
+    ): StorageRepository
 }
 
 @Module

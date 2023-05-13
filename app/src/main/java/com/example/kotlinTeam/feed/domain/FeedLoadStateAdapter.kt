@@ -8,9 +8,9 @@ import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinTeam.databinding.FeedLoadStateBinding
 
-class FeedLoadStateAdapter(): LoadStateAdapter<FeedLoadStateAdapter.Holder>() {
+class FeedLoadStateAdapter() : LoadStateAdapter<FeedLoadStateAdapter.Holder>() {
 
-    class Holder(private val binding: FeedLoadStateBinding): RecyclerView.ViewHolder(binding.root) {
+    class Holder(private val binding: FeedLoadStateBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(loadState: LoadState) {
             binding.progressBar.isVisible = loadState is LoadState.Loading
             binding.errorMsg.isVisible = loadState is LoadState.Error
@@ -19,7 +19,6 @@ class FeedLoadStateAdapter(): LoadStateAdapter<FeedLoadStateAdapter.Holder>() {
 
     override fun onBindViewHolder(holder: Holder, loadState: LoadState) {
         holder.bind(loadState)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): Holder {
