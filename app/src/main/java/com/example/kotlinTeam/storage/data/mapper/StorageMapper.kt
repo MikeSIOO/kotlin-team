@@ -4,12 +4,13 @@ import com.example.kotlinTeam.common.data.dataSource.model.storage.StorageCatego
 import com.example.kotlinTeam.common.data.dataSource.model.storage.StorageProductDto
 import com.example.kotlinTeam.storage.data.db.model.StorageProductEntity
 import com.example.kotlinTeam.storage.domain.model.StorageCategory
+import com.example.kotlinTeam.storage.domain.model.StorageDataModel
 import com.example.kotlinTeam.storage.domain.model.StorageProduct
 import javax.inject.Inject
 
 class StorageMapper @Inject constructor() {
-    fun mapCategory(input: StorageCategoryDto?): StorageCategory {
-        return StorageCategory(
+    fun mapCategory(input: StorageCategoryDto?): StorageDataModel.StorageCategory {
+        return StorageDataModel.StorageCategory(
             id = input?.id,
             title = input?.title,
             image = input?.image

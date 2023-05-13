@@ -4,7 +4,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".storage.presentation.category.StorageCategoryFragment">
+        tools:context=".storage.presentation.StorageFragment">
+<!--    tools:context=".storage.presentation.category.StorageCategoryFragment">-->
 
     <androidx.constraintlayout.widget.Guideline
             android:orientation="vertical"
