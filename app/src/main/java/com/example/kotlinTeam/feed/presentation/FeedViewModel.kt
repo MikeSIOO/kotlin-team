@@ -9,8 +9,8 @@ import com.example.kotlinTeam.feed.domain.useCase.FeedUseCases
 import com.example.kotlinTeam.storage.common.StorageStatuses
 import com.example.kotlinTeam.storage.domain.state.StorageProductState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
 import javax.inject.Inject
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -21,7 +21,6 @@ class FeedViewModel @Inject constructor(
     private val _feedRecipes: MutableStateFlow<PagingData<RecipeOo>> =
         MutableStateFlow(PagingData.empty())
     val feedRecipes: StateFlow<PagingData<RecipeOo>> = _feedRecipes
-
 
     private val _currentRecipeState: MutableStateFlow<CurrentRecipeState> = MutableStateFlow(
         CurrentRecipeState()

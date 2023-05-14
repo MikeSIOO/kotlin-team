@@ -1,5 +1,19 @@
 <resources>
-    <string name="app_name">kotlin-team</string>
+    <string name="app_name">kotkin-team</string>
+    <!-- entry fragment -->
+    <string name="hello_fooder_text">Добро пожаловать\nв Fooder</string>
+    <string name="explain_to_sign_text">Войдите, чтобы воспользоваться\nвсеми преимуществами Fooder.</string>
+    <string name="sign_with_mail_text">Войти с почты</string>
+
+    <!--Sign fragments-->
+    <string name="add_mail">Введите почту</string>
+    <string name="add_password">Введите пароль</string>
+    <string name="sign_in">Войти</string>
+    <string name="not_register">Еще не зарегистрированы?</string>
+    <string name="add_password_again">Введите пароль еще раз</string>
+    <string name="already_register">Уже зарегистрированы? Жмите сюда</string>
+    <string name="register">Зарегистрироваться</string>
+
     <string name="onboarding_gretting">Привет!</string>
     <string name="onboarding_description_first">Не знаете, что
 хотите приготовить

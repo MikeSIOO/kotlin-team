@@ -3,7 +3,47 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/nav_graph"
-        app:startDestination="@+id/actionStorageCategory">
+        app:startDestination="@id/auth">
+
+    <navigation
+            android:id="@+id/auth"
+            android:label="NavAuth"
+            app:startDestination="@id/entryFragment">
+
+        <fragment
+                android:id="@+id/entryFragment"
+                android:name="com.example.kotlinTeam.authentication.presentation.view.EntryFragment"
+                android:label="fragment_entry"
+                tools:layout="@layout/fragment_entry" >
+            <action
+                    android:id="@+id/action_entryFragment_to_signInFragment"
+                    app:destination="@id/signInFragment" />
+            <action
+                    android:id="@+id/action_entryFragment_to_actionStorageCategory"
+                    app:destination="@id/actionStorageCategory" />
+        </fragment>
+        <fragment
+                android:id="@+id/signInFragment"
+                android:name="com.example.kotlinTeam.authentication.presentation.view.SignInFragment"
+                android:label="fragment_sign_in"
+                tools:layout="@layout/fragment_sign_in" >
+            <action
+                    android:id="@+id/action_signInFragment_to_signUpFragment"
+                    app:destination="@id/signUpFragment" />
+            <action
+                    android:id="@+id/action_signInFragment_to_actionStorageCategory"
+                    app:destination="@+id/actionStorageCategory"/>
+        </fragment>
+        <fragment
+                android:id="@+id/signUpFragment"
+                android:name="com.example.kotlinTeam.authentication.presentation.view.SignUpFragment"
+                android:label="fragment_sign_up"
+                tools:layout="@layout/fragment_sign_up" >
+            <action
+                    android:id="@+id/action_signUpFragment_to_signInFragment"
+                    app:destination="@id/signInFragment" />
+        </fragment>
+    </navigation>
 
     <navigation
             android:id="@+id/actionStorageCategory"
@@ -26,8 +66,8 @@
                 tools:layout="@layout/fragment_storage_product">
             <argument
                     android:name="parentId"
-                    app:argType="integer"
-                    android:defaultValue="0" />
+                    app:argType="string"
+                    android:defaultValue="" />
             <argument
                     android:name="parentName"
                     app:argType="string"
@@ -84,7 +124,11 @@
                 android:id="@+id/profileFragment"
                 android:name="com.example.kotlinTeam.profile.presentation.ProfileFragment"
                 android:label="Profile"
-                tools:layout="@layout/fragment_profile" />
+                tools:layout="@layout/fragment_profile" >
+            <action
+                    android:id="@+id/action_profileFragment_to_auth"
+                    app:destination="@id/auth" />
+        </fragment>
     </navigation>
 
 </navigation>

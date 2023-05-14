@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.kotlinTeam.R
 import com.example.kotlinTeam.common.viewBinding.viewBinding
@@ -17,6 +18,7 @@ import com.example.kotlinTeam.storage.domain.events.StorageProductEvents
 import com.example.kotlinTeam.storage.domain.model.StorageProduct
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 private const val ARG_PARENT_ID = "parentId"
 private const val ARG_PARENT_NAME = "parentName"
@@ -44,10 +46,10 @@ internal class StorageProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val parentId = requireArguments().getInt(ARG_PARENT_ID)
+        val parentId = requireArguments().getString(ARG_PARENT_ID)
         val parentName = requireArguments().getString(ARG_PARENT_NAME)
 
-        viewModel.onEvent(StorageProductEvents.InitProduct(parentId))
+        viewModel.onEvent(StorageProductEvents.InitProduct(parentId!!))
 
         binding.backButton.setOnClickListener {
             findNavController().navigate(
@@ -55,6 +57,7 @@ internal class StorageProductFragment : Fragment() {
             )
         }
         binding.title.text = parentName
+
         binding.recyclerView.apply {
             layoutManager = GridLayoutManager(context, COLUMN_COUNT)
             adapter = storageProductAdapter
@@ -66,47 +69,59 @@ internal class StorageProductFragment : Fragment() {
             binding.btnRetry.visibility = View.GONE
         }
 
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.storageProductState.collectLatest {
-                when {
-                    it.isLoading -> {
-                        binding.mainProgressBar.visibility = View.VISIBLE
-                    }
-
-                    it.error.isNotBlank() -> {
-                        binding.btnRetry.visibility = View.VISIBLE
-                        Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
-                    }
-
-                    else -> {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.storageProductState.collectLatest { state ->
+                when (!state.isLoading) {
+                    true -> {
                         binding.mainProgressBar.visibility = View.GONE
+                        if (state.error.isBlank()) {
+                            binding.btnRetry.visibility = View.GONE
+                            binding.recyclerView.visibility = View.VISIBLE
+                            state.storageProduct?.let {
+                                storageProductAdapter.submitData(it)
+                            }
+                        } else {
+                            binding.btnRetry.visibility = View.VISIBLE
+                            binding.recyclerView.visibility = View.GONE
+                            Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    false -> {
+                        binding.mainProgressBar.visibility = View.VISIBLE
                         binding.btnRetry.visibility = View.GONE
-                        binding.recyclerView.visibility = View.VISIBLE
-                        storageProductAdapter.submitList(it.storageProduct)
+                        binding.recyclerView.visibility = View.GONE
                     }
                 }
             }
         }
 
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.storageSelectProductState.collectLatest {
-                when {
-                    it.isLoading -> {
-//                        Toast.makeText(context, "LOADING SELECT", Toast.LENGTH_SHORT).show()
-                    }
-
-                    it.error.isNotBlank() -> {
-                        Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
-                    }
-
-                    else -> {
-                        storageProductAdapter.notifyItemChanged(
-                            storageProductAdapter.currentList.indexOf(
-                                it.storageProduct
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.storageSelectProductState.collectLatest { state ->
+                when (!state.isLoading) {
+                    true -> {
+                        binding.mainProgressBar.visibility = View.GONE
+                        if (state.error.isBlank()) {
+                            storageProductAdapter.notifyItemChanged(
+                                storageProductAdapter.snapshot().items.indexOf(
+                                    state.storageProduct
+                                )
                             )
-                        )
+                        } else {
+                            Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    false -> {
+                        binding.mainProgressBar.visibility = View.VISIBLE
                     }
                 }
+            }
+        }
+
+        storageProductAdapter.addLoadStateListener { loadState ->
+            if (loadState.refresh is LoadState.Loading) {
+                binding.mainProgressBar.visibility = View.VISIBLE
+            } else {
+                binding.mainProgressBar.visibility = View.GONE
             }
         }
 

@@ -86,13 +86,13 @@
     <style name="Text.Body.ExtraSmall.White" parent="Text.Body.ExtraSmall">
         <item name="android:textColor">@color/white</item>
     </style>
-    <style name="Text.Body.ExtraSmall.White.Semibold" parent="Text.Body.ExtraSmall">
+    <style name="Text.Body.ExtraSmall.White.Semibold" parent="Text.Body.ExtraSmall.White">
         <item name="android:fontFamily">@font/generalsans_semibold</item>
     </style>
     <style name="Text.Body.ExtraSmall.Orange" parent="Text.Body.ExtraSmall">
         <item name="android:textColor">@color/orange_700</item>
     </style>
-    <style name="Text.Body.ExtraSmall.Orange.Semibold" parent="Text.Body.ExtraSmall">
+    <style name="Text.Body.ExtraSmall.Orange.Semibold" parent="Text.Body.ExtraSmall.Orange">
         <item name="android:fontFamily">@font/generalsans_semibold</item>
     </style>
     <style name="Text.Body.ExtraSmall.Black" parent="Text.Body.ExtraSmall">
