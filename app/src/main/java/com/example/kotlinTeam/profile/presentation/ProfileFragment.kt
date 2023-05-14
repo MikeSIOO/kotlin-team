@@ -17,7 +17,6 @@ import com.example.kotlinTeam.MainActivity
 import com.example.kotlinTeam.R
 import com.example.kotlinTeam.common.viewBinding.viewBinding
 import com.example.kotlinTeam.databinding.FragmentProfileBinding
-import com.example.kotlinTeam.feed.presentation.FullRecipeFragment
 import com.example.kotlinTeam.profile.domain.model.MadeRecipe
 import com.example.kotlinTeam.profile.presentation.madeRecipes.RecipeListAdapter
 import com.example.kotlinTeam.profile.presentation.madeRecipes.loadState.MadeRecipesLoadStateAdapter
@@ -26,6 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
@@ -62,7 +62,7 @@ class ProfileFragment : Fragment() {
 
         setupMadeRecipesRecyclerView()
 
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.stateProfile.collectLatest { profileState ->
                 when (profileState.isLoading) {
                     true -> {
@@ -80,10 +80,10 @@ class ProfileFragment : Fragment() {
                             profile?.let {
                                 binding.profileNameTextView.text = profile.name
                                 if (profile.image.isNotBlank()) bindImage(view, profile.image, binding.avatarImageView)
-                                viewModel.onEvent(ProfileFragmentEvents.LoadMadeRecipes)
-                                viewModel.madeRecipes.buffer().collectLatest { pagingData ->
+                                //viewModel.onEvent(ProfileFragmentEvents.LoadMadeRecipes)
+                                profileState.madeRecipes.buffer().collectLatest { recipes ->
                                     withContext(Dispatchers.IO) {
-                                        recipeListAdapter.submitData(pagingData)
+                                        recipeListAdapter.submitData(recipes)
                                     }
                                 }
                             }
@@ -109,6 +109,11 @@ class ProfileFragment : Fragment() {
         recipeListAdapter.addLoadStateListener { loadState ->
             val isListEmpty = loadState.refresh is LoadState.NotLoading &&
                 recipeListAdapter.itemCount == 0
+            if (loadState.refresh == LoadState.Loading) {
+                binding.mainProgressBar.visibility = View.VISIBLE
+            } else {
+                binding.mainProgressBar.visibility = View.GONE
+            }
             binding.madeRecipesRecyclerView.isVisible = !isListEmpty
             val errorState = when {
                 loadState.append is LoadState.Error -> loadState.append as LoadState.Error
@@ -121,6 +126,11 @@ class ProfileFragment : Fragment() {
                 recipeListAdapter.retry()
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onEvent(ProfileFragmentEvents.LoadMadeRecipes)
     }
 
     private fun goToRecipeFragment(madeRecipe: MadeRecipe) {

@@ -2,18 +2,13 @@ package com.example.kotlinTeam.profile.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.filter
 import androidx.paging.map
 import com.example.kotlinTeam.profile.common.Resource
-import com.example.kotlinTeam.profile.domain.model.MadeRecipe
-import com.example.kotlinTeam.profile.domain.model.Profile
 import com.example.kotlinTeam.profile.domain.useCases.ProfileUseCases
-import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -29,8 +24,6 @@ class ProfileViewModel @Inject constructor(
     private val _stateProfile = MutableStateFlow(ProfileState())
     val stateProfile: StateFlow<ProfileState> = _stateProfile
 
-    private val _madeRecipes: Flow<PagingData<MadeRecipe>> = getRecipes()
-    val madeRecipes: Flow<PagingData<MadeRecipe>> = _madeRecipes
 
     init {
         getProfile()
@@ -43,6 +36,7 @@ class ProfileViewModel @Inject constructor(
             }
             is ProfileFragmentEvents.LoadProfile -> {
                 getProfile()
+                getRecipes()
             }
             is ProfileFragmentEvents.LoadRecipe -> {
             }
@@ -77,9 +71,14 @@ class ProfileViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    private fun getRecipes() = profileUseCases.getMadeRecipes().map { pagingData ->
-        pagingData.filter { !(it.id.isNullOrBlank() || it.title.isNullOrBlank()) } .map { it.toMadeRecipe() }
-    }.cachedIn(viewModelScope)
+    private fun getRecipes() {
+        val recipes = profileUseCases.getMadeRecipes().map { pagingData ->
+            pagingData.filter { !(it.id.isNullOrBlank() || it.title.isNullOrBlank()) } .map { it.toMadeRecipe() }
+        }.cachedIn(viewModelScope)
+        _stateProfile.value = stateProfile.value.copy(
+            madeRecipes = recipes
+        )
+    }
 
     private fun logOut() = viewModelScope.launch {
         profileUseCases.logOut()
