@@ -7,10 +7,10 @@ import androidx.paging.cachedIn
 import com.example.kotlinTeam.common.data.dataSource.model.recipe.RecipeOo
 import com.example.kotlinTeam.feed.domain.useCase.FeedUseCases
 import com.example.kotlinTeam.storage.common.StorageStatuses
-import com.example.kotlinTeam.storage.domain.state.StorageProductState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -27,47 +27,58 @@ class FeedViewModel @Inject constructor(
     )
     val currentRecipeState: StateFlow<CurrentRecipeState> = _currentRecipeState
 
-    private val _selectedProductsState = MutableStateFlow(StorageProductState())
-    val selectedProductsState: StateFlow<StorageProductState> = _selectedProductsState
+    private val _selectedProductsState: MutableStateFlow<SelectedProductsState> = MutableStateFlow(
+        SelectedProductsState()
+    )
+    private val selectedProductsState: StateFlow<SelectedProductsState> = _selectedProductsState
 
     init {
-        getSelectedProducts()
         viewModelScope.launch {
-            try {
-                getSelectedProducts()
-                useCases.getFeedUseCase().cachedIn(viewModelScope).collect {
-                    _feedRecipes.value = it
-                }
-            } catch (e: Exception) {
-                _feedRecipes.value = PagingData.empty()
+            useCases.getSelectedProductsUseCase().collect { result ->
+                _selectedProductsState.value =
+                    when (result) {
+                        is StorageStatuses.Success -> {
+                            selectedProductsState.value.copy(
+                                isLoading = false,
+                                selectedProducts = result.data ?: emptyList()
+                            )
+                        }
+
+                        is StorageStatuses.Error -> {
+                            selectedProductsState.value.copy(
+                                isLoading = false,
+                                selectedProducts = emptyList(),
+                                error = result.message
+                            )
+                        }
+
+                        is StorageStatuses.Loading -> {
+                            selectedProductsState.value.copy(
+                                isLoading = true,
+                                selectedProducts = emptyList()
+                            )
+                        }
+                    }
+                getRecipes()
             }
         }
     }
 
-    private fun getSelectedProducts () {
-        useCases.getSelectedProductsUseCase().onEach { result ->
-            _selectedProductsState.value = when (result) {
-                is StorageStatuses.Success -> {
-                    selectedProductsState.value.copy(
-                        storageProduct = result.data ?: emptyList(),
-                        isLoading = false,
-                        error = ""
-                    )
-                }
-                is StorageStatuses.Error -> {
-                    selectedProductsState.value.copy(
-                        isLoading = false,
-                        error = result.message ?: "An unexpected error occurred"
-                    )
-                }
-                is StorageStatuses.Loading -> {
-                    selectedProductsState.value.copy(
-                        isLoading = true
-                    )
+    private fun getRecipes() {
+        viewModelScope.launch {
+            selectedProductsState.value.let {
+                if (!it.isLoading) {
+                    try {
+                        useCases.getFeedUseCase(selectedProductsState.value.selectedProducts)
+                            .cachedIn(viewModelScope).collect { recipes ->
+                                _feedRecipes.value = recipes
+                            }
+                    } catch (e: Exception) {
+                        _feedRecipes.value = PagingData.empty()
+                    }
                 }
             }
-
-        }.launchIn(viewModelScope)
+        }
     }
 
     fun setCurrentRecipe(recipe: RecipeOo?) {

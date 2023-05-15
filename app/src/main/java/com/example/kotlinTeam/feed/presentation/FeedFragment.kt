@@ -129,6 +129,10 @@ class FeedFragment : Fragment(R.layout.fragment_feed), CardStackListener {
                 binding.progressBar.isVisible = it.refresh is LoadState.Loading
                 binding.retryButton.isVisible =
                     it.refresh is LoadState.Error && feedAdapter.itemCount == 0
+                binding.noRecipeText.isVisible =
+                    it.refresh is LoadState.NotLoading && feedAdapter.itemCount == 0
+                binding.fridgeImg.isVisible =
+                    it.refresh is LoadState.NotLoading && feedAdapter.itemCount == 0
             }
         }
     }

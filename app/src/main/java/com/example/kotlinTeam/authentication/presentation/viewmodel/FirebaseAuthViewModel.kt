@@ -7,11 +7,11 @@ import com.example.kotlinTeam.authentication.domain.AuthUseCases
 import com.example.kotlinTeam.authentication.presentation.AuthEvents
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
-import javax.inject.Inject
 
 @HiltViewModel
 class FirebaseAuthViewModel @Inject constructor(

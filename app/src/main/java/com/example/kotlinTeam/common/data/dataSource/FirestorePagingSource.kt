@@ -10,7 +10,8 @@ import kotlinx.coroutines.tasks.await
 
 class FirestorePagingSource<T : Any>(
     private val query: Query,
-    private val mapper: suspend (DocumentSnapshot) -> T
+    private val mapper: suspend (DocumentSnapshot) -> T,
+    private val filter: (suspend (T) -> Boolean)? = null
 ) : PagingSource<QuerySnapshot, T>() {
 
     override fun getRefreshKey(state: PagingState<QuerySnapshot, T>): QuerySnapshot? {
@@ -30,7 +31,14 @@ class FirestorePagingSource<T : Any>(
 
             val items = mutableListOf<T>()
             for (document in currentPage.documents) {
-                items.add(mapper(document))
+                if (filter != null) {
+                    val filteringItem = mapper(document)
+                    if (filter?.let { it(filteringItem) } == true) {
+                        items.add(filteringItem)
+                    }
+                } else {
+                    items.add(mapper(document))
+                }
             }
 
             LoadResult.Page(

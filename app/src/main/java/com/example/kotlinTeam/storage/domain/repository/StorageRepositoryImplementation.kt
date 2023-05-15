@@ -41,13 +41,14 @@ class StorageRepositoryImplementation @Inject constructor(
         flow {
             try {
                 emit(StorageStatuses.Loading())
-                val selectedProductsEntities = storageProductDao.getSelectedProducts()
-                val selectedProducts = storageProductMapper.mapEntityListToProductList(selectedProductsEntities)
-                emit (StorageStatuses.Success(selectedProducts))
+                storageProductDao.getSelectedProducts().collect {
+                    val selectedProducts = storageMapper.mapEntityListToProductList(it)
+                    emit(StorageStatuses.Success(selectedProducts))
+                }
             } catch (e: IOException) {
                 emit(
                     StorageStatuses.Error(
-                        "Попробуйте позже"
+                        e.localizedMessage ?: "Попробуйте позже"
                     )
                 )
             }
