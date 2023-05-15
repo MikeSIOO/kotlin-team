@@ -124,13 +124,13 @@ class ProfileFragment : Fragment() {
     }
 
     private fun goToRecipeFragment(madeRecipe: MadeRecipe) {
-//        viewModel.onEvent(ProfileFragmentEvents.LoadRecipe(madeRecipe))
-//        requireActivity().supportFragmentManager.let {
-//            val transaction = it.beginTransaction()
-//            transaction
-//                .replace(R.id.nav_host_fragment, FullRecipeFragment.newInstance(madeRecipe.id))
-//                .addToBackStack(null)
-//                .commit()
-//        }
+        viewModel.onEvent(ProfileFragmentEvents.LoadRecipe(madeRecipe))
+        requireActivity().supportFragmentManager.let {
+            val transaction = it.beginTransaction()
+            transaction
+                .replace(R.id.nav_host_fragment, FullRecipeFragment.newInstance(madeRecipe.id))
+                .addToBackStack(null)
+                .commit()
+        }
     }
 }

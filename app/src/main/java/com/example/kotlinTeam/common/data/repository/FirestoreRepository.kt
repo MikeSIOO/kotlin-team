@@ -100,6 +100,16 @@ class FirestoreRepository @Inject constructor(
         ).flow
     }
 
+    suspend fun getRecipeById(recipeId: String): RecipeOo {
+        return firestore
+            .collection(Constants.RECIPES_COLLECTION)
+            .document(recipeId)
+            .get()
+            .await()
+            .toObject(RecipeDto::class.java)!!
+            .toRecipeOo()
+    }
+
     fun getRecipesByUserId(id: String): Flow<PagingData<RecipeOo>> {
         val usersCollectionRef = firestore.collection(Constants.USERS_COLLECTION)
         val recipesSubCollectionRef = usersCollectionRef.document(id).collection(Constants.RECIPES_COLLECTION)

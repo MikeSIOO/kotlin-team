@@ -24,16 +24,39 @@ class FullRecipeFragment : Fragment(R.layout.fragment_full_recipe) {
     private val ingredientsRecycler get() = binding.ingredientsRecycler
     private val stepsRecycler get() = binding.stepsRecycler
     private val expandableTextView get() = binding.dishInfo
+    private var recipeId: String? = null
+
+    companion object {
+        private const val RECIPE_ID = "recipeId"
+
+        @JvmStatic
+        fun newInstance(recipeId: String) =
+            FullRecipeFragment().apply {
+                arguments = Bundle().apply {
+                    putString(RECIPE_ID, recipeId)
+                }
+            }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            recipeId = it.getString(RECIPE_ID)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val stepsAdapter = StepsAdapter()
         val ingredientsAdapter = IngredientsAdapter()
         val moreInfoButton = binding.moreInfoButton
 
+
+        recipeId?.let { viewModel.setCurrentRecipeById(it) }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.currentRecipeState.collectLatest {
-                binding.recipe = it.currentRecipe
                 if (it.currentRecipe != null) {
+                    binding.recipe = it.currentRecipe
                     stepsAdapter.setData(it.currentRecipe.instructions)
                     ingredientsAdapter.setData(it.currentRecipe.ingredients)
                 }
@@ -52,8 +75,12 @@ class FullRecipeFragment : Fragment(R.layout.fragment_full_recipe) {
         }
 
         binding.finishButton.setOnClickListener {
-            viewModel.resetFlag()
-            findNavController().navigate(R.id.action_fullRecipeFragment_to_feedFragment)
+            if (recipeId == null) {
+                viewModel.resetFlag()
+                findNavController().navigate(R.id.action_fullRecipeFragment_to_feedFragment)
+            } else {
+                requireActivity().supportFragmentManager.popBackStack()
+            }
         }
         super.onViewCreated(view, savedInstanceState)
     }

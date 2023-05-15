@@ -10,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 @HiltViewModel
 class FeedViewModel @Inject constructor(
@@ -34,6 +35,13 @@ class FeedViewModel @Inject constructor(
             } catch (e: Exception) {
                 _feedRecipes.value = PagingData.empty()
             }
+        }
+    }
+
+    fun setCurrentRecipeById(recipeId: String) {
+        viewModelScope.launch {
+            val recipe = runBlocking {  useCases.getRecipeByIdUseCase(recipeId) }
+            _currentRecipeState.value = currentRecipeState.value.copy(currentRecipe = recipe)
         }
     }
 
