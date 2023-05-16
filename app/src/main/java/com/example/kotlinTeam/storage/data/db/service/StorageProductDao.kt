@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.kotlinTeam.storage.data.db.model.StorageProductEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface StorageProductDao {
@@ -19,4 +20,7 @@ interface StorageProductDao {
 
     @Delete
     suspend fun delete(storageProductEntity: StorageProductEntity)
+
+    @Query("SELECT * FROM StorageProductEntity")
+    fun getSelectedProducts(): Flow<List<StorageProductEntity>>
 }

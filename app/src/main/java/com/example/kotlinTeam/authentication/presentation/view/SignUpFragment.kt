@@ -1,7 +1,6 @@
 package com.example.kotlinTeam.authentication.presentation.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,10 +15,7 @@ import com.example.kotlinTeam.authentication.presentation.AuthEvents
 import com.example.kotlinTeam.authentication.presentation.viewmodel.FirebaseAuthViewModel
 import com.example.kotlinTeam.common.viewBinding.viewBinding
 import com.example.kotlinTeam.databinding.FragmentSignUpBinding
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
