@@ -37,4 +37,18 @@ class StorageMapper @Inject constructor() {
             storageProduct.parentId
         )
     }
+
+    fun mapEntityListToProductList(
+        storageProductEntity: List<StorageProductEntity>
+    ): List<StorageDataModel.StorageProduct> {
+        return storageProductEntity.map {
+            StorageDataModel.StorageProduct(
+                id = it.id,
+                title = it.title,
+                image = null,
+                parentId = it.parentId,
+                selected = true
+            )
+        }
+    }
 }

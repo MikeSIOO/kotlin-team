@@ -39,11 +39,14 @@ class ProfileViewModel @Inject constructor(
             is ProfileFragmentEvents.LoadMadeRecipes -> {
                 getRecipes()
             }
+
             is ProfileFragmentEvents.LoadProfile -> {
                 getProfile()
             }
+
             is ProfileFragmentEvents.LoadRecipe -> {
             }
+
             is ProfileFragmentEvents.LogOut -> {
                 logOut()
             }
@@ -60,12 +63,14 @@ class ProfileViewModel @Inject constructor(
                         error = ""
                     )
                 }
+
                 is Resource.Error -> {
                     _stateProfile.value = stateProfile.value.copy(
                         isLoading = false,
                         error = result.message ?: "An unexpected error occurred"
                     )
                 }
+
                 is Resource.Loading -> {
                     _stateProfile.value = stateProfile.value.copy(
                         isLoading = true
@@ -76,7 +81,10 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun getRecipes() = profileUseCases.getMadeRecipes().map { pagingData ->
-        pagingData.filter { !(it.id.isNullOrBlank() || it.title.isNullOrBlank()) }.map { it.toMadeRecipe() }
+        pagingData.filter {
+            !(it.id.isNullOrBlank() || it.title.isNullOrBlank())
+        }
+            .map { it.toMadeRecipe() }
     }.cachedIn(viewModelScope)
 
     private fun logOut() = viewModelScope.launch {

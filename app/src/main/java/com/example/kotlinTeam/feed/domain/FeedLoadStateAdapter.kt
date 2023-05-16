@@ -10,7 +10,9 @@ import com.example.kotlinTeam.databinding.FeedLoadStateBinding
 
 class FeedLoadStateAdapter() : LoadStateAdapter<FeedLoadStateAdapter.Holder>() {
 
-    class Holder(private val binding: FeedLoadStateBinding) : RecyclerView.ViewHolder(binding.root) {
+    class Holder(
+        private val binding: FeedLoadStateBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(loadState: LoadState) {
             binding.progressBar.isVisible = loadState is LoadState.Loading
             binding.errorMsg.isVisible = loadState is LoadState.Error

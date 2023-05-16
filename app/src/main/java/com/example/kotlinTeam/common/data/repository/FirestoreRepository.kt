@@ -11,6 +11,7 @@ import com.example.kotlinTeam.profile.common.Constants
 import com.example.kotlinTeam.storage.data.db.service.StorageProductDao
 import com.example.kotlinTeam.storage.data.mapper.StorageMapper
 import com.example.kotlinTeam.storage.domain.model.StorageDataModel
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -92,9 +93,9 @@ class FirestoreRepository @Inject constructor(
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = {
-                FirestorePagingSource(query) {
-                    it.toObject(RecipeDto::class.java)!!.toRecipeOo()
-                }
+                FirestorePagingSource(
+                    query,
+                    mapper = { it.toObject(RecipeDto::class.java)!!.toRecipeOo() })
             }
         ).flow
     }
@@ -115,9 +116,9 @@ class FirestoreRepository @Inject constructor(
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = {
-                FirestorePagingSource(query) {
+                FirestorePagingSource(query, mapper = {
                     it.toObject(RecipeWithTimestampDto::class.java)!!.toRecipeDto().toRecipeOo()
-                }
+                })
             }
         ).flow
     }
@@ -140,9 +141,9 @@ class FirestoreRepository @Inject constructor(
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = {
-                FirestorePagingSource(query) {
-                    storageMapper.mapCategory(it.toObject(StorageCategoryDto::class.java)) as StorageDataModel
-                }
+                FirestorePagingSource(
+                    query,
+                    mapper = { storageMapper.mapCategory(it.toObject(StorageCategoryDto::class.java)) as StorageDataModel })
             }
         ).flow
     }
@@ -165,14 +166,16 @@ class FirestoreRepository @Inject constructor(
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = {
-                FirestorePagingSource(query) {
-                    storageMapper.mapProduct(
-                        it.toObject(StorageProductDto::class.java),
-                        storageProductDao.getById(
-                            it.toObject(StorageProductDto::class.java)?.id.toString()
-                        )
-                    ) as StorageDataModel
-                }
+                FirestorePagingSource(query,
+                    mapper = {
+                        storageMapper.mapProduct(
+                            it.toObject(StorageProductDto::class.java),
+                            storageProductDao.getById(
+                                it.toObject(StorageProductDto::class.java)?.id.toString()
+                            )
+                        ) as StorageDataModel
+                    }
+                )
             }
         ).flow
     }
@@ -196,15 +199,56 @@ class FirestoreRepository @Inject constructor(
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = {
-                FirestorePagingSource(query) {
-                    storageMapper.mapProduct(
-                        it.toObject(StorageProductDto::class.java),
-                        storageProductDao.getById(
-                            it.toObject(StorageProductDto::class.java)?.id.toString()
-                        )
-                    ) as StorageDataModel
-                }
+                FirestorePagingSource(
+                    query,
+                    mapper = {
+                        storageMapper.mapProduct(
+                            it.toObject(StorageProductDto::class.java),
+                            storageProductDao.getById(
+                                it.toObject(StorageProductDto::class.java)?.id.toString()
+                            )
+                        ) as StorageDataModel
+                    }
+                )
             }
         ).flow
+    }
+
+    suspend fun getRecipesByProducts(products: List<StorageDataModel.StorageProduct>): Flow<PagingData<RecipeOo>> {
+        val recipeCollectionRef = firestore.collection(Constants.RECIPES_COLLECTION)
+        val query = recipeCollectionRef.orderBy(Constants.TITLE_PROPERTY)
+        val productsList = products.map { it.title }
+
+        val pagingConfig = PagingConfig(
+            pageSize = Constants.PAGE_SIZE,
+            enablePlaceholders = false,
+            initialLoadSize = Constants.INITIAL_LOAD_SIZE
+        )
+
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = {
+                FirestorePagingSource(query, mapper = {
+                    it.toObject(RecipeDto::class.java)!!.toRecipeOo()
+                },
+                    filter = { chooseRecipeByProducts(it, productsList) }
+                )
+            }
+        ).flow
+    }
+
+    private fun chooseRecipeByProducts(recipe: RecipeOo, productsList: List<String?>): Boolean {
+        val recipeIngredientsList = recipe.ingredients.map { it.product }
+        if (recipeIngredientsList.size > productsList.size) return false
+        if (productsList.containsAll(recipeIngredientsList)) return true
+        return false
+    }
+
+    fun insertUser(user: FirebaseUser) {
+        val usersCollectionRef = firestore.collection(Constants.USERS_COLLECTION)
+        val docData = hashMapOf(
+            "id" to user.uid
+        )
+        usersCollectionRef.document(user.uid).set(docData)
     }
 }

@@ -6,4 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface StorageRepository {
     fun selectProduct(storageProduct: StorageDataModel.StorageProduct): Flow<StorageStatuses<StorageDataModel.StorageProduct>>
+
+    fun getSelectedProducts(): Flow<StorageStatuses<List<StorageDataModel.StorageProduct>>>
 }
