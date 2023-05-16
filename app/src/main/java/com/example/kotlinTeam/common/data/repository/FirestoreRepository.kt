@@ -95,7 +95,8 @@ class FirestoreRepository @Inject constructor(
             pagingSourceFactory = {
                 FirestorePagingSource(
                     query,
-                    mapper = { it.toObject(RecipeDto::class.java)!!.toRecipeOo() })
+                    mapper = { it.toObject(RecipeDto::class.java)!!.toRecipeOo() }
+                )
             }
         ).flow
     }
@@ -116,9 +117,12 @@ class FirestoreRepository @Inject constructor(
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = {
-                FirestorePagingSource(query, mapper = {
-                    it.toObject(RecipeWithTimestampDto::class.java)!!.toRecipeDto().toRecipeOo()
-                })
+                FirestorePagingSource(
+                    query,
+                    mapper = {
+                        it.toObject(RecipeWithTimestampDto::class.java)!!.toRecipeDto().toRecipeOo()
+                    }
+                )
             }
         ).flow
     }
@@ -143,7 +147,12 @@ class FirestoreRepository @Inject constructor(
             pagingSourceFactory = {
                 FirestorePagingSource(
                     query,
-                    mapper = { storageMapper.mapCategory(it.toObject(StorageCategoryDto::class.java)) as StorageDataModel })
+                    mapper = {
+                        storageMapper.mapCategory(
+                            it.toObject(StorageCategoryDto::class.java)
+                        ) as StorageDataModel
+                    }
+                )
             }
         ).flow
     }
@@ -166,7 +175,8 @@ class FirestoreRepository @Inject constructor(
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = {
-                FirestorePagingSource(query,
+                FirestorePagingSource(
+                    query,
                     mapper = {
                         storageMapper.mapProduct(
                             it.toObject(StorageProductDto::class.java),
@@ -228,9 +238,11 @@ class FirestoreRepository @Inject constructor(
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = {
-                FirestorePagingSource(query, mapper = {
-                    it.toObject(RecipeDto::class.java)!!.toRecipeOo()
-                },
+                FirestorePagingSource(
+                    query,
+                    mapper = {
+                        it.toObject(RecipeDto::class.java)!!.toRecipeOo()
+                    },
                     filter = { chooseRecipeByProducts(it, productsList) }
                 )
             }
