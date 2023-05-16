@@ -182,10 +182,10 @@ class FirestoreRepository @Inject constructor(
             com.example.kotlinTeam.storage.common.Constants.PRODUCT_COLLECTION
         )
 
-        // TODO Работает с учетом регистра и только на полное совпадение
         val query = recipeCollectionRef
-            .whereEqualTo("title", title.lowercase())
-            .orderBy("parentId")
+            .orderBy("title")
+            .startAt(title.lowercase())
+            .endAt(title.lowercase() + "\uf8ff")
 
         val pagingConfig = PagingConfig(
             pageSize = com.example.kotlinTeam.storage.common.Constants.PAGE_SIZE,
