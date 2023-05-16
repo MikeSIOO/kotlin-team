@@ -17,7 +17,6 @@ import com.example.kotlinTeam.MainActivity
 import com.example.kotlinTeam.R
 import com.example.kotlinTeam.common.viewBinding.viewBinding
 import com.example.kotlinTeam.databinding.FragmentProfileBinding
-import com.example.kotlinTeam.feed.presentation.FullRecipeFragment
 import com.example.kotlinTeam.profile.domain.model.MadeRecipe
 import com.example.kotlinTeam.profile.presentation.madeRecipes.RecipeListAdapter
 import com.example.kotlinTeam.profile.presentation.madeRecipes.loadState.MadeRecipesLoadStateAdapter
@@ -79,7 +78,11 @@ class ProfileFragment : Fragment() {
 
                             profile?.let {
                                 binding.profileNameTextView.text = profile.name
-                                if (profile.image.isNotBlank()) bindImage(view, profile.image, binding.avatarImageView)
+                                if (profile.image.isNotBlank()) bindImage(
+                                    view,
+                                    profile.image,
+                                    binding.avatarImageView
+                                )
                                 viewModel.onEvent(ProfileFragmentEvents.LoadMadeRecipes)
                                 viewModel.madeRecipes.buffer().collectLatest { pagingData ->
                                     withContext(Dispatchers.IO) {

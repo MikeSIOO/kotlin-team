@@ -8,9 +8,7 @@ import androidx.paging.filter
 import androidx.paging.map
 import com.example.kotlinTeam.profile.common.Resource
 import com.example.kotlinTeam.profile.domain.model.MadeRecipe
-import com.example.kotlinTeam.profile.domain.model.Profile
 import com.example.kotlinTeam.profile.domain.useCases.ProfileUseCases
-import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
@@ -78,7 +76,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun getRecipes() = profileUseCases.getMadeRecipes().map { pagingData ->
-        pagingData.filter { !(it.id.isNullOrBlank() || it.title.isNullOrBlank()) } .map { it.toMadeRecipe() }
+        pagingData.filter { !(it.id.isNullOrBlank() || it.title.isNullOrBlank()) }.map { it.toMadeRecipe() }
     }.cachedIn(viewModelScope)
 
     private fun logOut() = viewModelScope.launch {

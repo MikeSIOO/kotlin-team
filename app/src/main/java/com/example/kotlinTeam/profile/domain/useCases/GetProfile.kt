@@ -3,7 +3,6 @@ package com.example.kotlinTeam.profile.domain.useCases
 import com.example.kotlinTeam.profile.common.Resource
 import com.example.kotlinTeam.profile.domain.model.Profile
 import com.example.kotlinTeam.profile.domain.repository.ProfileRepository
-import com.google.firebase.auth.FirebaseUser
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 

@@ -48,11 +48,7 @@ internal class StorageFragment : Fragment() {
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     if (binding.backButton.visibility == View.VISIBLE) {
-                        binding.title.text = "Выберите продукты"
-                        binding.backButton.visibility = View.GONE
-                        binding.subtitle.visibility = View.VISIBLE
-                        binding.btnRetry.visibility = View.GONE
-                        viewModel.onEvent(StorageEvents.InitCategory)
+                        backPressed()
                     } else {
                         requireActivity().finish()
                         exitProcess(0)
@@ -74,20 +70,18 @@ internal class StorageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnRetry.setOnClickListener {
-            binding.title.text = "Выберите продукты"
-            binding.backButton.visibility = View.GONE
-            binding.subtitle.visibility = View.VISIBLE
-            binding.btnRetry.visibility = View.GONE
-            viewModel.onEvent(StorageEvents.InitCategory)
+            backPressed()
         }
 
         binding.backButton.setOnClickListener {
             backPressed()
         }
 
-        binding.search.doAfterTextChanged{
+        binding.search.doAfterTextChanged {
             if (it.toString() != "") {
                 binding.title.text = "Поиск"
+                binding.backButton.visibility = View.VISIBLE
+                binding.subtitle.visibility = View.GONE
                 viewModel.onEvent(StorageEvents.SearchProduct(it.toString()))
             } else {
                 binding.title.text = "Выберите продукты"
@@ -166,6 +160,7 @@ internal class StorageFragment : Fragment() {
         binding.backButton.visibility = View.GONE
         binding.subtitle.visibility = View.VISIBLE
         binding.btnRetry.visibility = View.GONE
+        binding.search.setText("")
         viewModel.onEvent(StorageEvents.InitCategory)
     }
 }
