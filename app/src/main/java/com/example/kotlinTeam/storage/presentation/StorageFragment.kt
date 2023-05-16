@@ -1,13 +1,12 @@
 package com.example.kotlinTeam.storage.presentation
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -86,32 +85,17 @@ internal class StorageFragment : Fragment() {
             backPressed()
         }
 
-        binding.search.addTextChangedListener(
-            object : TextWatcher {
-                override fun afterTextChanged(s: Editable) {}
-
-                override fun beforeTextChanged(
-                    s: CharSequence,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                }
-
-                override fun onTextChanged(
-                    s: CharSequence,
-                    start: Int,
-                    before: Int,
-                    count: Int
-                ) {
-                    if (s.toString() != "") {
-                        viewModel.onEvent(StorageEvents.SearchProduct(s.toString()))
-                    } else {
-                        viewModel.onEvent(StorageEvents.InitCategory)
-                    }
-                }
+        binding.search.doAfterTextChanged{
+            if (it.toString() != "") {
+                binding.title.text = "Поиск"
+                viewModel.onEvent(StorageEvents.SearchProduct(it.toString()))
+            } else {
+                binding.title.text = "Выберите продукты"
+                binding.backButton.visibility = View.GONE
+                binding.subtitle.visibility = View.VISIBLE
+                viewModel.onEvent(StorageEvents.InitCategory)
             }
-        )
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.storageState.collectLatest { state ->
@@ -142,7 +126,7 @@ internal class StorageFragment : Fragment() {
             viewModel.storageSelectProductState.collectLatest { state ->
                 when (!state.isLoading) {
                     true -> {
-//                        binding.mainProgressBar.visibility = View.GONE
+                        binding.mainProgressBar.visibility = View.GONE
                         if (state.error.isBlank()) {
                             if (state.storageProduct is StorageDataModel) {
                                 storageAdapter.notifyItemChanged(
@@ -157,7 +141,7 @@ internal class StorageFragment : Fragment() {
                     }
 
                     false -> {
-//                        binding.mainProgressBar.visibility = View.VISIBLE
+                        binding.mainProgressBar.visibility = View.VISIBLE
                     }
                 }
             }

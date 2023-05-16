@@ -184,7 +184,7 @@ class FirestoreRepository @Inject constructor(
 
         // TODO Работает с учетом регистра и только на полное совпадение
         val query = recipeCollectionRef
-            .whereEqualTo("title", title)
+            .whereEqualTo("title", title.lowercase())
             .orderBy("parentId")
 
         val pagingConfig = PagingConfig(
