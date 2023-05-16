@@ -12,6 +12,7 @@ import com.example.kotlinTeam.storage.data.db.service.StorageProductDao
 import com.example.kotlinTeam.storage.data.mapper.StorageMapper
 import com.example.kotlinTeam.storage.domain.model.StorageCategory
 import com.example.kotlinTeam.storage.domain.model.StorageProduct
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -204,5 +205,12 @@ class FirestoreRepository @Inject constructor(
         if (recipeIngredientsList.size > productsList.size) return false
         if (productsList.containsAll(recipeIngredientsList)) return true
         return false
+
+    fun insertUser(user: FirebaseUser) {
+        val usersCollectionRef = firestore.collection(Constants.USERS_COLLECTION)
+        val docData = hashMapOf(
+            "id" to user.uid
+        )
+        usersCollectionRef.document(user.uid).set(docData)
     }
 }
