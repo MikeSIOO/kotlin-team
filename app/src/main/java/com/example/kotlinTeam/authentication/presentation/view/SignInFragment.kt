@@ -1,7 +1,6 @@
 package com.example.kotlinTeam.authentication.presentation.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +18,6 @@ import com.example.kotlinTeam.databinding.FragmentSignInBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 
 @AndroidEntryPoint
 class SignInFragment : Fragment(R.layout.fragment_sign_in) {
@@ -61,7 +59,6 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
             }
         }
 
-
         viewLifecycleOwner.lifecycleScope.launch {
             firebaseAuthViewModel.UIEventsFlow.collect { event ->
                 when (event) {
@@ -82,13 +79,11 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
                             binding.emailLayout.error = "Введите почту"
                         binding.progressBarSignIn.visibility = View.GONE
 
-
                         if (event.code == 2)
                             binding.passwordLayout.error = "Введите пароль"
                         binding.progressBarSignIn.visibility = View.GONE
                     }
                     is FirebaseAuthViewModel.UIEvents.Registered -> {
-
                     }
                 }
             }
@@ -98,7 +93,7 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
                 user?.let {
                     (activity as MainActivity).setBottomNavigationVisibility(View.VISIBLE)
                     findNavController().navigate(
-                        R.id.action_signInFragment_to_actionStorageCategory
+                        R.id.action_signInFragment_to_actionStorage
                     )
                 }
             }

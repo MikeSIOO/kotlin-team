@@ -12,7 +12,8 @@ import com.example.kotlinTeam.common.data.dataSource.model.recipe.IngredientOo
 @BindingAdapter("ingredient_string")
 fun TextView.setIngredientString(ingredient: IngredientOo) {
     this.text =
-        if (ingredient.amount.isNullOrEmpty()) ingredient.product else "${ingredient.product} - ${ingredient.amount}"
+        if (ingredient.amount.isNullOrEmpty()) ingredient.product
+        else "${ingredient.product} - ${ingredient.amount}"
 }
 
 @BindingAdapter("android:text")

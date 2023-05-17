@@ -20,7 +20,7 @@
                     app:destination="@id/signInFragment" />
             <action
                     android:id="@+id/action_entryFragment_to_actionStorageCategory"
-                    app:destination="@id/actionStorageCategory" />
+                    app:destination="@id/actionStorage" />
         </fragment>
         <fragment
                 android:id="@+id/signInFragment"
@@ -31,8 +31,8 @@
                     android:id="@+id/action_signInFragment_to_signUpFragment"
                     app:destination="@id/signUpFragment" />
             <action
-                    android:id="@+id/action_signInFragment_to_actionStorageCategory"
-                    app:destination="@+id/actionStorageCategory"/>
+                    android:id="@+id/action_signInFragment_to_actionStorage"
+                    app:destination="@+id/actionStorage"/>
         </fragment>
         <fragment
                 android:id="@+id/signUpFragment"
@@ -46,35 +46,14 @@
     </navigation>
 
     <navigation
-            android:id="@+id/actionStorageCategory"
-            android:label="NavStorageCategory"
-            app:startDestination="@+id/storageCategoryFragment">
+            android:id="@+id/actionStorage"
+            android:label="NavStorage"
+            app:startDestination="@+id/storageFragment">
         <fragment
-                android:id="@+id/storageCategoryFragment"
-                android:name="com.example.kotlinTeam.storage.presentation.category.StorageCategoryFragment"
-                android:label="StorageCategory"
-                tools:layout="@layout/fragment_storage_category">
-            <action
-                    android:id="@+id/action_storageCategoryFragment_to_storageProductFragment"
-                    app:destination="@id/storageProductFragment" />
-        </fragment>
-
-        <fragment
-                android:id="@+id/storageProductFragment"
-                android:name="com.example.kotlinTeam.storage.presentation.product.StorageProductFragment"
-                android:label="StorageProduct"
-                tools:layout="@layout/fragment_storage_product">
-            <argument
-                    android:name="parentId"
-                    app:argType="string"
-                    android:defaultValue="" />
-            <argument
-                    android:name="parentName"
-                    app:argType="string"
-                    android:defaultValue="" />
-            <action
-                    android:id="@+id/action_storageProductFragment_to_storageCategoryFragment"
-                    app:destination="@id/storageCategoryFragment" />
+                android:id="@+id/storageFragment"
+                android:name="com.example.kotlinTeam.storage.presentation.StorageFragment"
+                android:label="Storage"
+                tools:layout="@layout/fragment_storage">
         </fragment>
     </navigation>
 

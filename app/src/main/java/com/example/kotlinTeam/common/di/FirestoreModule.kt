@@ -4,7 +4,6 @@ import com.example.kotlinTeam.common.data.repository.AuthRepository
 import com.example.kotlinTeam.common.data.repository.BaseAuthRepository
 import com.example.kotlinTeam.common.data.repository.firebase.BaseAuthenticator
 import com.example.kotlinTeam.common.data.repository.firebase.FirebaseAuthenticator
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
@@ -24,13 +23,13 @@ object FirestoreModule {
 
     @Singleton
     @Provides
-    fun provideAuthenticator() : BaseAuthenticator {
-        return  FirebaseAuthenticator()
+    fun provideAuthenticator(): BaseAuthenticator {
+        return FirebaseAuthenticator()
     }
 
     @Singleton
     @Provides
-    fun provideRepository(authenticator : BaseAuthenticator) : BaseAuthRepository {
+    fun provideRepository(authenticator: BaseAuthenticator): BaseAuthRepository {
         return AuthRepository(authenticator)
     }
 }

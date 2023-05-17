@@ -6,9 +6,11 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.kotlinTeam.common.data.dataSource.model.recipe.RecipeOo
 import com.example.kotlinTeam.feed.domain.useCase.FeedUseCases
+import com.example.kotlinTeam.storage.common.StorageStatuses
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -25,14 +27,56 @@ class FeedViewModel @Inject constructor(
     )
     val currentRecipeState: StateFlow<CurrentRecipeState> = _currentRecipeState
 
+    private val _selectedProductsState: MutableStateFlow<SelectedProductsState> = MutableStateFlow(
+        SelectedProductsState()
+    )
+    private val selectedProductsState: StateFlow<SelectedProductsState> = _selectedProductsState
+
     init {
         viewModelScope.launch {
-            try {
-                useCases.getFeedUseCase().cachedIn(viewModelScope).collect {
-                    _feedRecipes.value = it
+            useCases.getSelectedProductsUseCase().collect { result ->
+                _selectedProductsState.value =
+                    when (result) {
+                        is StorageStatuses.Success -> {
+                            selectedProductsState.value.copy(
+                                isLoading = false,
+                                selectedProducts = result.data ?: emptyList()
+                            )
+                        }
+
+                        is StorageStatuses.Error -> {
+                            selectedProductsState.value.copy(
+                                isLoading = false,
+                                selectedProducts = emptyList(),
+                                error = result.message
+                            )
+                        }
+
+                        is StorageStatuses.Loading -> {
+                            selectedProductsState.value.copy(
+                                isLoading = true,
+                                selectedProducts = emptyList()
+                            )
+                        }
+                    }
+                getRecipes()
+            }
+        }
+    }
+
+    private fun getRecipes() {
+        viewModelScope.launch {
+            selectedProductsState.value.let {
+                if (!it.isLoading) {
+                    try {
+                        useCases.getFeedUseCase(selectedProductsState.value.selectedProducts)
+                            .cachedIn(viewModelScope).collect { recipes ->
+                                _feedRecipes.value = recipes
+                            }
+                    } catch (e: Exception) {
+                        _feedRecipes.value = PagingData.empty()
+                    }
                 }
-            } catch (e: Exception) {
-                _feedRecipes.value = PagingData.empty()
             }
         }
     }

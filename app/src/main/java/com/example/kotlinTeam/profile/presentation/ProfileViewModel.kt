@@ -6,6 +6,7 @@ import androidx.paging.cachedIn
 import androidx.paging.filter
 import androidx.paging.map
 import com.example.kotlinTeam.profile.common.Resource
+import com.example.kotlinTeam.profile.domain.model.MadeRecipe
 import com.example.kotlinTeam.profile.domain.useCases.ProfileUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -34,12 +35,15 @@ class ProfileViewModel @Inject constructor(
             is ProfileFragmentEvents.LoadMadeRecipes -> {
                 loadRecipes()
             }
+
             is ProfileFragmentEvents.LoadProfile -> {
                 loadProfile()
                 loadRecipes()
             }
+
             is ProfileFragmentEvents.LoadRecipe -> {
             }
+
             is ProfileFragmentEvents.LogOut -> {
                 logOut()
             }
@@ -56,12 +60,14 @@ class ProfileViewModel @Inject constructor(
                         error = ""
                     )
                 }
+
                 is Resource.Error -> {
                     _stateProfile.value = stateProfile.value.copy(
                         isLoading = false,
                         error = result.message ?: "An unexpected error occurred"
                     )
                 }
+
                 is Resource.Loading -> {
                     _stateProfile.value = stateProfile.value.copy(
                         isLoading = true

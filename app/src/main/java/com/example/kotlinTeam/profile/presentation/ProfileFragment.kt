@@ -61,6 +61,13 @@ class ProfileFragment : Fragment() {
                 R.id.action_profileFragment_to_auth
             )
         }
+        recipeListAdapter.addLoadStateListener { loadState ->
+            if (loadState.refresh is LoadState.Loading) {
+                binding.mainProgressBar.visibility = View.VISIBLE
+            } else {
+                binding.mainProgressBar.visibility = View.GONE
+            }
+        }
 
         setupMadeRecipesRecyclerView()
 
