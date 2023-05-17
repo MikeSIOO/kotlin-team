@@ -96,10 +96,12 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
             firebaseAuthViewModel.currentUser.collectLatest { user ->
                 user?.let {
                     findNavController().navigate(
-                        if (prefs.getIsOnboardingRequired())
+                        if (prefs.getIsOnboardingRequired()) {
                             R.id.action_signInFragment_to_onBoarding
-                        else
-                            R.id.action_signInFragment_to_actionStorageCategory
+                        } else {
+                            (activity as MainActivity).setBottomNavigationVisibility(View.VISIBLE)
+                            R.id.action_signInFragment_to_actionStorage
+                        }
                     )
                 }
             }

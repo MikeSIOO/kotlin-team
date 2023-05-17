@@ -19,7 +19,7 @@
                     android:id="@+id/action_entryFragment_to_signInFragment"
                     app:destination="@id/signInFragment" />
             <action
-                    android:id="@+id/action_entryFragment_to_actionStorageCategory"
+                    android:id="@+id/action_entryFragment_to_actionStorage"
                     app:destination="@id/actionStorage" />
         </fragment>
         <fragment
@@ -36,9 +36,6 @@
             <action
                     android:id="@+id/action_signInFragment_to_onBoarding"
                     app:destination="@id/onBoarding"/>
-            <action
-                    android:id="@+id/action_signInFragment_to_actionStorageCategory"
-                    app:destination="@id/actionStorageCategory" />
         </fragment>
         <fragment
                 android:id="@+id/signUpFragment"
@@ -126,8 +123,8 @@
                 android:label="OnBoarding"
                 tools:layout="@layout/fragment_onboarding">
             <action
-                    android:id="@+id/action_onBoardingFragment_to_actionStorageCategory"
-                    app:destination="@+id/actionStorageCategory" />
+                    android:id="@+id/action_onBoardingFragment_to_actionStorage"
+                    app:destination="@+id/actionStorage" />
         </fragment>
     </navigation>
 
