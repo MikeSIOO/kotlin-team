@@ -8,7 +8,9 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -63,33 +65,40 @@ class ProfileFragment : Fragment() {
         setupMadeRecipesRecyclerView()
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.stateProfile.collectLatest { profileState ->
-                when (profileState.isLoading) {
-                    true -> {
-                        binding.mainProgressBar.visibility = View.VISIBLE
-                    }
-                    false -> {
-                        binding.mainProgressBar.visibility = View.GONE
-                        binding.btnRetry.visibility = View.GONE
-                        binding.profileInformationConstraintLayout.visibility = View.VISIBLE
-                        binding.madeRecipesConstraintLayout.visibility = View.VISIBLE
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.stateProfile.collectLatest { profileState ->
+                    when (profileState.isLoading) {
+                        true -> {
+                            binding.mainProgressBar.visibility = View.VISIBLE
+                        }
+                        false -> {
+                            binding.mainProgressBar.visibility = View.GONE
+                            binding.btnRetry.visibility = View.GONE
+                            binding.profileInformationConstraintLayout.visibility = View.VISIBLE
+                            binding.madeRecipesConstraintLayout.visibility = View.VISIBLE
 
-                        if (profileState.error.isBlank()) {
-                            val profile = viewModel.stateProfile.value.profile
+                            if (profileState.error.isBlank()) {
+                                val profile = viewModel.stateProfile.value.profile
 
-                            profile?.let {
-                                binding.profileNameTextView.text = profile.name
-                                if (profile.image.isNotBlank()) bindImage(view, profile.image, binding.avatarImageView)
-                                //viewModel.onEvent(ProfileFragmentEvents.LoadMadeRecipes)
-                                profileState.madeRecipes.buffer().collectLatest { recipes ->
-                                    withContext(Dispatchers.IO) {
-                                        recipeListAdapter.submitData(recipes)
+                                profile?.let {
+                                    binding.profileNameTextView.text = profile.name
+                                    if (profile.image.isNotBlank()) bindImage(
+                                        view,
+                                        profile.image,
+                                        binding.avatarImageView
+                                    )
+                                    //viewModel.onEvent(ProfileFragmentEvents.LoadMadeRecipes)
+                                    profileState.madeRecipes.buffer().collectLatest { recipes ->
+                                        withContext(Dispatchers.IO) {
+                                            recipeListAdapter.submitData(recipes)
+                                        }
                                     }
                                 }
+                            } else {
+                                binding.btnRetry.visibility = View.VISIBLE
+                                Toast.makeText(context, profileState.error, Toast.LENGTH_SHORT)
+                                    .show()
                             }
-                        } else {
-                            binding.btnRetry.visibility = View.VISIBLE
-                            Toast.makeText(context, profileState.error, Toast.LENGTH_SHORT).show()
                         }
                     }
                 }

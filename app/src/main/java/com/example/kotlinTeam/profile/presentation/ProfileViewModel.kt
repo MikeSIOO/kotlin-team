@@ -26,17 +26,17 @@ class ProfileViewModel @Inject constructor(
 
 
     init {
-        getProfile()
+        loadProfile()
     }
 
     fun onEvent(event: ProfileFragmentEvents) {
         when (event) {
             is ProfileFragmentEvents.LoadMadeRecipes -> {
-                getRecipes()
+                loadRecipes()
             }
             is ProfileFragmentEvents.LoadProfile -> {
-                getProfile()
-                getRecipes()
+                loadProfile()
+                loadRecipes()
             }
             is ProfileFragmentEvents.LoadRecipe -> {
             }
@@ -46,7 +46,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private fun getProfile() {
+    private fun loadProfile() {
         profileUseCases.getProfile().onEach { result ->
             when (result) {
                 is Resource.Success -> {
@@ -71,7 +71,7 @@ class ProfileViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    private fun getRecipes() {
+    private fun loadRecipes() {
         val recipes = profileUseCases.getMadeRecipes().map { pagingData ->
             pagingData.filter { !(it.id.isNullOrBlank() || it.title.isNullOrBlank()) } .map { it.toMadeRecipe() }
         }.cachedIn(viewModelScope)

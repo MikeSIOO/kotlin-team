@@ -36,6 +36,7 @@ class FullRecipeFragment : Fragment(R.layout.fragment_full_recipe) {
                 if (it.currentRecipe != null) {
                     stepsAdapter.setData(it.currentRecipe.instructions)
                     ingredientsAdapter.setData(it.currentRecipe.ingredients)
+                    binding.finishButton.visibility = View.VISIBLE
                 }
                 expandTextView(it.isMoreInfoButtonClicked, expandableTextView, moreInfoButton)
             }
