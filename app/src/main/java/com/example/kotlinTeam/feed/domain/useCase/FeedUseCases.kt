@@ -4,6 +4,6 @@ import javax.inject.Inject
 
 data class FeedUseCases @Inject constructor(
     val getFeedUseCase: GetFeedUseCase,
-    val getRecipeByIdUseCase: GetRecipeByIdUseCase
+    val getRecipeByIdUseCase: GetRecipeByIdUseCase,
     val getSelectedProductsUseCase: GetSelectedProductsUseCase
 )
