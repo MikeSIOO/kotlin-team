@@ -1,7 +1,6 @@
 package com.example.kotlinTeam.authentication.presentation.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,10 +15,7 @@ import com.example.kotlinTeam.authentication.presentation.AuthEvents
 import com.example.kotlinTeam.authentication.presentation.viewmodel.FirebaseAuthViewModel
 import com.example.kotlinTeam.common.viewBinding.viewBinding
 import com.example.kotlinTeam.databinding.FragmentSignUpBinding
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -90,15 +86,15 @@ class SignUpFragment : Fragment() {
                     is FirebaseAuthViewModel.UIEvents.ErrorCode -> {
                         if (event.code == 1)
                             binding.emailLayout.error = "Введите почту"
-                            binding.progressBarSignUp.visibility = View.GONE
+                        binding.progressBarSignUp.visibility = View.GONE
 
                         if (event.code == 2)
                             binding.passwordLayout.error = "Введите пароль"
-                            binding.progressBarSignUp.visibility = View.GONE
+                        binding.progressBarSignUp.visibility = View.GONE
 
                         if (event.code == 3)
                             binding.confirmPasswordLayout.error = "Пароли не совпадают"
-                            binding.progressBarSignUp.visibility = View.GONE
+                        binding.progressBarSignUp.visibility = View.GONE
                     }
                     is FirebaseAuthViewModel.UIEvents.Registered -> {
                         findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
