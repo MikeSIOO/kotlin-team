@@ -194,7 +194,8 @@ class FirestoreRepository @Inject constructor(
 
     fun saveMadeRecipe(recipeId: String, userId: String) {
         val usersCollectionRef = firestore.collection(Constants.USERS_COLLECTION)
-        val recipesSubCollectionRef = usersCollectionRef.document(userId).collection(Constants.RECIPES_COLLECTION)
+        val recipesSubCollectionRef =
+            usersCollectionRef.document(userId).collection(Constants.RECIPES_COLLECTION)
         val recipeCollectionRef = firestore.collection(Constants.RECIPES_COLLECTION)
         val recipe = recipeCollectionRef.document(recipeId)
         val docData = hashMapOf(
@@ -202,6 +203,7 @@ class FirestoreRepository @Inject constructor(
             "timestamp" to Timestamp(Date(System.currentTimeMillis()))
         )
         recipesSubCollectionRef.document(recipeId).set(docData)
+    }
         
     fun getProductByTitle(title: String): Flow<PagingData<StorageDataModel>> {
         val recipeCollectionRef = firestore.collection(
