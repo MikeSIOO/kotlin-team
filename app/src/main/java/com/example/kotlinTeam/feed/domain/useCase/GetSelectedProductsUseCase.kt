@@ -1,4 +1,4 @@
-package com.example.kotlinTeam.storage.domain.useCases
+package com.example.kotlinTeam.feed.domain.useCase
 
 import com.example.kotlinTeam.storage.common.StorageStatuses
 import com.example.kotlinTeam.storage.domain.model.StorageDataModel
@@ -6,10 +6,10 @@ import com.example.kotlinTeam.storage.domain.repository.StorageRepository
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 
-class StorageSelectProductUseCase @Inject constructor(
+class GetSelectedProductsUseCase @Inject constructor(
     private val storageRepository: StorageRepository
 ) {
-    operator fun invoke(storageProduct: StorageDataModel.StorageProduct): Flow<StorageStatuses<StorageDataModel.StorageProduct>> {
-        return storageRepository.selectProduct(storageProduct)
+    operator fun invoke(): Flow<StorageStatuses<List<StorageDataModel.StorageProduct>>> {
+        return storageRepository.getSelectedProducts()
     }
 }

@@ -83,9 +83,17 @@ class MatchFragment : Fragment(R.layout.fragment_match) {
                 (binding.recipeImg.layoutParams.height / WIDTH_COEFFICIENT).toInt()
 
             binding.userCard.layoutParams.height =
-                (binding.userImg.layoutParams.height + (USER_CARD_HEIGHT_COEFFICIENT * density!!)).toInt()
+                (
+                    binding.userImg.layoutParams.height +
+                        (
+                            USER_CARD_HEIGHT_COEFFICIENT * density!!
+                            )
+                    ).toInt()
             binding.dishCard.layoutParams.height =
-                (binding.recipeImg.layoutParams.height + (DISH_CARD_HEIGHT_COEFFICIENT * density)).toInt()
+                (
+                    binding.recipeImg.layoutParams.height +
+                        (DISH_CARD_HEIGHT_COEFFICIENT * density)
+                    ).toInt()
 
             binding.userCard.layoutParams.width =
                 (binding.userImg.layoutParams.width + (CARD_WIDTH_COEFFICIENT * density)).toInt()
