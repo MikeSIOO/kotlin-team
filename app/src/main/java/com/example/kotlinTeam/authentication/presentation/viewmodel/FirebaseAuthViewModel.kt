@@ -42,9 +42,7 @@ class FirebaseAuthViewModel @Inject constructor(
         }
     }
 
-
-
-    private fun signInUser(email: String , password: String) = viewModelScope.launch {
+    private fun signInUser(email: String, password: String) = viewModelScope.launch {
         eventsChannel.send(UIEvents.Loading)
         when {
             email.isEmpty() -> {
@@ -54,12 +52,12 @@ class FirebaseAuthViewModel @Inject constructor(
                 eventsChannel.send(UIEvents.ErrorCode(2))
             }
             else -> {
-                actualSignInUser(email , password)
+                actualSignInUser(email, password)
             }
         }
     }
 
-    private fun signUpUser(email : String , password: String , confirmPass : String)= viewModelScope.launch {
+    private fun signUpUser(email: String, password: String, confirmPass: String) = viewModelScope.launch {
         eventsChannel.send(UIEvents.Loading)
         when {
             email.isEmpty() -> {
@@ -68,7 +66,7 @@ class FirebaseAuthViewModel @Inject constructor(
             password.isEmpty() -> {
                 eventsChannel.send(UIEvents.ErrorCode(2))
             }
-            password != confirmPass ->{
+            password != confirmPass -> {
                 eventsChannel.send(UIEvents.ErrorCode(3))
             }
             else -> {
@@ -77,8 +75,7 @@ class FirebaseAuthViewModel @Inject constructor(
         }
     }
 
-
-    private fun actualSignInUser(email:String, password: String) = viewModelScope.launch {
+    private fun actualSignInUser(email: String, password: String) = viewModelScope.launch {
         eventsChannel.send(UIEvents.Loading)
         try {
             val user = authUseCases.singIn(email, password)
@@ -86,14 +83,14 @@ class FirebaseAuthViewModel @Inject constructor(
                 _firebaseUser.value = it
                 eventsChannel.send(UIEvents.Message("Успешно"))
             }
-        } catch(e:Exception) {
+        } catch (e: Exception) {
             val error = e.toString().split(":").toTypedArray()
             Log.d("auth", "signInUser: ${error[1]}")
             eventsChannel.send(UIEvents.Error(error[1]))
         }
     }
 
-    private fun actualSignUpUser(email:String , password: String) = viewModelScope.launch {
+    private fun actualSignUpUser(email: String, password: String) = viewModelScope.launch {
         eventsChannel.send(UIEvents.Loading)
         try {
             val user = authUseCases.singUp(email, password)
@@ -101,7 +98,7 @@ class FirebaseAuthViewModel @Inject constructor(
                 eventsChannel.send(UIEvents.Message("Успешно"))
                 eventsChannel.send(UIEvents.Registered)
             }
-        } catch(e:Exception) {
+        } catch (e: Exception) {
             val error = e.toString().split(":").toTypedArray()
             Log.d("auth", "signInUser: ${error[1]}")
             eventsChannel.send(UIEvents.Error(error[1]))
@@ -109,14 +106,13 @@ class FirebaseAuthViewModel @Inject constructor(
     }
 
     private fun verifySendPasswordReset(email: String) {
-        if (email.isEmpty()){
+        if (email.isEmpty()) {
             viewModelScope.launch {
                 eventsChannel.send(UIEvents.ErrorCode(1))
             }
         } else {
             sendPasswordResetEmail(email)
         }
-
     }
 
     private fun sendPasswordResetEmail(email: String) = viewModelScope.launch {
@@ -128,7 +124,7 @@ class FirebaseAuthViewModel @Inject constructor(
             } else {
                 eventsChannel.send(UIEvents.Error("could not send password reset"))
             }
-        } catch (e : Exception) {
+        } catch (e: Exception) {
             val error = e.toString().split(":").toTypedArray()
             Log.d("auth", "signInUser: ${error[1]}")
             eventsChannel.send(UIEvents.Error(error[1]))
@@ -136,10 +132,10 @@ class FirebaseAuthViewModel @Inject constructor(
     }
 
     sealed class UIEvents {
-        object Registered: UIEvents()
+        object Registered : UIEvents()
         object Loading : UIEvents()
-        data class Message(val message : String) : UIEvents()
-        data class ErrorCode(val code : Int):UIEvents()
-        data class Error(val error : String) : UIEvents()
+        data class Message(val message: String) : UIEvents()
+        data class ErrorCode(val code: Int) : UIEvents()
+        data class Error(val error: String) : UIEvents()
     }
 }

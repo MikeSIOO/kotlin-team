@@ -86,15 +86,15 @@ class SignUpFragment : Fragment() {
                     is FirebaseAuthViewModel.UIEvents.ErrorCode -> {
                         if (event.code == 1)
                             binding.emailLayout.error = "Введите почту"
-                            binding.progressBarSignUp.visibility = View.GONE
+                        binding.progressBarSignUp.visibility = View.GONE
 
                         if (event.code == 2)
                             binding.passwordLayout.error = "Введите пароль"
-                            binding.progressBarSignUp.visibility = View.GONE
+                        binding.progressBarSignUp.visibility = View.GONE
 
                         if (event.code == 3)
                             binding.confirmPasswordLayout.error = "Пароли не совпадают"
-                            binding.progressBarSignUp.visibility = View.GONE
+                        binding.progressBarSignUp.visibility = View.GONE
                     }
                     is FirebaseAuthViewModel.UIEvents.Registered -> {
                         findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)

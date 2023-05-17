@@ -3,13 +3,12 @@ package com.example.kotlinTeam.storage.data.mapper
 import com.example.kotlinTeam.common.data.dataSource.model.storage.StorageCategoryDto
 import com.example.kotlinTeam.common.data.dataSource.model.storage.StorageProductDto
 import com.example.kotlinTeam.storage.data.db.model.StorageProductEntity
-import com.example.kotlinTeam.storage.domain.model.StorageCategory
-import com.example.kotlinTeam.storage.domain.model.StorageProduct
+import com.example.kotlinTeam.storage.domain.model.StorageDataModel
 import javax.inject.Inject
 
 class StorageMapper @Inject constructor() {
-    fun mapCategory(input: StorageCategoryDto?): StorageCategory {
-        return StorageCategory(
+    fun mapCategory(input: StorageCategoryDto?): StorageDataModel.StorageCategory {
+        return StorageDataModel.StorageCategory(
             id = input?.id,
             title = input?.title,
             image = input?.image
@@ -19,8 +18,8 @@ class StorageMapper @Inject constructor() {
     fun mapProduct(
         storageProductDto: StorageProductDto?,
         storageProductEntity: StorageProductEntity?
-    ): StorageProduct {
-        return StorageProduct(
+    ): StorageDataModel.StorageProduct {
+        return StorageDataModel.StorageProduct(
             id = storageProductDto?.id,
             title = storageProductDto?.title,
             image = storageProductDto?.image,
@@ -30,7 +29,7 @@ class StorageMapper @Inject constructor() {
     }
 
     fun mapToProductEntity(
-        storageProduct: StorageProduct,
+        storageProduct: StorageDataModel.StorageProduct,
     ): StorageProductEntity {
         return StorageProductEntity(
             storageProduct.id.toString(),
@@ -41,9 +40,9 @@ class StorageMapper @Inject constructor() {
 
     fun mapEntityListToProductList(
         storageProductEntity: List<StorageProductEntity>
-    ): List<StorageProduct> {
+    ): List<StorageDataModel.StorageProduct> {
         return storageProductEntity.map {
-            StorageProduct(
+            StorageDataModel.StorageProduct(
                 id = it.id,
                 title = it.title,
                 image = null,
