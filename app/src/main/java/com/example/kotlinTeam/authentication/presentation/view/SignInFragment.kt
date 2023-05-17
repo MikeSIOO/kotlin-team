@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.kotlinTeam.MainActivity
 import com.example.kotlinTeam.R
@@ -40,7 +42,7 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
 
         super.onViewCreated(view, savedInstanceState)
 
-        prefs = context?.let { SharedPrefs(it) }!!
+        prefs = SharedPrefs(requireContext())
 
         binding.notReg.setOnClickListener {
             findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
@@ -93,16 +95,18 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
-            firebaseAuthViewModel.currentUser.collectLatest { user ->
-                user?.let {
-                    findNavController().navigate(
-                        if (prefs.getIsOnboardingRequired()) {
-                            R.id.action_signInFragment_to_onBoarding
-                        } else {
-                            (activity as MainActivity).setBottomNavigationVisibility(View.VISIBLE)
-                            R.id.action_signInFragment_to_actionStorage
-                        }
-                    )
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                firebaseAuthViewModel.currentUser.collectLatest { user ->
+                    user?.let {
+                        findNavController().navigate(
+                            if (prefs.getIsOnboardingRequired()) {
+                                R.id.action_signInFragment_to_onBoarding
+                            } else {
+                                (activity as MainActivity).setBottomNavigationVisibility(View.VISIBLE)
+                                R.id.action_signInFragment_to_actionStorage
+                            }
+                        )
+                    }
                 }
             }
         }
