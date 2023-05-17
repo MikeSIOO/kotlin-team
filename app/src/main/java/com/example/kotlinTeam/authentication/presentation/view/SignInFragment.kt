@@ -13,6 +13,7 @@ import com.example.kotlinTeam.MainActivity
 import com.example.kotlinTeam.R
 import com.example.kotlinTeam.authentication.presentation.AuthEvents
 import com.example.kotlinTeam.authentication.presentation.viewmodel.FirebaseAuthViewModel
+import com.example.kotlinTeam.common.sharedPrefs.SharedPrefs
 import com.example.kotlinTeam.common.viewBinding.viewBinding
 import com.example.kotlinTeam.databinding.FragmentSignInBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,6 +25,7 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
 
     private val binding by viewBinding(FragmentSignInBinding::bind)
     private val firebaseAuthViewModel by viewModels<FirebaseAuthViewModel>()
+    private lateinit var prefs: SharedPrefs
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +39,8 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
         (activity as MainActivity).setBottomNavigationVisibility(View.GONE)
 
         super.onViewCreated(view, savedInstanceState)
+
+        prefs = context?.let { SharedPrefs(it) }!!
 
         binding.notReg.setOnClickListener {
             findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
@@ -92,7 +96,10 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
             firebaseAuthViewModel.currentUser.collectLatest { user ->
                 user?.let {
                     findNavController().navigate(
-                        R.id.action_signInFragment_to_onBoarding
+                        if (prefs.getIsOnboardingRequired())
+                            R.id.action_signInFragment_to_onBoarding
+                        else
+                            R.id.action_signInFragment_to_actionStorageCategory
                     )
                 }
             }

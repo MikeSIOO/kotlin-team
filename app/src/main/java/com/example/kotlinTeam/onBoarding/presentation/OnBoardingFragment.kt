@@ -18,6 +18,7 @@ import com.example.kotlinTeam.R
 import com.example.kotlinTeam.common.presentation.dp
 import com.example.kotlinTeam.common.presentation.ptX
 import com.example.kotlinTeam.common.presentation.ptY
+import com.example.kotlinTeam.common.sharedPrefs.SharedPrefs
 import com.example.kotlinTeam.common.viewBinding.viewBinding
 import com.example.kotlinTeam.databinding.FragmentOnboardingBinding
 import com.example.kotlinTeam.onBoarding.domain.events.OnBoardingEvents
@@ -71,7 +72,7 @@ internal class OnBoardingFragment : Fragment() {
             val page = viewModel.pageState.value
 
             if (page == null) {
-                // TODO перейти к продуктам
+                (activity as MainActivity).prefs.putIsOnboardingRequired(false)
                 (activity as MainActivity).setBottomNavigationVisibility(View.VISIBLE)
                 findNavController().navigate(R.id.action_onBoardingFragment_to_actionStorageCategory)
             } else {

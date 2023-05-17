@@ -36,6 +36,9 @@
             <action
                     android:id="@+id/action_signInFragment_to_onBoarding"
                     app:destination="@id/onBoarding"/>
+            <action
+                    android:id="@+id/action_signInFragment_to_actionStorageCategory"
+                    app:destination="@id/actionStorageCategory" />
         </fragment>
         <fragment
                 android:id="@+id/signUpFragment"
