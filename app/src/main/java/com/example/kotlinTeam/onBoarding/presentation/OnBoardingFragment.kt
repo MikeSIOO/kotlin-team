@@ -18,6 +18,7 @@ import com.example.kotlinTeam.R
 import com.example.kotlinTeam.common.presentation.dp
 import com.example.kotlinTeam.common.presentation.ptX
 import com.example.kotlinTeam.common.presentation.ptY
+import com.example.kotlinTeam.common.sharedPrefs.SharedPrefs
 import com.example.kotlinTeam.common.viewBinding.viewBinding
 import com.example.kotlinTeam.databinding.FragmentOnboardingBinding
 import com.example.kotlinTeam.onBoarding.domain.events.OnBoardingEvents
@@ -32,6 +33,7 @@ internal class OnBoardingFragment : Fragment() {
 
     private val binding by viewBinding(FragmentOnboardingBinding::bind)
     private val viewModel: OnBoardingViewModel by viewModels()
+    private lateinit var prefs: SharedPrefs
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,6 +45,8 @@ internal class OnBoardingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        prefs = SharedPrefs(requireContext())
 
         val title = binding.title
         val text = binding.text
@@ -71,7 +75,7 @@ internal class OnBoardingFragment : Fragment() {
             val page = viewModel.pageState.value
 
             if (page == null) {
-                (activity as MainActivity).prefs.putIsOnboardingRequired(false)
+                prefs.putIsOnboardingRequired(false)
                 (activity as MainActivity).setBottomNavigationVisibility(View.VISIBLE)
                 findNavController().navigate(R.id.action_onBoardingFragment_to_actionStorage)
             } else {
