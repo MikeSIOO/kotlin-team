@@ -24,6 +24,22 @@ class FirestoreRepository @Inject constructor(
     private val storageProductDao: StorageProductDao,
     private val storageMapper: StorageMapper,
 ) {
+    companion object {
+        val emptyRecipe = RecipeOo(
+            id = "-1",
+            title = "not found",
+            description = "",
+            image = "",
+            cookingMinutes = null,
+            difficulty = null,
+            cuisines = emptyList(),
+            diets = emptyList(),
+            servings = null,
+            ingredients = emptyList(),
+            instructions = emptyList()
+        )
+    }
+
     private suspend fun RecipeDto.toRecipeOo(): RecipeOo {
         return RecipeOo(
             id = this.id,
@@ -94,7 +110,7 @@ class FirestoreRepository @Inject constructor(
             config = pagingConfig,
             pagingSourceFactory = {
                 FirestorePagingSource(query) {
-                    it.toObject(RecipeDto::class.java)!!.toRecipeOo()
+                    it.toObject(RecipeDto::class.java)?.toRecipeOo()  ?: emptyRecipe
                 }
             }
         ).flow
@@ -106,8 +122,7 @@ class FirestoreRepository @Inject constructor(
             .document(recipeId)
             .get()
             .await()
-            .toObject(RecipeDto::class.java)!!
-            .toRecipeOo()
+            .toObject(RecipeDto::class.java)?.toRecipeOo() ?: emptyRecipe
     }
 
     fun getRecipesByUserId(id: String): Flow<PagingData<RecipeOo>> {
@@ -126,7 +141,7 @@ class FirestoreRepository @Inject constructor(
             config = pagingConfig,
             pagingSourceFactory = {
                 FirestorePagingSource(query) {
-                    it.toObject(RecipeWithTimestampDto::class.java)!!.toRecipeDto().toRecipeOo()
+                    it.toObject(RecipeWithTimestampDto::class.java)?.toRecipeDto()?.toRecipeOo()  ?: emptyRecipe
                 }
             }
         ).flow
