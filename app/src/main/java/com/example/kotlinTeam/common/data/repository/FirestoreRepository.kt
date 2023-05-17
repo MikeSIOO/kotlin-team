@@ -10,8 +10,8 @@ import com.example.kotlinTeam.common.data.dataSource.model.storage.StorageProduc
 import com.example.kotlinTeam.profile.common.Constants
 import com.example.kotlinTeam.storage.data.db.service.StorageProductDao
 import com.example.kotlinTeam.storage.data.mapper.StorageMapper
-import com.example.kotlinTeam.storage.domain.model.StorageCategory
-import com.example.kotlinTeam.storage.domain.model.StorageProduct
+import com.example.kotlinTeam.storage.domain.model.StorageDataModel
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -109,9 +109,12 @@ class FirestoreRepository @Inject constructor(
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = {
-                FirestorePagingSource(query) {
-                    it.toObject(RecipeDto::class.java)?.toRecipeOo()  ?: emptyRecipe
-                }
+                FirestorePagingSource(
+                    query = query,
+                    mapper = {
+                        it.toObject(RecipeDto::class.java)?.toRecipeOo() ?: emptyRecipe
+                    }
+                )
             }
         ).flow
     }
@@ -141,9 +144,13 @@ class FirestoreRepository @Inject constructor(
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = {
-                FirestorePagingSource(query) {
-                    it.toObject(RecipeWithTimestampDto::class.java)?.toRecipeDto()?.toRecipeOo()  ?: emptyRecipe
-                }
+                FirestorePagingSource(
+                    query = query,
+                    mapper = {
+                        it.toObject(RecipeWithTimestampDto::class.java)?.toRecipeDto()?.toRecipeOo()
+                            ?: emptyRecipe
+                    }
+                )
             }
         ).flow
     }
