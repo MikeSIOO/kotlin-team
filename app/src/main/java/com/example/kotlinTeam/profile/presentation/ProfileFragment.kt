@@ -17,6 +17,7 @@ import com.example.kotlinTeam.MainActivity
 import com.example.kotlinTeam.R
 import com.example.kotlinTeam.common.viewBinding.viewBinding
 import com.example.kotlinTeam.databinding.FragmentProfileBinding
+import com.example.kotlinTeam.feed.presentation.FullRecipeFragment
 import com.example.kotlinTeam.profile.domain.model.MadeRecipe
 import com.example.kotlinTeam.profile.presentation.madeRecipes.RecipeListAdapter
 import com.example.kotlinTeam.profile.presentation.madeRecipes.loadState.MadeRecipesLoadStateAdapter
