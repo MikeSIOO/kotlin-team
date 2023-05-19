@@ -3,6 +3,7 @@ package com.example.kotlinTeam
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.kotlinTeam.databinding.ActivityMainBinding
@@ -19,6 +20,9 @@ class MainActivity : AppCompatActivity() {
 
         // отключение темной темы
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
+        // смена цвета статус бара
+        window.statusBarColor = ContextCompat.getColor(this, R.color.white)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
 
