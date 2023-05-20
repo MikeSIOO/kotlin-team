@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">kotkin-team</string>
+    <string name="app_name">Fooder</string>
     <!-- entry fragment -->
     <string name="hello_fooder_text">Добро пожаловать\nв Fooder</string>
     <string name="explain_to_sign_text">Войдите, чтобы воспользоваться\nвсеми преимуществами Fooder.</string>

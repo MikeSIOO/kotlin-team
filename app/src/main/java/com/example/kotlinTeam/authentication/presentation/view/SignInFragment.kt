@@ -102,7 +102,9 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
                             if (prefs.getIsOnboardingRequired()) {
                                 R.id.action_signInFragment_to_onBoarding
                             } else {
-                                (activity as MainActivity).setBottomNavigationVisibility(View.VISIBLE)
+                                (activity as MainActivity).setBottomNavigationVisibility(
+                                    View.VISIBLE
+                                )
                                 R.id.action_signInFragment_to_actionStorage
                             }
                         )
