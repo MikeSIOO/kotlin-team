@@ -53,9 +53,10 @@ class FullRecipeFragment : Fragment(R.layout.fragment_full_recipe) {
         }
 
         binding.finishButton.setOnClickListener {
-            viewModel.saveMadeRecipe(viewModel.currentRecipeState.value.currentRecipe!!.id!!)
-            viewModel.resetFlag()
-            findNavController().navigate(R.id.action_fullRecipeFragment_to_feedFragment)
+            viewModel.currentRecipeState.value.currentRecipe?.let {
+                it.id?.let { id ->  viewModel.saveMadeRecipe(id) }
+                viewModel.resetFlag()
+                findNavController().navigate(R.id.action_fullRecipeFragment_to_feedFragment) }
         }
         super.onViewCreated(view, savedInstanceState)
     }
