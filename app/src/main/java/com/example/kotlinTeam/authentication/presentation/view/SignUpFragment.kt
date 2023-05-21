@@ -85,15 +85,15 @@ class SignUpFragment : Fragment() {
                     }
                     is FirebaseAuthViewModel.UIEvents.ErrorCode -> {
                         if (event.code == 1)
-                            binding.emailLayout.error = "Введите почту"
+                            binding.emailLayout.error = getString(R.string.enter_email_hint)
                         binding.progressBarSignUp.visibility = View.GONE
 
                         if (event.code == 2)
-                            binding.passwordLayout.error = "Введите пароль"
+                            binding.passwordLayout.error = getString(R.string.enter_password_hint)
                         binding.progressBarSignUp.visibility = View.GONE
 
                         if (event.code == 3)
-                            binding.confirmPasswordLayout.error = "Пароли не совпадают"
+                            binding.confirmPasswordLayout.error = getString(R.string.passwords_dont_match_hint)
                         binding.progressBarSignUp.visibility = View.GONE
                     }
                     is FirebaseAuthViewModel.UIEvents.Registered -> {

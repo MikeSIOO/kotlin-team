@@ -44,6 +44,10 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
 
         prefs = SharedPrefs(requireContext())
 
+        binding.forgotPassTxt.setOnClickListener {
+            findNavController().navigate(R.id.action_signInFragment_to_forgotPasswordFragment)
+        }
+
         binding.notReg.setOnClickListener {
             findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
         }
@@ -82,11 +86,11 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
                     }
                     is FirebaseAuthViewModel.UIEvents.ErrorCode -> {
                         if (event.code == 1)
-                            binding.emailLayout.error = "Введите почту"
+                            binding.emailLayout.error = getString(R.string.enter_email_hint)
                         binding.progressBarSignIn.visibility = View.GONE
 
                         if (event.code == 2)
-                            binding.passwordLayout.error = "Введите пароль"
+                            binding.passwordLayout.error = getString(R.string.enter_password_hint)
                         binding.progressBarSignIn.visibility = View.GONE
                     }
                     is FirebaseAuthViewModel.UIEvents.Registered -> {
