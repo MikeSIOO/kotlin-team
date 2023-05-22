@@ -126,6 +126,12 @@ class FeedViewModel @Inject constructor(
             )
     }
 
+    fun saveMadeRecipe(recipeId: String) {
+        viewModelScope.launch {
+            useCases.saveMadeRecipeUseCase(recipeId)
+        }
+    }
+
     fun changeManagerTopPosition(diff: Int) {
         _currentRecipeState.value = currentRecipeState.value.copy(
             topPosition = currentRecipeState.value.topPosition + diff
