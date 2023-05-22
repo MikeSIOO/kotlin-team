@@ -6,11 +6,15 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.kotlinTeam.common.data.dataSource.model.recipe.RecipeOo
 import com.example.kotlinTeam.feed.domain.useCase.FeedUseCases
+import com.example.kotlinTeam.profile.common.Resource
+import com.example.kotlinTeam.profile.presentation.ProfileState
 import com.example.kotlinTeam.storage.common.StorageStatuses
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -37,7 +41,11 @@ class FeedViewModel @Inject constructor(
     )
     val feedEndState: StateFlow<FeedEndState> = _feedEndState
 
+    private val _profileState = MutableStateFlow(ProfileState())
+    val profileState: StateFlow<ProfileState> = _profileState
+
     init {
+        getProfile()
         viewModelScope.launch {
             useCases.getSelectedProductsUseCase().collect { result ->
                 setManagerTopPosition(0)
@@ -151,5 +159,32 @@ class FeedViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
         setCurrentRecipe(null)
+    }
+
+    fun getProfile() {
+        useCases.getProfile().onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _profileState.value = profileState.value.copy(
+                        profile = result.data,
+                        isLoading = false,
+                        error = ""
+                    )
+                }
+
+                is Resource.Error -> {
+                    _profileState.value = profileState.value.copy(
+                        isLoading = false,
+                        error = result.message ?: "An unexpected error occurred"
+                    )
+                }
+
+                is Resource.Loading -> {
+                    _profileState.value = profileState.value.copy(
+                        isLoading = true
+                    )
+                }
+            }
+        }.launchIn(viewModelScope)
     }
 }

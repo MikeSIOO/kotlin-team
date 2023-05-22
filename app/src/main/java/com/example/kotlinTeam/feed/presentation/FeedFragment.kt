@@ -77,7 +77,6 @@ class FeedFragment : Fragment(R.layout.fragment_feed), CardStackListener {
         viewModel.setManagerTopPosition(manager.topPosition)
     }
 
-
     private fun setupButtons() {
         val skip = binding.skipButton
         val like = binding.likeButton
@@ -183,7 +182,6 @@ class FeedFragment : Fragment(R.layout.fragment_feed), CardStackListener {
 
     private fun chooseText() {
         val state = viewModel.feedEndState.value
-        println(state)
         noRecipeText.text = if (state.isEndOfFeed && state.recipesWereFound && !state.allRecipesWereShown)
             getString(R.string.feed_by_products_end)
         else if (state.isEndOfFeed && !state.recipesWereFound && !state.allRecipesWereShown)
