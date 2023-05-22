@@ -21,6 +21,9 @@
             <action
                     android:id="@+id/action_entryFragment_to_actionStorage"
                     app:destination="@id/actionStorage" />
+            <action
+                    android:id="@+id/action_entryFragment_to_actionFeed"
+                    app:destination="@id/actionFeed" />
         </fragment>
         <fragment
                 android:id="@+id/signInFragment"
@@ -34,8 +37,14 @@
                     android:id="@+id/action_signInFragment_to_actionStorage"
                     app:destination="@+id/actionStorage"/>
             <action
+                    android:id="@+id/action_signInFragment_to_actionFeed"
+                    app:destination="@+id/actionFeed"/>
+            <action
                     android:id="@+id/action_signInFragment_to_onBoarding"
                     app:destination="@id/onBoarding"/>
+            <action
+                    android:id="@+id/action_signInFragment_to_forgotPasswordFragment"
+                    app:destination="@id/forgotPasswordFragment" />
         </fragment>
         <fragment
                 android:id="@+id/signUpFragment"
@@ -44,6 +53,15 @@
                 tools:layout="@layout/fragment_sign_up" >
             <action
                     android:id="@+id/action_signUpFragment_to_signInFragment"
+                    app:destination="@id/signInFragment" />
+        </fragment>
+        <fragment
+                android:id="@+id/forgotPasswordFragment"
+                android:name="com.example.kotlinTeam.authentication.presentation.view.ForgotPasswordFragment"
+                android:label="fragment_forgot_password"
+                tools:layout="@layout/fragment_forgot_password" >
+            <action
+                    android:id="@+id/action_forgotPasswordFragment_to_signInFragment"
                     app:destination="@id/signInFragment" />
         </fragment>
     </navigation>

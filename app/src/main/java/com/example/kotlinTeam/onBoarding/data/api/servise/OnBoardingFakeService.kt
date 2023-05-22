@@ -154,7 +154,7 @@ class OnBoardingFakeService @Inject constructor() {
                         0,
                     ),
                     OnBoardingPageDto.Image(
-                        R.drawable.man.toString()
+                        R.drawable.onboarding.toString()
                     )
                 ),
             )

@@ -57,7 +57,6 @@ internal class OnBoardingFragment : Fragment() {
             viewModel.onBoardingState.collectLatest {
                 when {
                     it.isLoading -> {
-                        Toast.makeText(context, "LOADING...", Toast.LENGTH_SHORT).show()
                     }
                     it.error.isNotBlank() -> {
                         Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()

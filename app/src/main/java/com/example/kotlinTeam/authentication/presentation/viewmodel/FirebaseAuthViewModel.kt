@@ -1,6 +1,5 @@
 package com.example.kotlinTeam.authentication.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kotlinTeam.authentication.domain.AuthUseCases
@@ -85,7 +84,6 @@ class FirebaseAuthViewModel @Inject constructor(
             }
         } catch (e: Exception) {
             val error = e.toString().split(":").toTypedArray()
-            Log.d("auth", "signInUser: ${error[1]}")
             eventsChannel.send(UIEvents.Error(error[1]))
         }
     }
@@ -100,7 +98,6 @@ class FirebaseAuthViewModel @Inject constructor(
             }
         } catch (e: Exception) {
             val error = e.toString().split(":").toTypedArray()
-            Log.d("auth", "signInUser: ${error[1]}")
             eventsChannel.send(UIEvents.Error(error[1]))
         }
     }
@@ -120,13 +117,12 @@ class FirebaseAuthViewModel @Inject constructor(
         try {
             val result = authUseCases.resetPassword(email)
             if (result) {
-                eventsChannel.send(UIEvents.Message("reset email sent"))
+                eventsChannel.send(UIEvents.Message("Письмо отправлено"))
             } else {
-                eventsChannel.send(UIEvents.Error("could not send password reset"))
+                eventsChannel.send(UIEvents.Error("Не удалось сбросить пароль"))
             }
         } catch (e: Exception) {
             val error = e.toString().split(":").toTypedArray()
-            Log.d("auth", "signInUser: ${error[1]}")
             eventsChannel.send(UIEvents.Error(error[1]))
         }
     }

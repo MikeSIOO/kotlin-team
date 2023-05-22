@@ -23,7 +23,7 @@ class SharedPrefs(context: Context) {
     }
 
     fun getIsOnboardingRequired(): Boolean {
-        return  sharedPrefs.getBoolean(IS_ONBOARDING_REQUIRED_KEY, true)
+        return sharedPrefs.getBoolean(IS_ONBOARDING_REQUIRED_KEY, true)
     }
 
     fun clear() {

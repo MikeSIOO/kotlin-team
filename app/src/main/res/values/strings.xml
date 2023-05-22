@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">kotkin-team</string>
+    <string name="app_name">Fooder</string>
     <!-- entry fragment -->
     <string name="hello_fooder_text">Добро пожаловать\nв Fooder</string>
     <string name="explain_to_sign_text">Войдите, чтобы воспользоваться\nвсеми преимуществами Fooder.</string>
@@ -54,4 +54,10 @@
     <string name="no_recipe">Извините, мы не можем подобрать блюда из ваших продуктов. Попробуйте добавить продукты в холодильник или посмотрите остальные рецепты из нашей коллекции.</string>
     <string name="feed_by_products_end">Блюда из ваших продуктов закончились. Попробуйте добавить продукты в холодильник или посмотрите остальные рецепты из нашей коллекции.</string>
     <string name="feed_end">Блюда из нашей коллеции закончились.</string>
+    <string name="forgot_password_link_text">Забыли пароль?</string>
+    <string name="reset_password_button_text">Сбросить пароль</string>
+    <string name="enter_email_hint">Введите почту</string>
+    <string name="enter_password_hint">Введите пароль</string>
+    <string name="passwords_dont_match_hint">Пароли не совпадают</string>
+    <string name="user_not_found_exception">Пользователь не найден</string>
 </resources>
