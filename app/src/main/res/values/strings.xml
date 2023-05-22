@@ -51,7 +51,9 @@
     <string name="storage_search">Поиск по продуктам</string>
     <string name="sorry_can_t_load_data">Ошибка при загрузке данных</string>
     <string name="try_again">Обновить</string>
-    <string name="no_recipe">Извините, мы не можем подобрать блюда из ваших продуктов. Попробуйте заглянуть в холодильник.</string>
+    <string name="no_recipe">Извините, мы не можем подобрать блюда из ваших продуктов. Попробуйте добавить продукты в холодильник или посмотрите остальные рецепты из нашей коллекции.</string>
+    <string name="feed_by_products_end">Блюда из ваших продуктов закончились. Попробуйте добавить продукты в холодильник или посмотрите остальные рецепты из нашей коллекции.</string>
+    <string name="feed_end">Блюда из нашей коллеции закончились.</string>
     <string name="forgot_password_link_text">Забыли пароль?</string>
     <string name="reset_password_button_text">Сбросить пароль</string>
     <string name="enter_email_hint">Введите почту</string>

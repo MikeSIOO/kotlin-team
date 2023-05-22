@@ -38,34 +38,45 @@ class FeedFragment : Fragment(R.layout.fragment_feed), CardStackListener {
     private val header = FeedLoadStateAdapter()
     private val viewModel: FeedViewModel by activityViewModels()
     private val cardStackView get() = binding.cardStackView
+    private val noRecipeText get() = binding.infoText
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
+
+        manager = CardStackLayoutManager(context, this)
         val adapterWithLoadState = feedRecipeAdapter.withLoadStateHeader(header)
         binding.retryButton.setOnClickListener { feedRecipeAdapter.retry() }
-        manager = CardStackLayoutManager(context, this)
+        binding.showAllRecipes.setOnClickListener { showAllRecipes() }
         manager.topPosition = viewModel.currentRecipeState.value.topPosition
-
         setupCardStackView(adapterWithLoadState)
-
+        observeLoadState(feedRecipeAdapter)
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.feedRecipes.collect { recipes ->
                 recipes.let {
-                    feedRecipeAdapter.submitData(it)
+                    feedRecipeAdapter.submitData(lifecycle, it)
                 }
             }
         }
-
-        observeLoadState(feedRecipeAdapter)
-
         setupButtons()
+        chooseText()
         cardStackView.itemAnimator.apply {
             if (this is DefaultItemAnimator) {
                 supportsChangeAnimations = false
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        chooseText()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.setManagerTopPosition(manager.topPosition)
+    }
+
 
     private fun setupButtons() {
         val skip = binding.skipButton
@@ -125,22 +136,43 @@ class FeedFragment : Fragment(R.layout.fragment_feed), CardStackListener {
     private fun observeLoadState(feedAdapter: FeedAdapter) {
         lifecycleScope.launch {
             feedAdapter.loadStateFlow.collectLatest {
+                viewModel.setRecipesWereFound(feedAdapter.itemCount >0)
                 binding.cardStackViewWrapper.isVisible = it.refresh is LoadState.NotLoading
                 binding.progressBar.isVisible = it.refresh is LoadState.Loading
                 binding.retryButton.isVisible =
                     it.refresh is LoadState.Error && feedAdapter.itemCount == 0
-                binding.noRecipeText.isVisible =
+                binding.showAllRecipes.isVisible =
                     it.refresh is LoadState.NotLoading && feedAdapter.itemCount == 0
-                binding.fridgeImg.isVisible =
-                    it.refresh is LoadState.NotLoading && feedAdapter.itemCount == 0
+                noRecipeText.text = if (it.refresh is LoadState.NotLoading && feedAdapter.itemCount<manager.topPosition)
+                    getString(R.string.feed_by_products_end)
+                else if (it.refresh is LoadState.NotLoading && feedAdapter.itemCount == 0 && !viewModel.feedEndState.value.allRecipesWereShown)
+                    getString(R.string.no_recipe)
+                else if (it.refresh is LoadState.NotLoading && feedAdapter.itemCount == 0 && viewModel.feedEndState.value.allRecipesWereShown)
+                    getString(R.string.feed_end)
+                else ""
+                viewModel.setEndOfFeed(it.refresh is LoadState.NotLoading && feedAdapter.itemCount <= manager.topPosition)
             }
         }
+    }
+
+
+    private fun showAllRecipes() {
+        feedRecipeAdapter.refresh()
+        viewModel.getAllRecipes()
+        viewModel.setAllRecipesWereShown(true)
+        manager.topPosition=0
+        viewModel.setManagerTopPosition(0)
+        binding.showAllRecipes.isVisible = false
     }
 
     override fun onCardDragging(direction: Direction?, ratio: Float) {
     }
 
     override fun onCardSwiped(direction: Direction?) {
+        if (manager.topPosition == feedRecipeAdapter.itemCount) {
+            viewModel.setEndOfFeed(true)
+            chooseText()
+        }
         if (direction == Direction.Right) {
             val recipe = feedRecipeAdapter.snapshot().items[manager.topPosition - 1]
             viewModel.changeManagerTopPosition(1)
@@ -149,8 +181,22 @@ class FeedFragment : Fragment(R.layout.fragment_feed), CardStackListener {
         }
     }
 
+    private fun chooseText() {
+        val state = viewModel.feedEndState.value
+        println(state)
+        noRecipeText.text = if (state.isEndOfFeed && state.recipesWereFound && !state.allRecipesWereShown)
+            getString(R.string.feed_by_products_end)
+        else if (state.isEndOfFeed && !state.recipesWereFound && !state.allRecipesWereShown)
+            getString(R.string.no_recipe)
+        else if (state.isEndOfFeed && state.allRecipesWereShown)
+            getText(R.string.feed_end)
+        else ""
+        binding.showAllRecipes.isVisible = (state.isEndOfFeed && !state.allRecipesWereShown)
+    }
+
     override fun onCardRewound() {
-        viewModel.changeManagerTopPosition(-1)
+        binding.showAllRecipes.isVisible = false
+        noRecipeText.text = ""
     }
 
     override fun onCardCanceled() {

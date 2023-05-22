@@ -10,4 +10,5 @@ class GetFeedUseCase @Inject constructor(
     suspend operator fun invoke(products: List<StorageDataModel.StorageProduct>) = repo.getRecipesByProducts(
         products
     )
+    operator fun invoke() = repo.getRecipes()
 }

@@ -32,9 +32,15 @@ class FeedViewModel @Inject constructor(
     )
     private val selectedProductsState: StateFlow<SelectedProductsState> = _selectedProductsState
 
+    private val _feedEndState: MutableStateFlow<FeedEndState> = MutableStateFlow(
+        FeedEndState()
+    )
+    val feedEndState: StateFlow<FeedEndState> = _feedEndState
+
     init {
         viewModelScope.launch {
             useCases.getSelectedProductsUseCase().collect { result ->
+                setManagerTopPosition(0)
                 _selectedProductsState.value =
                     when (result) {
                         is StorageStatuses.Success -> {
@@ -65,6 +71,7 @@ class FeedViewModel @Inject constructor(
     }
 
     private fun getRecipes() {
+        setAllRecipesWereShown(false)
         viewModelScope.launch {
             selectedProductsState.value.let {
                 if (!it.isLoading) {
@@ -77,6 +84,18 @@ class FeedViewModel @Inject constructor(
                         _feedRecipes.value = PagingData.empty()
                     }
                 }
+            }
+        }
+    }
+
+    fun getAllRecipes() {
+        viewModelScope.launch {
+            try {
+                useCases.getFeedUseCase().cachedIn(viewModelScope).collect { recipes ->
+                    _feedRecipes.value = recipes
+                }
+            } catch (e: Exception) {
+                _feedRecipes.value = PagingData.empty()
             }
         }
     }
@@ -102,6 +121,30 @@ class FeedViewModel @Inject constructor(
     fun changeManagerTopPosition(diff: Int) {
         _currentRecipeState.value = currentRecipeState.value.copy(
             topPosition = currentRecipeState.value.topPosition + diff
+        )
+    }
+
+    fun setManagerTopPosition(newPosition: Int) {
+        _currentRecipeState.value = currentRecipeState.value.copy(
+            topPosition = newPosition
+        )
+    }
+
+    fun setEndOfFeed(flag: Boolean) {
+        _feedEndState.value = feedEndState.value.copy(
+            isEndOfFeed = flag
+        )
+    }
+
+    fun setAllRecipesWereShown(flag: Boolean) {
+        _feedEndState.value = feedEndState.value.copy(
+            allRecipesWereShown = flag
+        )
+    }
+
+    fun setRecipesWereFound(flag: Boolean) {
+        _feedEndState.value = feedEndState.value.copy(
+            recipesWereFound = flag
         )
     }
 
