@@ -27,10 +27,10 @@ class ProfileRepositoryImpl @Inject constructor(
             val profile = user?.let {
                 Profile(
                     id = it.uid,
-                    name = it.displayName ?: "нет имени",
+                    name = it.displayName ?: "user${it.uid}",
                     image = (it.photoUrl ?: "") as String
                 )
-            } ?: throw IOException("Пользователь не найден")
+            } ?: throw IOException(appContext.getString(R.string.user_not_found_exception))
             emit(Resource.Success<Profile>(profile))
         } catch (e: IOException) {
             emit(

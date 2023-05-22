@@ -51,10 +51,10 @@
     </style>
 
     <style name="ImageButton.BackCarret" parent="ImageButton">
-        <item name="android:src">@drawable/baseline_arrow_back_ios_24</item>
+        <item name="android:src">@drawable/baseline_keyboard_arrow_left_24</item>
     </style>
     <style name="ImageButton.BackCarret.Light" parent="ImageButton">
-        <item name="android:src">@drawable/baseline_arrow_back_ios_24_light</item>
+        <item name="android:src">@drawable/baseline_keyboard_arrow_left_24_light</item>
         <item name="backgroundTint">#22C2C2C2</item>
     </style>
 
