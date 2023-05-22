@@ -109,7 +109,7 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
                                 (activity as MainActivity).setBottomNavigationVisibility(
                                     View.VISIBLE
                                 )
-                                R.id.action_signInFragment_to_actionStorage
+                                R.id.action_signInFragment_to_actionFeed
                             }
                         )
                     }
