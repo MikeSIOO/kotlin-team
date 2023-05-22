@@ -12,7 +12,6 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 @HiltViewModel
 class FeedViewModel @Inject constructor(
@@ -84,7 +83,7 @@ class FeedViewModel @Inject constructor(
 
     fun setCurrentRecipeById(recipeId: String) {
         viewModelScope.launch {
-            val recipe = runBlocking {  useCases.getRecipeByIdUseCase(recipeId) }
+            val recipe = useCases.getRecipeByIdUseCase(recipeId)
             _currentRecipeState.value = currentRecipeState.value.copy(currentRecipe = recipe)
         }
     }
