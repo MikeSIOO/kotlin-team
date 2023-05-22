@@ -13,7 +13,7 @@ class SaveMadeRecipeUseCase @Inject constructor (
 ) {
     suspend operator fun invoke(recipeId: String) {
         authRepository.getCurrentUser()?.let {
-                withContext(Dispatchers.IO) { repository.saveMadeRecipe(recipeId, authRepository.getCurrentUser()!!.uid) }
+                withContext(Dispatchers.IO) { repository.saveMadeRecipe(recipeId, it.uid) }
             }
     }
 }
