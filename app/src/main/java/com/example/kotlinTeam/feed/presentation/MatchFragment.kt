@@ -27,6 +27,13 @@ class MatchFragment : Fragment(R.layout.fragment_match) {
                 binding.recipe = it.currentRecipe
             }
         }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.profileState.collectLatest {
+                binding.profile = it.profile
+                println(it.profile)
+            }
+        }
+
         (activity as MainActivity).setBottomNavigationVisibility(View.GONE)
         setUpView()
         super.onViewCreated(view, savedInstanceState)

@@ -8,6 +8,10 @@
         <variable
                 name="recipe"
                 type="com.example.kotlinTeam.common.data.dataSource.model.recipe.RecipeOo" />
+
+        <variable
+                name="profile"
+                type="com.example.kotlinTeam.profile.domain.model.Profile" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -96,7 +100,7 @@
 
             <ImageView
                     android:id="@+id/user_img"
-                    android:src="@drawable/man"
+                    app:imageUrl="@{profile.image}"
                     android:layout_width="176dp"
                     android:layout_height="240dp"
                     android:scaleType="centerCrop"
@@ -113,10 +117,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="@string/match_text"
+            android:text="@{@string/match_text(profile.name)}"
             android:textAlignment="center"
             style="@style/Text.Headline.Large.Orange"
-            app:layout_constraintTop_toBottomOf="@id/user_card" />
+            app:layout_constraintTop_toBottomOf="@id/user_card"
+            tools:text="Это метч, Ира"/>
 
     <TextView
             android:id="@+id/lets_start_text"

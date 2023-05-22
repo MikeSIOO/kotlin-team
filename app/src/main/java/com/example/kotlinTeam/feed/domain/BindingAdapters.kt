@@ -25,5 +25,7 @@ fun TextView.setText(cuisines: List<CuisineDto>) {
 @BindingAdapter("imageUrl")
 fun ImageView.loadImage(imageUrl: String?) {
     val errorDrawable = ResourcesCompat.getDrawable(resources, R.drawable.feed_error, context.theme)
-    Glide.with(context).load(imageUrl).error(errorDrawable).into(this)
+    val noImageDrawable = ResourcesCompat.getDrawable(resources, R.drawable.profile, context.theme)
+    if (imageUrl?.isBlank() == true) this.setImageDrawable(noImageDrawable)
+    else Glide.with(context).load(imageUrl).error(errorDrawable).into(this)
 }

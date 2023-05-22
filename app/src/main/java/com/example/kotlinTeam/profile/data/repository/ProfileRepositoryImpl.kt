@@ -28,7 +28,7 @@ class ProfileRepositoryImpl @Inject constructor(
                 Profile(
                     id = it.uid,
                     name = it.displayName ?: "user${it.uid}",
-                    image = (it.photoUrl ?: appContext.getString(R.string.profile_image_placeholder)) as String
+                    image = (it.photoUrl ?: appContext.getString(R.string.profile_image_placeholder)).toString()
                 )
             } ?: throw IOException(appContext.getString(R.string.user_not_found_exception))
             emit(Resource.Success<Profile>(profile))
