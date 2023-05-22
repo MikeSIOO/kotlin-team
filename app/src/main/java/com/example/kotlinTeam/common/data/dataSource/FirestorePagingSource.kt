@@ -2,6 +2,7 @@ package com.example.kotlinTeam.common.data.dataSource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.example.kotlinTeam.profile.common.Constants.PAGE_SIZE
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
