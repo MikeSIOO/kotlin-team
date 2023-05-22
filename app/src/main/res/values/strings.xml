@@ -57,4 +57,5 @@
     <string name="enter_email_hint">Введите почту</string>
     <string name="enter_password_hint">Введите пароль</string>
     <string name="passwords_dont_match_hint">Пароли не совпадают</string>
+    <string name="user_not_found_exception">Пользователь не найден</string>
 </resources>
