@@ -1,9 +1,12 @@
 package com.example.kotlinTeam.feed.domain.useCase
 
+import com.example.kotlinTeam.profile.domain.useCases.GetProfile
 import javax.inject.Inject
 
 data class FeedUseCases @Inject constructor(
     val getFeedUseCase: GetFeedUseCase,
     val getRecipeByIdUseCase: GetRecipeByIdUseCase,
-    val getSelectedProductsUseCase: GetSelectedProductsUseCase
+    val saveMadeRecipeUseCase: SaveMadeRecipeUseCase,
+    val getSelectedProductsUseCase: GetSelectedProductsUseCase,
+    val getProfile: GetProfile
 )

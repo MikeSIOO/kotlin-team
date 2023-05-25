@@ -18,7 +18,7 @@ class StorageHolder(private val binding: ViewBinding) :
                 .load(item.image)
                 .into(binding.image)
 
-            binding.textView.text = item.title
+            binding.textView.text = item.title?.trim()?.replaceFirstChar { it.uppercase() }
         }
     }
 
@@ -29,7 +29,7 @@ class StorageHolder(private val binding: ViewBinding) :
                 .load(item.image)
                 .into(binding.image)
 
-            binding.textView.text = item.title
+            binding.textView.text = item.title?.trim()?.replaceFirstChar { it.uppercase() }
 
             if (item.selected) {
                 binding.checkSelect.visibility = View.VISIBLE

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">kotkin-team</string>
+    <string name="app_name">Fooder</string>
     <!-- entry fragment -->
     <string name="hello_fooder_text">Добро пожаловать\nв Fooder</string>
     <string name="explain_to_sign_text">Войдите, чтобы воспользоваться\nвсеми преимуществами Fooder.</string>
@@ -33,7 +33,7 @@
     <string name="start_cooking">Приготовить блюдо</string>
     <string name="lets_cook">Давайте попробуем приготовить выбранное вами блюдо.</string>
     <string name="back_to_feed">Продолжить поиск</string>
-    <string name="match_text">Это мэтч, Ира!</string>
+    <string name="match_text">Это мэтч, %1s!</string>
     <string name="recipe_search">Поиск рецептов</string>
     <string name="time">%1$s мин</string>
     <string name="difficulty_pl">Сложность:</string>
@@ -51,5 +51,14 @@
     <string name="storage_search">Поиск по продуктам</string>
     <string name="sorry_can_t_load_data">Ошибка при загрузке данных</string>
     <string name="try_again">Обновить</string>
-    <string name="no_recipe">Извините, мы не можем подобрать блюда из ваших продуктов. Попробуйте заглянуть в холодильник.</string>
+    <string name="profile_image_placeholder">https://booking.humanhotel.com/avatar/defaultPic.png</string>
+    <string name="no_recipe">Извините, мы не можем подобрать блюда из ваших продуктов. Попробуйте добавить продукты в холодильник или посмотрите остальные рецепты из нашей коллекции.</string>
+    <string name="feed_by_products_end">Блюда из ваших продуктов закончились. Попробуйте добавить продукты в холодильник или посмотрите остальные рецепты из нашей коллекции.</string>
+    <string name="feed_end">Блюда из нашей коллеции закончились.</string>
+    <string name="forgot_password_link_text">Забыли пароль?</string>
+    <string name="reset_password_button_text">Сбросить пароль</string>
+    <string name="enter_email_hint">Введите почту</string>
+    <string name="enter_password_hint">Введите пароль</string>
+    <string name="passwords_dont_match_hint">Пароли не совпадают</string>
+    <string name="user_not_found_exception">Пользователь не найден</string>
 </resources>

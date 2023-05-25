@@ -45,7 +45,7 @@ class EntryFragment : Fragment(R.layout.fragment_entry) {
                 user?.let {
                     (activity as MainActivity).setBottomNavigationVisibility(View.VISIBLE)
                     findNavController().navigate(
-                        R.id.action_entryFragment_to_actionStorageCategory
+                        R.id.action_entryFragment_to_actionFeed
                     )
                 }
             }

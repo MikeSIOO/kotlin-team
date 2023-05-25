@@ -2,7 +2,6 @@ package com.example.kotlinTeam.profile.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.filter
 import androidx.paging.map
@@ -11,7 +10,6 @@ import com.example.kotlinTeam.profile.domain.model.MadeRecipe
 import com.example.kotlinTeam.profile.domain.useCases.ProfileUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -27,21 +25,20 @@ class ProfileViewModel @Inject constructor(
     private val _stateProfile = MutableStateFlow(ProfileState())
     val stateProfile: StateFlow<ProfileState> = _stateProfile
 
-    private val _madeRecipes: Flow<PagingData<MadeRecipe>> = getRecipes()
-    val madeRecipes: Flow<PagingData<MadeRecipe>> = _madeRecipes
 
     init {
-        getProfile()
+        loadProfile()
     }
 
     fun onEvent(event: ProfileFragmentEvents) {
         when (event) {
             is ProfileFragmentEvents.LoadMadeRecipes -> {
-                getRecipes()
+                loadRecipes()
             }
 
             is ProfileFragmentEvents.LoadProfile -> {
-                getProfile()
+                loadProfile()
+                loadRecipes()
             }
 
             is ProfileFragmentEvents.LoadRecipe -> {
@@ -53,7 +50,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private fun getProfile() {
+    private fun loadProfile() {
         profileUseCases.getProfile().onEach { result ->
             when (result) {
                 is Resource.Success -> {
@@ -80,12 +77,14 @@ class ProfileViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    private fun getRecipes() = profileUseCases.getMadeRecipes().map { pagingData ->
-        pagingData.filter {
-            !(it.id.isNullOrBlank() || it.title.isNullOrBlank())
-        }
-            .map { it.toMadeRecipe() }
-    }.cachedIn(viewModelScope)
+    private fun loadRecipes() {
+        val recipes = profileUseCases.getMadeRecipes().map { pagingData ->
+            pagingData.filter { !(it.id.isNullOrBlank() || it.title.isNullOrBlank()) } .map { it.toMadeRecipe() }
+        }.cachedIn(viewModelScope)
+        _stateProfile.value = stateProfile.value.copy(
+            madeRecipes = recipes
+        )
+    }
 
     private fun logOut() = viewModelScope.launch {
         profileUseCases.logOut()

@@ -10,6 +10,7 @@ import com.example.kotlinTeam.common.data.dataSource.model.storage.StorageProduc
 import com.example.kotlinTeam.profile.common.Constants
 import com.example.kotlinTeam.storage.data.db.service.StorageProductDao
 import com.example.kotlinTeam.storage.data.mapper.StorageMapper
+import com.google.firebase.Timestamp
 import com.example.kotlinTeam.storage.domain.model.StorageDataModel
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
@@ -17,6 +18,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
+import java.util.*
 
 @Singleton
 class FirestoreRepository @Inject constructor(
@@ -218,6 +220,19 @@ class FirestoreRepository @Inject constructor(
         ).flow
     }
 
+    fun saveMadeRecipe(recipeId: String, userId: String) {
+        val usersCollectionRef = firestore.collection(Constants.USERS_COLLECTION)
+        val recipesSubCollectionRef =
+            usersCollectionRef.document(userId).collection(Constants.RECIPES_COLLECTION)
+        val recipeCollectionRef = firestore.collection(Constants.RECIPES_COLLECTION)
+        val recipe = recipeCollectionRef.document(recipeId)
+        val docData = hashMapOf(
+            "recipe" to recipe,
+            "timestamp" to Timestamp(Date(System.currentTimeMillis()))
+        )
+        recipesSubCollectionRef.document(recipeId).set(docData)
+    }
+        
     fun getProductByTitle(title: String): Flow<PagingData<StorageDataModel>> {
         val recipeCollectionRef = firestore.collection(
             com.example.kotlinTeam.storage.common.Constants.PRODUCT_COLLECTION

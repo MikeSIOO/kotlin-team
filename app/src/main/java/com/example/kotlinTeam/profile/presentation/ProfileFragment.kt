@@ -8,7 +8,9 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
@@ -69,38 +72,41 @@ class ProfileFragment : Fragment() {
 
         setupMadeRecipesRecyclerView()
 
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.stateProfile.collectLatest { profileState ->
-                when (profileState.isLoading) {
-                    true -> {
-                        binding.mainProgressBar.visibility = View.VISIBLE
-                    }
-                    false -> {
-                        binding.mainProgressBar.visibility = View.GONE
-                        binding.btnRetry.visibility = View.GONE
-                        binding.profileInformationConstraintLayout.visibility = View.VISIBLE
-                        binding.madeRecipesConstraintLayout.visibility = View.VISIBLE
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.stateProfile.collectLatest { profileState ->
+                    when (profileState.isLoading) {
+                        true -> {
+                            binding.mainProgressBar.visibility = View.VISIBLE
+                        }
+                        false -> {
+                            binding.mainProgressBar.visibility = View.GONE
+                            binding.btnRetry.visibility = View.GONE
+                            binding.profileInformationConstraintLayout.visibility = View.VISIBLE
+                            binding.madeRecipesConstraintLayout.visibility = View.VISIBLE
 
-                        if (profileState.error.isBlank()) {
-                            val profile = viewModel.stateProfile.value.profile
+                            if (profileState.error.isBlank()) {
+                                val profile = viewModel.stateProfile.value.profile
 
-                            profile?.let {
-                                binding.profileNameTextView.text = profile.name
-                                if (profile.image.isNotBlank()) bindImage(
-                                    view,
-                                    profile.image,
-                                    binding.avatarImageView
-                                )
-                                viewModel.onEvent(ProfileFragmentEvents.LoadMadeRecipes)
-                                viewModel.madeRecipes.buffer().collectLatest { pagingData ->
-                                    withContext(Dispatchers.IO) {
-                                        recipeListAdapter.submitData(pagingData)
+                                profile?.let {
+                                    binding.profileNameTextView.text = profile.name
+                                    if (profile.image.isNotBlank()) bindImage(
+                                        view,
+                                        profile.image,
+                                        binding.avatarImageView
+                                    )
+                                    //viewModel.onEvent(ProfileFragmentEvents.LoadMadeRecipes)
+                                    profileState.madeRecipes.buffer().collectLatest { recipes ->
+                                        withContext(Dispatchers.IO) {
+                                            recipeListAdapter.submitData(recipes)
+                                        }
                                     }
                                 }
+                            } else {
+                                binding.btnRetry.visibility = View.VISIBLE
+                                Toast.makeText(context, profileState.error, Toast.LENGTH_SHORT)
+                                    .show()
                             }
-                        } else {
-                            binding.btnRetry.visibility = View.VISIBLE
-                            Toast.makeText(context, profileState.error, Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -120,6 +126,11 @@ class ProfileFragment : Fragment() {
         recipeListAdapter.addLoadStateListener { loadState ->
             val isListEmpty = loadState.refresh is LoadState.NotLoading &&
                 recipeListAdapter.itemCount == 0
+            if (loadState.refresh == LoadState.Loading) {
+                binding.mainProgressBar.visibility = View.VISIBLE
+            } else {
+                binding.mainProgressBar.visibility = View.GONE
+            }
             binding.madeRecipesRecyclerView.isVisible = !isListEmpty
             val errorState = when {
                 loadState.append is LoadState.Error -> loadState.append as LoadState.Error
@@ -132,6 +143,11 @@ class ProfileFragment : Fragment() {
                 recipeListAdapter.retry()
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onEvent(ProfileFragmentEvents.LoadMadeRecipes)
     }
 
     private fun goToRecipeFragment(madeRecipe: MadeRecipe) {
