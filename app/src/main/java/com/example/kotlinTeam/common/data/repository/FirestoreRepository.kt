@@ -26,6 +26,22 @@ class FirestoreRepository @Inject constructor(
     private val storageProductDao: StorageProductDao,
     private val storageMapper: StorageMapper,
 ) {
+    companion object {
+        val emptyRecipe = RecipeOo(
+            id = "-1",
+            title = "not found",
+            description = "",
+            image = "",
+            cookingMinutes = null,
+            difficulty = null,
+            cuisines = emptyList(),
+            diets = emptyList(),
+            servings = null,
+            ingredients = emptyList(),
+            instructions = emptyList()
+        )
+    }
+
     private suspend fun RecipeDto.toRecipeOo(): RecipeOo {
         return RecipeOo(
             id = this.id,
@@ -96,11 +112,22 @@ class FirestoreRepository @Inject constructor(
             config = pagingConfig,
             pagingSourceFactory = {
                 FirestorePagingSource(
-                    query,
-                    mapper = { it.toObject(RecipeDto::class.java)!!.toRecipeOo() }
+                    query = query,
+                    mapper = {
+                        it.toObject(RecipeDto::class.java)?.toRecipeOo() ?: emptyRecipe
+                    }
                 )
             }
         ).flow
+    }
+
+    suspend fun getRecipeById(recipeId: String): RecipeOo {
+        return firestore
+            .collection(Constants.RECIPES_COLLECTION)
+            .document(recipeId)
+            .get()
+            .await()
+            .toObject(RecipeDto::class.java)?.toRecipeOo() ?: emptyRecipe
     }
 
     fun getRecipesByUserId(id: String): Flow<PagingData<RecipeOo>> {
@@ -120,9 +147,10 @@ class FirestoreRepository @Inject constructor(
             config = pagingConfig,
             pagingSourceFactory = {
                 FirestorePagingSource(
-                    query,
+                    query = query,
                     mapper = {
-                        it.toObject(RecipeWithTimestampDto::class.java)!!.toRecipeDto().toRecipeOo()
+                        it.toObject(RecipeWithTimestampDto::class.java)?.toRecipeDto()?.toRecipeOo()
+                            ?: emptyRecipe
                     }
                 )
             }

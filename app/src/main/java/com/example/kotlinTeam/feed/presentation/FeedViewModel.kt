@@ -96,6 +96,11 @@ class FeedViewModel @Inject constructor(
         }
     }
 
+    fun setCurrentRecipeById(recipeId: String) {
+        viewModelScope.launch {
+            val recipe = useCases.getRecipeByIdUseCase(recipeId)
+            _currentRecipeState.value = currentRecipeState.value.copy(currentRecipe = recipe)
+            
     fun getAllRecipes() {
         viewModelScope.launch {
             try {
