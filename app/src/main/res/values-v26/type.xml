@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Text.Body">
+        <item name="android:fontFamily">@font/generalsans</item>
+        <item name="android:fontWeight">500</item>
+    </style>
+</resources>

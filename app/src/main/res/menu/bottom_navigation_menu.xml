@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+            android:id="@+id/actionStorage"
+            android:enabled="true"
+            android:icon="@drawable/fridge"
+            android:title=""/>
+
+    <item
+            android:id="@+id/actionFeed"
+            android:enabled="true"
+            android:icon="@drawable/feed"
+            android:title="" />
+
+    <item
+            android:id="@+id/actionProfile"
+            android:enabled="true"
+            android:icon="@drawable/profile"
+            android:title="" />
+
+
+</menu>

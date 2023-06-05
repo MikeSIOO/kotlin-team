@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Text">
+
+    </style>
+
+    <!--  Body  -->
+
+    <style name="Text.Body" parent="Text">
+        <item name="android:fontFamily">@font/generalsans_medium</item>
+    </style>
+
+    <!--  Body large  -->
+
+    <style name="Text.Body.Large" parent="Text.Body">
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="Text.Body.Large.Black" parent="Text.Body.Large">
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
+    <!--  Body medium  -->
+
+    <style name="Text.Body.Medium" parent="Text.Body">
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="Text.Body.Medium.White" parent="Text.Body.Medium">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="Text.Body.Medium.White.Semibold" parent="Text.Body.Medium.White">
+        <item name="android:fontFamily">@font/generalsans_semibold</item>
+    </style>
+    <style name="Text.Body.Medium.Orange" parent="Text.Body.Medium">
+        <item name="android:textColor">@color/orange_700</item>
+    </style>
+    <style name="Text.Body.Medium.Orange.Semibold" parent="Text.Body.Medium.Orange">
+        <item name="android:fontFamily">@font/generalsans_semibold</item>
+    </style>
+    <style name="Text.Body.Medium.Black" parent="Text.Body.Medium">
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+    <style name="Text.Body.Medium.Black.Semibold" parent="Text.Body.Medium.Black">
+        <item name="android:fontFamily">@font/generalsans_semibold</item>
+    </style>
+
+
+    <!--  Body small  -->
+
+    <style name="Text.Body.Small" parent="Text.Body">
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="Text.Body.Small.White" parent="Text.Body.Small">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="Text.Body.Small.White.Semibold" parent="Text.Body.Small.White">
+        <item name="android:fontFamily">@font/generalsans_semibold</item>
+    </style>
+    <style name="Text.Body.Small.Orange" parent="Text.Body.Small">
+        <item name="android:textColor">@color/orange_700</item>
+    </style>
+    <style name="Text.Body.Small.Orange.Semibold" parent="Text.Body.Small.Orange">
+        <item name="android:fontFamily">@font/generalsans_semibold</item>
+    </style>
+    <style name="Text.Body.Small.Black" parent="Text.Body.Small">
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+    <style name="Text.Body.Small.Black.Semibold" parent="Text.Body.Small.Black">
+        <item name="android:fontFamily">@font/generalsans_semibold</item>
+    </style>
+    <style name="Text.Body.Small.Grey" parent="Text.Body.Small">
+        <item name="android:textColor">@color/text_grey</item>
+    </style>
+    <style name="Text.Body.Small.Grey.Placeholder" parent="Text.Body.Small.Grey">
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="Text.Body.Small.Grey.Underlined" parent="Text.Body.Small.Grey">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!--  Body extra small  -->
+
+    <style name="Text.Body.ExtraSmall">
+        <item name="android:textSize">10sp</item>
+    </style>
+    <style name="Text.Body.ExtraSmall.White" parent="Text.Body.ExtraSmall">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="Text.Body.ExtraSmall.White.Semibold" parent="Text.Body.ExtraSmall.White">
+        <item name="android:fontFamily">@font/generalsans_semibold</item>
+    </style>
+    <style name="Text.Body.ExtraSmall.Orange" parent="Text.Body.ExtraSmall">
+        <item name="android:textColor">@color/orange_700</item>
+    </style>
+    <style name="Text.Body.ExtraSmall.Orange.Semibold" parent="Text.Body.ExtraSmall.Orange">
+        <item name="android:fontFamily">@font/generalsans_semibold</item>
+    </style>
+    <style name="Text.Body.ExtraSmall.Black" parent="Text.Body.ExtraSmall">
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+    <style name="Text.Body.ExtraSmall.Black.Semibold" parent="Text.Body.ExtraSmall.Black">
+        <item name="android:fontFamily">@font/generalsans_semibold</item>
+    </style>
+
+    <!--  Headline  -->
+
+    <style name="Text.Headline" parent="Text">
+        <item name="android:fontFamily">@font/generalsans_semibold</item>
+    </style>
+
+    <!--  Headline extra large  -->
+
+    <style name="Text.Headline.ExtraLarge" parent="Text.Headline">
+        <item name="android:textSize">40sp</item>
+    </style>
+    <style name="Text.Headline.ExtraLarge.Orange" parent="Text.Headline.ExtraLarge">
+        <item name="android:textColor">@color/orange_700</item>
+    </style>
+
+    <!--  Headline large  -->
+
+    <style name="Text.Headline.Large" parent="Text.Headline">
+        <item name="android:textSize">32sp</item>
+    </style>
+    <style name="Text.Headline.Large.Orange" parent="Text.Headline.Large">
+        <item name="android:textColor">@color/orange_700</item>
+    </style>
+    <style name="Text.Headline.Large.Black" parent="Text.Headline.Large">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+
+    <!--  Headline medium  -->
+
+    <style name="Text.Headline.Medium" parent="Text.Headline">
+        <item name="android:textSize">24sp</item>
+    </style>
+    <style name="Text.Headline.Medium.Orange" parent="Text.Headline.Medium">
+        <item name="android:textColor">@color/orange_700</item>
+    </style>
+    <style name="Text.Headline.Medium.Black" parent="Text.Headline.Medium">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!--  Headline small  -->
+
+    <style name="Text.Headline.Small" parent="Text.Headline">
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="Text.Headline.Small.Black" parent="Text.Headline.Small">
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="Text.Headline.Small.White" parent="Text.Headline.Small">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!--  Headline extra small  -->
+
+    <style name="Text.Headline.ExtraSmall" parent="Text.Headline">
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="Text.Headline.ExtraSmall.Orange" parent="Text.Headline.ExtraSmall">
+        <item name="android:textColor">@color/orange_700</item>
+    </style>
+    <style name="Text.Headline.ExtraSmall.Black" parent="Text.Headline.ExtraSmall">
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="Text.Headline.ExtraSmall.White" parent="Text.Headline.ExtraSmall">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+</resources>

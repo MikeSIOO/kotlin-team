@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+                name="recipe"
+                type="com.example.kotlinTeam.common.data.dataSource.model.recipe.RecipeOo" />
+
+        <variable
+                name="profile"
+                type="com.example.kotlinTeam.profile.domain.model.Profile" />
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <RelativeLayout
+            android:id="@+id/dish_card"
+            android:layout_gravity="center"
+            android:layout_width="220dp"
+            android:layout_height="270dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="44dp"
+            android:rotation="10"
+            android:clipChildren="false">
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/like_shadowed"
+                android:translationZ="10dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
+
+        <androidx.cardview.widget.CardView
+                android:id="@+id/recipe_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardUseCompatPadding="true"
+                app:cardPreventCornerOverlap="false"
+                app:cardCornerRadius="8dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                app:cardBackgroundColor="@android:color/white">
+
+
+            <ImageView
+                    android:id="@+id/recipe_img"
+                    android:layout_width="176dp"
+                    android:layout_height="240dp"
+                    android:scaleType="centerCrop"
+                    app:imageUrl="@{recipe.image}"
+                    tools:src="@drawable/rec5" />
+        </androidx.cardview.widget.CardView>
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+            android:id="@+id/user_card"
+            android:layout_gravity="center"
+            android:layout_width="220dp"
+            android:layout_height="290dp"
+            app:layout_constraintTop_toTopOf="@+id/dish_card"
+            app:layout_constraintStart_toStartOf="parent"
+            android:rotation="-10"
+            android:layout_marginTop="110dp"
+            android:layout_marginStart="36dp"
+            android:clipChildren="false">
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/like_shadowed"
+                android:translationZ="10dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true" />
+
+        <androidx.cardview.widget.CardView
+                android:id="@+id/avatar_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardUseCompatPadding="true"
+                app:cardPreventCornerOverlap="false"
+                app:cardCornerRadius="8dp"
+                app:cardBackgroundColor="@android:color/white"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true">
+
+            <ImageView
+                    android:id="@+id/user_img"
+                    app:imageUrl="@{profile.image}"
+                    android:layout_width="176dp"
+                    android:layout_height="240dp"
+                    android:scaleType="centerCrop"
+                    tools:src="@drawable/man" />
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+
+    <TextView
+            android:layout_marginHorizontal="30dp"
+            android:id="@+id/match_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@{@string/match_text(profile.name)}"
+            android:textAlignment="center"
+            style="@style/Text.Headline.Large.Orange"
+            app:layout_constraintTop_toBottomOf="@id/user_card"
+            tools:text="Это метч, Ира"/>
+
+    <TextView
+            android:id="@+id/lets_start_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="64dp"
+            android:layout_marginTop="4dp"
+            android:textAlignment="center"
+            style="@style/Text.Body.Small.Black"
+            android:text="@string/lets_cook"
+            app:layout_constraintTop_toBottomOf="@id/match_text" />
+
+    <Button
+            style="@style/Button.Primary"
+            android:id="@+id/start_button"
+            android:text="@string/start_cooking"
+            android:layout_marginBottom="98dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    <Button
+            style="@style/Button.Secondary"
+            android:id="@+id/back_to_feed_button"
+            android:text="@string/back_to_feed"
+            android:layout_marginBottom="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

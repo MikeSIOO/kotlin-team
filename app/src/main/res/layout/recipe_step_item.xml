@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+                name="step"
+                type="com.example.kotlinTeam.common.data.dataSource.model.recipe.StepOo" />
+    </data>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+        <TextView
+                android:id="@+id/step_pl"
+                android:layout_width="wrap_content"
+                android:maxWidth="60dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/support_view_border"
+                android:backgroundTint="@color/orange_200"
+                android:text="@{@string/step_pl(step.id)}"
+                style="@style/Text.Body.Small.Orange"
+                android:maxLines="1"
+                android:padding="6dp"
+                android:layout_marginVertical="4dp"
+                android:layout_gravity="top|start"
+                tools:text="Шаг 99" />
+
+        <TextView
+                android:id="@+id/step_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{step.text}"
+                style="@style/Text.Body.Small.Black"
+                android:lineSpacingMultiplier="1.2"
+                android:layout_marginStart="16dp"
+                android:layout_gravity="top"
+                android:paddingBottom="6dp"
+                tools:text="Мелко порубить лук шалот и чеснок. Белые грибы почистить, тонко нарезать, обжарить в оливковом масле на сковороде с двумя зубчиками рубленого чеснока и луком. Отложить в сторону несколько кусочков белых грибов для украшения блюда." />
+
+    </LinearLayout>
+</layout>
